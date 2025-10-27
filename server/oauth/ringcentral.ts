@@ -29,8 +29,8 @@ export function registerRingCentralOAuth(app: Express) {
     authUrl.searchParams.append("client_id", CLIENT_ID);
     authUrl.searchParams.append("redirect_uri", redirectUri);
     authUrl.searchParams.append("state", Math.random().toString(36).substring(7));
-    // Request necessary permissions for call analytics
-    authUrl.searchParams.append("scope", "ReadCallLog");
+    // Request all necessary permissions: call logs, messages, and presence
+    authUrl.searchParams.append("scope", "ReadCallLog ReadMessages ReadPresence");
 
     res.redirect(authUrl.toString());
   });
