@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { pgTable, varchar, integer, timestamp, text } from "drizzle-orm/pg-core";
+import { pgTable, varchar, integer, timestamp, text, uniqueIndex } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { sql } from "drizzle-orm";
 
@@ -33,7 +33,7 @@ export const oauthConnections = pgTable("oauth_connections", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 }, (table) => ({
-  providerAccountIdx: sql`UNIQUE (provider, account_id)`,
+  providerAccountUnique: uniqueIndex("provider_account_unique").on(table.provider, table.accountId),
 }));
 
 // Zod Schemas

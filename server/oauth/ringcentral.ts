@@ -95,23 +95,36 @@ export function registerRingCentralOAuth(app: Express) {
       const accountData = await accountResponse.json();
       const accountId = accountData.id || "default";
 
-      // Save OAuth connection to database
-      await db.insert(oauthConnections).values({
-        provider: "RingCentral",
-        accessToken: tokenData.access_token,
-        refreshToken: tokenData.refresh_token,
-        tokenExpiry,
-        accountId,
-        userId: accountId,
-      }).onConflictDoUpdate({
-        target: [oauthConnections.provider, oauthConnections.accountId],
-        set: {
+      // Save OAuth connection to database (use upsert to update if exists)
+      const existingConnection = await db.query.oauthConnections.findFirst({
+        where: (connections, { and, eq }) =>
+          and(
+            eq(connections.provider, "RingCentral"),
+            eq(connections.accountId, accountId)
+          ),
+      });
+
+      if (existingConnection) {
+        // Update existing connection
+        await db.update(oauthConnections)
+          .set({
+            accessToken: tokenData.access_token,
+            refreshToken: tokenData.refresh_token || existingConnection.refreshToken,
+            tokenExpiry,
+            updatedAt: new Date(),
+          })
+          .where(eq(oauthConnections.id, existingConnection.id));
+      } else {
+        // Create new connection
+        await db.insert(oauthConnections).values({
+          provider: "RingCentral",
           accessToken: tokenData.access_token,
           refreshToken: tokenData.refresh_token,
           tokenExpiry,
-          updatedAt: new Date(),
-        },
-      });
+          accountId,
+          userId: accountId,
+        });
+      }
 
       // Redirect back to app with success
       res.redirect("/?connected=ringcentral");
