@@ -29,8 +29,7 @@ export function registerRingCentralOAuth(app: Express) {
     authUrl.searchParams.append("client_id", CLIENT_ID);
     authUrl.searchParams.append("redirect_uri", redirectUri);
     authUrl.searchParams.append("state", Math.random().toString(36).substring(7));
-    // Request minimal permissions - must match your RingCentral app settings
-    authUrl.searchParams.append("scope", "ReadCallLog");
+    // Don't specify scope - use all permissions enabled in app settings
 
     res.redirect(authUrl.toString());
   });
