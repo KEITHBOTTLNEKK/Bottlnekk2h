@@ -10,14 +10,16 @@ type DiagnosticStep = "welcome" | "connect" | "analysis" | "results";
 export default function DiagnosticTool() {
   const [currentStep, setCurrentStep] = useState<DiagnosticStep>("welcome");
   const [selectedProvider, setSelectedProvider] = useState<PhoneProvider | null>(null);
+  const [businessEmail, setBusinessEmail] = useState<string | undefined>(undefined);
   const [diagnosticResult, setDiagnosticResult] = useState<DiagnosticResult | null>(null);
 
   const handleStart = () => {
     setCurrentStep("connect");
   };
 
-  const handleProviderSelect = (provider: PhoneProvider) => {
+  const handleProviderSelect = (provider: PhoneProvider, email?: string) => {
     setSelectedProvider(provider);
+    setBusinessEmail(email);
     setCurrentStep("analysis");
   };
 
@@ -29,6 +31,7 @@ export default function DiagnosticTool() {
   const handleRestart = () => {
     setCurrentStep("welcome");
     setSelectedProvider(null);
+    setBusinessEmail(undefined);
     setDiagnosticResult(null);
   };
 
@@ -38,7 +41,8 @@ export default function DiagnosticTool() {
       {currentStep === "connect" && <ConnectScreen onProviderSelect={handleProviderSelect} />}
       {currentStep === "analysis" && selectedProvider && (
         <AnalysisScreen 
-          provider={selectedProvider} 
+          provider={selectedProvider}
+          businessEmail={businessEmail}
           onAnalysisComplete={handleAnalysisComplete} 
         />
       )}

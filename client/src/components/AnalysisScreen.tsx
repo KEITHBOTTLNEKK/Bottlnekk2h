@@ -5,10 +5,11 @@ import type { PhoneProvider, DiagnosticResult, AnalyzeDiagnosticRequest } from "
 
 interface AnalysisScreenProps {
   provider: PhoneProvider;
+  businessEmail?: string;
   onAnalysisComplete: (result: DiagnosticResult) => void;
 }
 
-export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenProps) {
+export function AnalysisScreen({ provider, businessEmail, onAnalysisComplete }: AnalysisScreenProps) {
   const [dots, setDots] = useState("");
 
   const analyzeMutation = useMutation({
@@ -30,7 +31,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
     }, 400);
 
     if (!analyzeMutation.isError && !analyzeMutation.isSuccess && !analyzeMutation.isPending) {
-      analyzeMutation.mutate({ provider });
+      analyzeMutation.mutate({ provider, businessEmail });
     }
 
     return () => clearInterval(dotInterval);
@@ -38,7 +39,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
   const handleRetry = () => {
     analyzeMutation.reset();
-    analyzeMutation.mutate({ provider });
+    analyzeMutation.mutate({ provider, businessEmail });
   };
 
   if (analyzeMutation.isError) {
