@@ -29,8 +29,10 @@ export function registerRingCentralOAuth(app: Express) {
     authUrl.searchParams.append("client_id", CLIENT_ID);
     authUrl.searchParams.append("redirect_uri", redirectUri);
     authUrl.searchParams.append("state", Math.random().toString(36).substring(7));
-    authUrl.searchParams.append("scope", "ReadAccounts ReadCallLog ReadMessages ReadPresence");
+    // Try common scope names that match the UI labels
+    authUrl.searchParams.append("scope", "ReadAccounts CallLog Messages ReadPresence");
 
+    console.log("RingCentral OAuth URL:", authUrl.toString());
     res.redirect(authUrl.toString());
   });
 
