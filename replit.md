@@ -12,6 +12,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+**October 27, 2025** - Steve Jobs Simplification & Timezone Fix
+- **Critical Design Decision**: Removed "abandoned calls" metric entirely following Steve Jobs philosophy of radical simplification
+- Business owner insight: A missed opportunity is a missed opportunity - no need for technical categories
+- Simplified to two metrics: Missed Calls + After-Hours Calls (subset)
+- Fixed timezone conversion bug: All timestamps now converted to Eastern Time before business hours calculation (8am-6pm weekday check)
+- Updated analytics logic: Each call counted exactly once (no double-counting), after-hours is a subset of missed calls
+- Schema simplified: Removed abandonedCalls field from DiagnosticResult type and database
+- ResultsScreen redesigned: Clean 2-column grid showing only what matters
+
 **October 27, 2025** - Booking Flow & Email Integration
 - Updated user flow: Email/contact collection moved from Connect screen to end-of-flow booking form (activated by "Reclaim Your Revenue" button)
 - Implemented booking form with validation (name, email, phone required; company optional)
@@ -60,7 +69,7 @@ Preferred communication style: Simple, everyday language.
 
 **Key Components**
 - `WelcomeScreen`: Dramatic landing with headline and CTA
-- `ConnectScreen`: 2x2 grid of phone provider cards (CallRail, GoHighLevel, RingCentral, Nextiva) - provider selection only
+- `ConnectScreen`: Grid of phone provider cards (RingCentral, Vonage, Nextiva, 8x8, Zoom Phone) with OAuth connection capability
 - `AnalysisScreen`: Loading state with animated dots and mutation lifecycle management
 - `ResultsScreen`: Large animated counter with breakdown metrics + booking form modal with client-side validation
 - `useCounter` hook: Custom animation hook implementing easeOutExpo easing
@@ -76,20 +85,22 @@ Preferred communication style: Simple, everyday language.
 - POST /api/diagnostic/analyze - Analyzes phone system data (no email required)
 - POST /api/bookings - Submits booking requests with contact information
 - Zod schema validation for type-safe request/response handling
-- Mock data generation for realistic phone metrics (missed calls, after-hours calls, abandoned calls)
+- Mock data generation for realistic phone metrics (missed calls, after-hours calls as subset)
 - Simulated API delay (500-1000ms) for realistic user experience
+- Timezone-aware: All timestamps converted to Eastern Time for business hours calculation
 
 **Data Layer**
 - In-memory storage implementation (MemStorage class) for diagnostic results
 - UUID-based record identification
 - Schema definitions in shared directory for full-stack type safety
 
-**Mock Data Generation**
-- Missed calls: 30-80 calls per month
-- After-hours calls: 20-60 calls per month
-- Abandoned calls: 15-50 calls per month
-- Average revenue per call: $250-$450 (realistic for home service businesses)
-- Total loss calculated as: (missed + after-hours + abandoned) × avg revenue
+**Analytics Logic (Steve Jobs Simplicity)**
+- Missed calls: Any unanswered inbound call (includes Missed, Voicemail, Abandoned statuses)
+- After-hours calls: Subset of missed calls that occurred outside business hours (8am-6pm ET, Mon-Fri)
+- Each call counted exactly ONCE (no double-counting)
+- Average revenue per call: $350 (industry standard for home services)
+- Total loss calculated as: missedCalls × avgRevenuePerCall
+- Timezone handling: All UTC timestamps converted to Eastern Time before business hours check
 
 **Request/Response Pipeline**
 - JSON request body parsing with raw body preservation for webhook support
@@ -100,8 +111,9 @@ Preferred communication style: Simple, everyday language.
 ### External Dependencies
 
 **Phone System Integrations**
-- Designed to connect with four major phone providers: CallRail, GoHighLevel, RingCentral, Nextiva
-- Currently uses mock data generator (production implementation pending)
+- Designed to connect with top 5 enterprise VOIP providers: RingCentral, Vonage, Nextiva, 8x8, Zoom Phone
+- RingCentral OAuth fully functional with real call analytics data
+- Other providers currently use mock data (OAuth implementation pending)
 - Schema supports provider-specific data structures through type-safe enums
 
 **Email Service**
@@ -132,13 +144,12 @@ Preferred communication style: Simple, everyday language.
 ### Core Types (shared/schema.ts)
 
 ```typescript
-PhoneProvider: "CallRail" | "GoHighLevel" | "RingCentral" | "Nextiva"
+PhoneProvider: "RingCentral" | "Vonage" | "Nextiva" | "8x8" | "Zoom Phone"
 
 DiagnosticResult: {
   totalLoss: number,
   missedCalls: number,
   afterHoursCalls: number,
-  abandonedCalls: number,
   avgRevenuePerCall: number,
   totalMissedOpportunities: number,
   provider: PhoneProvider,
@@ -166,8 +177,8 @@ DiagnosticResult: {
 
 ## Future Enhancements (Planned)
 
-- Real CallRail API integration for actual call data
-- GoHighLevel API integration for CRM call tracking
-- RingCentral and Nextiva API connections
-- Persistent user sessions with PostgreSQL database
-- Email delivery system for diagnostic reports
+- Vonage Business Cloud OAuth integration (pending developer account approval)
+- Nextiva, 8x8, and Zoom Phone API connections
+- Email delivery system for diagnostic reports to booking leads
+- Enhanced analytics dashboard for tracking multiple diagnostics over time
+- White-label version for phone system resellers

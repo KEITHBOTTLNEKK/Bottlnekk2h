@@ -112,10 +112,9 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
       console.log(`📞 Sample call: direction=${firstCall.direction}, result=${firstCall.result}, startTime=${firstCall.startTime}, duration=${firstCall.duration}s`);
     }
 
-    // Analyze calls
+    // Analyze calls - Steve Jobs simplicity: just count what matters
     let missedCalls = 0;
     let afterHoursCalls = 0;
-    let abandonedCalls = 0;
 
     for (const call of records) {
       // Only count inbound calls
@@ -124,7 +123,6 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
       const startTime = new Date(call.startTime);
       
       // Convert to Eastern Time for business hours calculation
-      // Most US home service businesses operate on local time zones
       const easternTime = new Date(startTime.toLocaleString('en-US', { timeZone: 'America/New_York' }));
       const hour = easternTime.getHours();
       const dayOfWeek = easternTime.getDay();
@@ -134,18 +132,16 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
       const isAfterHours = hour < 8 || hour >= 18 || isWeekend;
       
       // Debug logging for first inbound call
-      if (call.direction === "Inbound" && missedCalls === 0 && abandonedCalls === 0) {
+      if (call.direction === "Inbound" && missedCalls === 0) {
         console.log(`🕐 Time analysis: ${call.startTime} → ET hour=${hour}, day=${dayOfWeek}, isAfterHours=${isAfterHours}`);
       }
 
-      // Categorize each call into ONE category only (no double-counting)
-      if (call.result === "Abandoned" || (call.result === "Missed" && call.duration < 10)) {
-        // Abandoned: caller hung up quickly (highest priority - worst outcome)
-        abandonedCalls++;
-      } else if (call.result === "Missed" || call.result === "Voicemail") {
-        // Missed calls: no answer or went to voicemail
+      // Simple: Any unanswered inbound call is a missed opportunity
+      // Includes: Missed, Voicemail, Abandoned, quick hangups - they're all the same to a business owner
+      if (call.result === "Missed" || call.result === "Voicemail" || call.result === "Abandoned") {
         missedCalls++;
-        // Track if this missed call was after-hours (subset, not added to total)
+        
+        // Track if this was after-hours (subset for actionable insight)
         if (isAfterHours) {
           afterHoursCalls++;
         }
@@ -155,9 +151,8 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
     // Estimate average revenue per call (industry standard for home services)
     const avgRevenuePerCall = 350;
 
-    // Total opportunities = each unique call counted once
-    // Note: afterHoursCalls is a subset of missedCalls, so we don't add it
-    const totalMissedOpportunities = missedCalls + abandonedCalls;
+    // Clean calculation: every missed call = lost revenue
+    const totalMissedOpportunities = missedCalls;
     const totalLoss = totalMissedOpportunities * avgRevenuePerCall;
 
     const currentDate = new Date();
@@ -167,7 +162,6 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
       totalLoss,
       missedCalls,
       afterHoursCalls,
-      abandonedCalls,
       avgRevenuePerCall,
       totalMissedOpportunities,
       provider: "RingCentral",

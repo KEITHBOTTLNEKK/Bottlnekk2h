@@ -291,8 +291,8 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           </div>
         </div>
 
-        {/* Breakdown Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {/* Breakdown Grid - Steve Jobs Simplicity */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
           <div className="space-y-3" data-testid="metric-missed-calls">
             <div className="text-sm font-light text-[#6B7280] tracking-widest uppercase">
               Missed Calls
@@ -308,24 +308,6 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             </div>
             <div className="text-5xl font-thin text-white tracking-tight">
               {formatNumber(result.afterHoursCalls)}
-            </div>
-          </div>
-
-          <div className="space-y-3" data-testid="metric-abandoned">
-            <div className="text-sm font-light text-[#6B7280] tracking-widest uppercase">
-              Abandoned Calls
-            </div>
-            <div className="text-5xl font-thin text-white tracking-tight">
-              {formatNumber(result.abandonedCalls)}
-            </div>
-          </div>
-
-          <div className="space-y-3" data-testid="metric-avg-revenue">
-            <div className="text-sm font-light text-[#6B7280] tracking-widest uppercase">
-              Avg Revenue Per Call
-            </div>
-            <div className="text-5xl font-thin text-white tracking-tight">
-              {formatCurrency(result.avgRevenuePerCall)}
             </div>
           </div>
         </div>

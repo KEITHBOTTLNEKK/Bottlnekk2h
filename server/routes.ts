@@ -19,15 +19,14 @@ function formatCurrency(amount: number): string {
 
 // Mock data generator for realistic phone system metrics
 function generateMockDiagnostic(provider: PhoneProvider): DiagnosticResult {
-  // Generate realistic ranges for home service businesses
+  // Steve Jobs simplicity: just count missed opportunities
   const missedCalls = Math.floor(Math.random() * 50) + 30; // 30-80 missed calls
-  const afterHoursCalls = Math.floor(Math.random() * 40) + 20; // 20-60 after-hours calls
-  const abandonedCalls = Math.floor(Math.random() * 35) + 15; // 15-50 abandoned calls
+  const afterHoursCalls = Math.floor(Math.random() * Math.min(missedCalls, 30)) + 10; // Subset of missed calls
   
   // Average revenue per call for home services (plumbing, HVAC, electrical)
   const avgRevenuePerCall = Math.floor(Math.random() * 200) + 250; // $250-$450 per call
   
-  const totalMissedOpportunities = missedCalls + afterHoursCalls + abandonedCalls;
+  const totalMissedOpportunities = missedCalls;
   const totalLoss = totalMissedOpportunities * avgRevenuePerCall;
 
   const currentDate = new Date();
@@ -37,7 +36,6 @@ function generateMockDiagnostic(provider: PhoneProvider): DiagnosticResult {
     totalLoss,
     missedCalls,
     afterHoursCalls,
-    abandonedCalls,
     avgRevenuePerCall,
     totalMissedOpportunities,
     provider,
@@ -76,7 +74,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         totalLoss: diagnosticResult.totalLoss,
         missedCalls: diagnosticResult.missedCalls,
         afterHoursCalls: diagnosticResult.afterHoursCalls,
-        abandonedCalls: diagnosticResult.abandonedCalls,
         avgRevenuePerCall: diagnosticResult.avgRevenuePerCall,
         totalMissedOpportunities: diagnosticResult.totalMissedOpportunities,
         month: diagnosticResult.month,

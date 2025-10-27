@@ -70,24 +70,6 @@ export function generateDiagnosticEmailHtml(result: DiagnosticResult): string {
                     </div>
                   </td>
                 </tr>
-                <tr>
-                  <td width="50%" style="padding: 20px; vertical-align: top;">
-                    <div style="font-size: 11px; font-weight: 300; color: #6B7280; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">
-                      Abandoned Calls
-                    </div>
-                    <div style="font-size: 36px; font-weight: 100; color: #ffffff; letter-spacing: -0.02em;">
-                      ${formatNumber(result.abandonedCalls)}
-                    </div>
-                  </td>
-                  <td width="50%" style="padding: 20px; vertical-align: top;">
-                    <div style="font-size: 11px; font-weight: 300; color: #6B7280; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">
-                      Avg Revenue Per Call
-                    </div>
-                    <div style="font-size: 36px; font-weight: 100; color: #ffffff; letter-spacing: -0.02em;">
-                      ${formatCurrency(result.avgRevenuePerCall)}
-                    </div>
-                  </td>
-                </tr>
               </table>
             </td>
           </tr>
@@ -136,8 +118,6 @@ BREAKDOWN:
 
 Missed Calls: ${formatNumber(result.missedCalls)}
 After-Hours Calls: ${formatNumber(result.afterHoursCalls)}
-Abandoned Calls: ${formatNumber(result.abandonedCalls)}
-Avg Revenue Per Call: ${formatCurrency(result.avgRevenuePerCall)}
 
 ---
 Data analyzed from ${result.provider} • ${result.month}
