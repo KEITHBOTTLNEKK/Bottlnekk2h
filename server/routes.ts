@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { analyzeDiagnosticRequestSchema, type DiagnosticResult, type PhoneProvider } from "@shared/schema";
+import { analyzeDiagnosticRequestSchema, bookingSchema, type DiagnosticResult, type PhoneProvider } from "@shared/schema";
 import { getUncachableResendClient } from "./resend-client";
 import { generateDiagnosticEmailHtml, generateDiagnosticEmailText } from "./email-templates";
 
@@ -16,7 +16,7 @@ function formatCurrency(amount: number): string {
 }
 
 // Mock data generator for realistic phone system metrics
-function generateMockDiagnostic(provider: PhoneProvider, businessEmail?: string): DiagnosticResult {
+function generateMockDiagnostic(provider: PhoneProvider): DiagnosticResult {
   // Generate realistic ranges for home service businesses
   const missedCalls = Math.floor(Math.random() * 50) + 30; // 30-80 missed calls
   const afterHoursCalls = Math.floor(Math.random() * 40) + 20; // 20-60 after-hours calls
@@ -40,7 +40,6 @@ function generateMockDiagnostic(provider: PhoneProvider, businessEmail?: string)
     totalMissedOpportunities,
     provider,
     month: monthName,
-    businessEmail,
   };
 }
 
@@ -53,7 +52,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Simulate API call delay (500-1000ms) for realistic experience
       await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 500));
       
-      const diagnosticResult = generateMockDiagnostic(validatedData.provider, validatedData.businessEmail);
+      const diagnosticResult = generateMockDiagnostic(validatedData.provider);
       
       // Save to database
       const saved = await storage.saveDiagnostic({
@@ -65,26 +64,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         avgRevenuePerCall: diagnosticResult.avgRevenuePerCall,
         totalMissedOpportunities: diagnosticResult.totalMissedOpportunities,
         month: diagnosticResult.month,
-        businessEmail: diagnosticResult.businessEmail || null,
+        businessEmail: null,
       });
-      
-      // Send email if business email provided
-      if (diagnosticResult.businessEmail) {
-        try {
-          const { client, fromEmail } = await getUncachableResendClient();
-          await client.emails.send({
-            from: fromEmail,
-            to: diagnosticResult.businessEmail,
-            subject: `Your Revenue Leak Report - ${formatCurrency(diagnosticResult.totalLoss)} Lost This Month`,
-            html: generateDiagnosticEmailHtml(diagnosticResult),
-            text: generateDiagnosticEmailText(diagnosticResult),
-          });
-          console.log(`Email sent successfully to ${diagnosticResult.businessEmail}`);
-        } catch (emailError) {
-          console.error("Error sending email:", emailError);
-          // Don't fail the request if email fails
-        }
-      }
       
       res.json(diagnosticResult);
     } catch (error) {
@@ -117,6 +98,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error fetching diagnostics by email:", error);
       res.status(500).json({ 
         error: error instanceof Error ? error.message : "Failed to fetch diagnostics" 
+      });
+    }
+  });
+
+  // POST /api/bookings - Submit booking request
+  app.post("/api/bookings", async (req, res) => {
+    try {
+      const validatedData = bookingSchema.parse(req.body);
+      
+      console.log("Booking request received:", {
+        name: validatedData.name,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        company: validatedData.company,
+        totalLoss: validatedData.diagnosticData.totalLoss,
+      });
+
+      // TODO: Send booking notification email to sales team
+      // For now, just log the booking
+      
+      res.json({ success: true, message: "Booking request received" });
+    } catch (error) {
+      console.error("Error processing booking:", error);
+      res.status(400).json({ 
+        error: error instanceof Error ? error.message : "Invalid booking request" 
       });
     }
   });

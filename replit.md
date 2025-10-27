@@ -12,6 +12,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+**October 27, 2025** - Booking Flow & Email Integration
+- Updated user flow: Email/contact collection moved from Connect screen to end-of-flow booking form (activated by "Reclaim Your Revenue" button)
+- Implemented booking form with validation (name, email, phone required; company optional)
+- Created POST /api/bookings endpoint with Zod schema validation
+- Added success confirmation that displays for 3.5 seconds before auto-closing
+- Removed email collection from diagnostic analysis phase (no login required for core flow)
+- Integrated Resend email service for future booking notifications
+- Database schema updated to support booking data persistence
+- End-to-end tested complete user journey including booking submission
+
 **October 27, 2025** - Initial MVP Implementation
 - Implemented complete 4-screen diagnostic flow (Welcome → Connect → Analysis → Results)
 - Created custom useCounter hook with easeOutExpo easing for dramatic number animations
@@ -19,7 +29,6 @@ Preferred communication style: Simple, everyday language.
 - Implemented responsive design optimized for desktop and mobile
 - Added comprehensive error handling with retry capability in Analysis screen
 - Created mock data generator for realistic phone system metrics
-- Tested complete user journey end-to-end with successful results
 
 ## System Architecture
 
@@ -51,9 +60,9 @@ Preferred communication style: Simple, everyday language.
 
 **Key Components**
 - `WelcomeScreen`: Dramatic landing with headline and CTA
-- `ConnectScreen`: 2x2 grid of phone provider cards (CallRail, GoHighLevel, RingCentral, Nextiva)
+- `ConnectScreen`: 2x2 grid of phone provider cards (CallRail, GoHighLevel, RingCentral, Nextiva) - provider selection only
 - `AnalysisScreen`: Loading state with animated dots and mutation lifecycle management
-- `ResultsScreen`: Large animated counter with breakdown metrics
+- `ResultsScreen`: Large animated counter with breakdown metrics + booking form modal with client-side validation
 - `useCounter` hook: Custom animation hook implementing easeOutExpo easing
 
 ### Backend Architecture
@@ -64,7 +73,8 @@ Preferred communication style: Simple, everyday language.
 - Custom Vite middleware integration for development HMR
 
 **API Structure**
-- RESTful API endpoint: POST /api/diagnostic/analyze
+- POST /api/diagnostic/analyze - Analyzes phone system data (no email required)
+- POST /api/bookings - Submits booking requests with contact information
 - Zod schema validation for type-safe request/response handling
 - Mock data generation for realistic phone metrics (missed calls, after-hours calls, abandoned calls)
 - Simulated API delay (500-1000ms) for realistic user experience
@@ -93,6 +103,12 @@ Preferred communication style: Simple, everyday language.
 - Designed to connect with four major phone providers: CallRail, GoHighLevel, RingCentral, Nextiva
 - Currently uses mock data generator (production implementation pending)
 - Schema supports provider-specific data structures through type-safe enums
+
+**Email Service**
+- Resend integration configured for transactional emails
+- Email templates created (HTML + text versions) for diagnostic reports
+- Currently used for booking confirmation notifications (to be implemented)
+- Connection ID: connection:conn_resend_01K8HJB21B5J9MDV5MSSX6SK03
 
 **UI Libraries**
 - Radix UI primitives for 20+ accessible component patterns
@@ -133,10 +149,12 @@ DiagnosticResult: {
 ## User Journey
 
 1. **Welcome Screen**: User sees dramatic "How much are you losing?" headline
-2. **Provider Selection**: User selects their phone system provider
+2. **Provider Selection**: User selects their phone system provider (no login/email required)
 3. **Analysis**: System analyzes call data with loading animation (500-1000ms)
 4. **Results**: Large animated counter reveals total monthly losses with breakdown
-5. **Restart**: User can click "Reclaim Your Revenue" to restart the flow
+5. **Booking**: User clicks "Reclaim Your Revenue" to open booking form
+6. **Contact Collection**: Form collects name, email, phone, company (optional) to book a call
+7. **Confirmation**: Success message displays for 3.5 seconds, then returns to Results screen
 
 ## Testing & Quality
 

@@ -3,42 +3,19 @@ import type { PhoneProvider } from "@shared/schema";
 import { phoneProviders } from "@shared/schema";
 
 interface ConnectScreenProps {
-  onProviderSelect: (provider: PhoneProvider, email?: string) => void;
+  onProviderSelect: (provider: PhoneProvider) => void;
 }
 
 export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [selectedProvider, setSelectedProvider] = useState<PhoneProvider | null>(null);
 
   const handleProviderClick = (provider: PhoneProvider) => {
     setSelectedProvider(provider);
-    setEmailError("");
-  };
-
-  const validateEmail = (emailValue: string): boolean => {
-    if (!emailValue) return true; // Empty is valid (optional)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(emailValue);
   };
 
   const handleContinue = () => {
     if (selectedProvider) {
-      // Validate email only if provided
-      if (email && !validateEmail(email)) {
-        setEmailError("Please enter a valid email address or leave it blank");
-        return;
-      }
-      onProviderSelect(selectedProvider, email || undefined);
-    }
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-    // Clear error when user starts typing
-    if (emailError) {
-      setEmailError("");
+      onProviderSelect(selectedProvider);
     }
   };
 
@@ -95,34 +72,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
         </div>
 
         {selectedProvider && (
-          <div className="max-w-md mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="space-y-3">
-              <label 
-                htmlFor="email" 
-                className="block text-sm font-light text-[#9CA3AF] tracking-wide text-center"
-              >
-                Email (optional) - Receive your diagnostic report
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={handleEmailChange}
-                placeholder="your@email.com"
-                className={`w-full px-6 py-4 bg-white/5 border-2 rounded-lg text-white placeholder-white/30 font-light tracking-wide focus:outline-none transition-colors duration-300 ${
-                  emailError 
-                    ? 'border-red-500 focus:border-red-500' 
-                    : 'border-white/20 focus:border-white'
-                }`}
-                data-testid="input-email"
-              />
-              {emailError && (
-                <p className="text-sm font-light text-red-400 tracking-wide text-center" data-testid="text-email-error">
-                  {emailError}
-                </p>
-              )}
-            </div>
-
+          <div className="max-w-md mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
             <button
               onClick={handleContinue}
               className="w-full group relative inline-flex items-center justify-center px-10 py-4 text-base font-light text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"

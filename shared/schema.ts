@@ -32,7 +32,6 @@ export const diagnosticResultSchema = z.object({
   totalMissedOpportunities: z.number(),
   provider: z.enum(phoneProviders),
   month: z.string(),
-  businessEmail: z.string().email().optional(),
 });
 
 export type DiagnosticResult = z.infer<typeof diagnosticResultSchema>;
@@ -49,7 +48,20 @@ export type SelectDiagnosticResult = typeof diagnosticResults.$inferSelect;
 // API Request/Response types
 export const analyzeDiagnosticRequestSchema = z.object({
   provider: z.enum(phoneProviders),
-  businessEmail: z.string().email().optional().or(z.literal("")).transform(val => val === "" ? undefined : val),
 });
 
 export type AnalyzeDiagnosticRequest = z.infer<typeof analyzeDiagnosticRequestSchema>;
+
+// Booking schema
+export const bookingSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Please enter a valid email"),
+  phone: z.string().min(1, "Phone number is required"),
+  company: z.string().optional(),
+  diagnosticData: z.object({
+    totalLoss: z.number(),
+    provider: z.enum(phoneProviders),
+  }),
+});
+
+export type BookingRequest = z.infer<typeof bookingSchema>;
