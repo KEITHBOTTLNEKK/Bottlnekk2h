@@ -22,6 +22,20 @@ export const diagnosticResults = pgTable("diagnostic_results", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const oauthConnections = pgTable("oauth_connections", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  provider: varchar("provider").notNull(),
+  accessToken: text("access_token").notNull(),
+  refreshToken: text("refresh_token"),
+  tokenExpiry: timestamp("token_expiry"),
+  userId: text("user_id"),
+  accountId: text("account_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  providerAccountIdx: sql`UNIQUE (provider, account_id)`,
+}));
+
 // Zod Schemas
 export const diagnosticResultSchema = z.object({
   totalLoss: z.number(),
@@ -65,3 +79,13 @@ export const bookingSchema = z.object({
 });
 
 export type BookingRequest = z.infer<typeof bookingSchema>;
+
+// OAuth Connection schemas
+export const insertOAuthConnectionSchema = createInsertSchema(oauthConnections).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertOAuthConnection = z.infer<typeof insertOAuthConnectionSchema>;
+export type SelectOAuthConnection = typeof oauthConnections.$inferSelect;

@@ -4,6 +4,8 @@ import { storage } from "./storage";
 import { analyzeDiagnosticRequestSchema, bookingSchema, type DiagnosticResult, type PhoneProvider } from "@shared/schema";
 import { getUncachableResendClient } from "./resend-client";
 import { generateDiagnosticEmailHtml, generateDiagnosticEmailText } from "./email-templates";
+import { registerRingCentralOAuth } from "./oauth/ringcentral";
+import { fetchRingCentralAnalytics } from "./api/ringcentral-client";
 
 // Helper function for currency formatting
 function formatCurrency(amount: number): string {
@@ -44,15 +46,29 @@ function generateMockDiagnostic(provider: PhoneProvider): DiagnosticResult {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Register OAuth routes
+  registerRingCentralOAuth(app);
+
   // POST /api/diagnostic/analyze - Analyze phone system data
   app.post("/api/diagnostic/analyze", async (req, res) => {
     try {
       const validatedData = analyzeDiagnosticRequestSchema.parse(req.body);
       
-      // Simulate API call delay (500-1000ms) for realistic experience
-      await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 500));
-      
-      const diagnosticResult = generateMockDiagnostic(validatedData.provider);
+      let diagnosticResult: DiagnosticResult;
+
+      // Try to fetch real data for RingCentral if connected
+      if (validatedData.provider === "RingCentral") {
+        const realData = await fetchRingCentralAnalytics();
+        if (realData) {
+          diagnosticResult = realData;
+        } else {
+          // Fall back to mock data if not connected
+          diagnosticResult = generateMockDiagnostic(validatedData.provider);
+        }
+      } else {
+        // Use mock data for other providers
+        diagnosticResult = generateMockDiagnostic(validatedData.provider);
+      }
       
       // Save to database
       const saved = await storage.saveDiagnostic({
