@@ -2,6 +2,18 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { analyzeDiagnosticRequestSchema, type DiagnosticResult, type PhoneProvider } from "@shared/schema";
+import { getUncachableResendClient } from "./resend-client";
+import { generateDiagnosticEmailHtml, generateDiagnosticEmailText } from "./email-templates";
+
+// Helper function for currency formatting
+function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
 
 // Mock data generator for realistic phone system metrics
 function generateMockDiagnostic(provider: PhoneProvider, businessEmail?: string): DiagnosticResult {
@@ -55,6 +67,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         month: diagnosticResult.month,
         businessEmail: diagnosticResult.businessEmail || null,
       });
+      
+      // Send email if business email provided
+      if (diagnosticResult.businessEmail) {
+        try {
+          const { client, fromEmail } = await getUncachableResendClient();
+          await client.emails.send({
+            from: fromEmail,
+            to: diagnosticResult.businessEmail,
+            subject: `Your Revenue Leak Report - ${formatCurrency(diagnosticResult.totalLoss)} Lost This Month`,
+            html: generateDiagnosticEmailHtml(diagnosticResult),
+            text: generateDiagnosticEmailText(diagnosticResult),
+          });
+          console.log(`Email sent successfully to ${diagnosticResult.businessEmail}`);
+        } catch (emailError) {
+          console.error("Error sending email:", emailError);
+          // Don't fail the request if email fails
+        }
+      }
       
       res.json(diagnosticResult);
     } catch (error) {

@@ -49,7 +49,7 @@ export type SelectDiagnosticResult = typeof diagnosticResults.$inferSelect;
 // API Request/Response types
 export const analyzeDiagnosticRequestSchema = z.object({
   provider: z.enum(phoneProviders),
-  businessEmail: z.string().email().optional(),
+  businessEmail: z.string().email().optional().or(z.literal("")).transform(val => val === "" ? undefined : val),
 });
 
 export type AnalyzeDiagnosticRequest = z.infer<typeof analyzeDiagnosticRequestSchema>;

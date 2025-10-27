@@ -8,15 +8,37 @@ interface ConnectScreenProps {
 
 export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [selectedProvider, setSelectedProvider] = useState<PhoneProvider | null>(null);
 
   const handleProviderClick = (provider: PhoneProvider) => {
     setSelectedProvider(provider);
+    setEmailError("");
+  };
+
+  const validateEmail = (emailValue: string): boolean => {
+    if (!emailValue) return true; // Empty is valid (optional)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(emailValue);
   };
 
   const handleContinue = () => {
     if (selectedProvider) {
+      // Validate email only if provided
+      if (email && !validateEmail(email)) {
+        setEmailError("Please enter a valid email address or leave it blank");
+        return;
+      }
       onProviderSelect(selectedProvider, email || undefined);
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    // Clear error when user starts typing
+    if (emailError) {
+      setEmailError("");
     }
   };
 
@@ -85,11 +107,20 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
                 id="email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
                 placeholder="your@email.com"
-                className="w-full px-6 py-4 bg-white/5 border-2 border-white/20 rounded-lg text-white placeholder-white/30 font-light tracking-wide focus:outline-none focus:border-white transition-colors duration-300"
+                className={`w-full px-6 py-4 bg-white/5 border-2 rounded-lg text-white placeholder-white/30 font-light tracking-wide focus:outline-none transition-colors duration-300 ${
+                  emailError 
+                    ? 'border-red-500 focus:border-red-500' 
+                    : 'border-white/20 focus:border-white'
+                }`}
                 data-testid="input-email"
               />
+              {emailError && (
+                <p className="text-sm font-light text-red-400 tracking-wide text-center" data-testid="text-email-error">
+                  {emailError}
+                </p>
+              )}
             </div>
 
             <button
