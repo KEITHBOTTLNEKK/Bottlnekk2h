@@ -104,6 +104,8 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
     const data = await response.json();
     const records: RingCentralCallLogRecord[] = data.records || [];
 
+    console.log(`✅ RingCentral API call successful! Found ${records.length} call records in last 30 days`);
+
     // Analyze calls
     let missedCalls = 0;
     let afterHoursCalls = 0;
