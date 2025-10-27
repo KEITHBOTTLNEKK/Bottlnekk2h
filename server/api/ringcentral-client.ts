@@ -106,6 +106,12 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
 
     console.log(`✅ RingCentral API call successful! Found ${records.length} call records in last 30 days`);
 
+    // Log first call for debugging
+    if (records.length > 0) {
+      const firstCall = records[0];
+      console.log(`📞 Sample call: direction=${firstCall.direction}, result=${firstCall.result}, startTime=${firstCall.startTime}, duration=${firstCall.duration}s`);
+    }
+
     // Analyze calls
     let missedCalls = 0;
     let afterHoursCalls = 0;
@@ -117,10 +123,16 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
 
       const startTime = new Date(call.startTime);
       const hour = startTime.getHours();
+      const dayOfWeek = startTime.getDay();
 
       // After-hours: before 8am or after 6pm on weekdays, or weekends
-      const isWeekend = startTime.getDay() === 0 || startTime.getDay() === 6;
+      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
       const isAfterHours = hour < 8 || hour >= 18 || isWeekend;
+      
+      // Debug logging for first inbound call
+      if (call.direction === "Inbound" && missedCalls === 0 && abandonedCalls === 0) {
+        console.log(`🕐 Time analysis: ${call.startTime} → hour=${hour}, day=${dayOfWeek}, isAfterHours=${isAfterHours}`);
+      }
 
       // Categorize each call into ONE category only (no double-counting)
       if (call.result === "Abandoned" || (call.result === "Missed" && call.duration < 10)) {
