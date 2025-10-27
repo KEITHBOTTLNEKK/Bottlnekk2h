@@ -29,8 +29,9 @@ export function registerRingCentralOAuth(app: Express) {
     authUrl.searchParams.append("client_id", CLIENT_ID);
     authUrl.searchParams.append("redirect_uri", redirectUri);
     authUrl.searchParams.append("state", Math.random().toString(36).substring(7));
-    // Request all necessary permissions: call logs, messages, presence, and accounts
-    authUrl.searchParams.append("scope", "ReadCallLog ReadMessages ReadPresence ReadAccounts");
+    // Request all necessary permissions
+    // Note: Check RingCentral app settings for exact scope names
+    authUrl.searchParams.append("scope", "ReadCallLog SMS ReadPresence AccountInfo");
 
     res.redirect(authUrl.toString());
   });
