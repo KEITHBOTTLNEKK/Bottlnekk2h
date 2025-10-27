@@ -3,8 +3,8 @@ import { pgTable, varchar, integer, timestamp, text, uniqueIndex } from "drizzle
 import { createInsertSchema } from "drizzle-zod";
 import { sql } from "drizzle-orm";
 
-// Phone System Providers
-export const phoneProviders = ["CallRail", "GoHighLevel", "RingCentral", "Nextiva"] as const;
+// Phone System Providers - Top Enterprise VOIP Solutions
+export const phoneProviders = ["RingCentral", "Vonage", "Nextiva", "8x8", "Zoom Phone"] as const;
 export type PhoneProvider = typeof phoneProviders[number];
 
 // Database Tables
