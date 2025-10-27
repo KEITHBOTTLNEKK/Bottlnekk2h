@@ -122,24 +122,26 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
       const isWeekend = startTime.getDay() === 0 || startTime.getDay() === 6;
       const isAfterHours = hour < 8 || hour >= 18 || isWeekend;
 
-      // Missed calls: no answer or voicemail
-      if (call.result === "Missed" || call.result === "Voicemail") {
+      // Categorize each call into ONE category only (no double-counting)
+      if (call.result === "Abandoned" || (call.result === "Missed" && call.duration < 10)) {
+        // Abandoned: caller hung up quickly (highest priority - worst outcome)
+        abandonedCalls++;
+      } else if (call.result === "Missed" || call.result === "Voicemail") {
+        // Missed calls: no answer or went to voicemail
         missedCalls++;
+        // Track if this missed call was after-hours (subset, not added to total)
         if (isAfterHours) {
           afterHoursCalls++;
         }
-      }
-
-      // Abandoned: caller hung up before answer
-      if (call.result === "Abandoned" || (call.result === "Missed" && call.duration < 10)) {
-        abandonedCalls++;
       }
     }
 
     // Estimate average revenue per call (industry standard for home services)
     const avgRevenuePerCall = 350;
 
-    const totalMissedOpportunities = missedCalls + afterHoursCalls + abandonedCalls;
+    // Total opportunities = each unique call counted once
+    // Note: afterHoursCalls is a subset of missedCalls, so we don't add it
+    const totalMissedOpportunities = missedCalls + abandonedCalls;
     const totalLoss = totalMissedOpportunities * avgRevenuePerCall;
 
     const currentDate = new Date();
