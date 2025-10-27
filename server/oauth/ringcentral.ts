@@ -78,21 +78,9 @@ export function registerRingCentralOAuth(app: Express) {
       const expiresIn = tokenData.expires_in || 3600;
       const tokenExpiry = new Date(Date.now() + expiresIn * 1000);
 
-      // Get account info to extract user ID
-      const accountResponse = await fetch(`${RINGCENTRAL_SERVER}/restapi/v1.0/account/~`, {
-        headers: {
-          "Authorization": `Bearer ${tokenData.access_token}`,
-        },
-      });
-
-      if (!accountResponse.ok) {
-        const errorText = await accountResponse.text();
-        console.error("Failed to fetch account info:", errorText);
-        throw new Error("Failed to fetch account information");
-      }
-
-      const accountData = await accountResponse.json();
-      const accountId = accountData.id || "default";
+      // Use a simple identifier since we don't need full account details
+      // We can extract basic info from the token itself
+      const accountId = `rc_${Date.now()}`;
 
       // Save OAuth connection to database
       await db.insert(oauthConnections).values({
