@@ -122,8 +122,12 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
       if (call.direction !== "Inbound") continue;
 
       const startTime = new Date(call.startTime);
-      const hour = startTime.getHours();
-      const dayOfWeek = startTime.getDay();
+      
+      // Convert to Eastern Time for business hours calculation
+      // Most US home service businesses operate on local time zones
+      const easternTime = new Date(startTime.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      const hour = easternTime.getHours();
+      const dayOfWeek = easternTime.getDay();
 
       // After-hours: before 8am or after 6pm on weekdays, or weekends
       const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
@@ -131,7 +135,7 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
       
       // Debug logging for first inbound call
       if (call.direction === "Inbound" && missedCalls === 0 && abandonedCalls === 0) {
-        console.log(`🕐 Time analysis: ${call.startTime} → hour=${hour}, day=${dayOfWeek}, isAfterHours=${isAfterHours}`);
+        console.log(`🕐 Time analysis: ${call.startTime} → ET hour=${hour}, day=${dayOfWeek}, isAfterHours=${isAfterHours}`);
       }
 
       // Categorize each call into ONE category only (no double-counting)
