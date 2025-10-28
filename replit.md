@@ -13,12 +13,12 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes
 
 **October 27, 2025** - OAuth Flow Perfection & Interactive Deal Size
-- **Seamless OAuth**: After RingCentral OAuth, users now skip home screen and go straight to Analysis (no extra clicks)
-- **Steve Jobs Moment**: While analyzing, ask "One quick thing. What's your average sale?" with editable $350 field
-- Turn waiting time into productive interaction - collect deal size while crunching numbers
-- Users click "Looks good" button to proceed with their custom deal size
+- **Success Moment**: After OAuth, show checkmark animation with "Connected" message (1.5s)
+- **Seamless Transition**: Fade from success moment into deal size question
+- **Steve Jobs Verbiage**: "What's a customer worth to you?" - personal, value-focused (not "average sale")
+- **Honest Flow**: Ask question first → User enters → THEN actually analyze with their number (no fake delays)
 - Custom deal size used in real-time calculation instead of hardcoded $350
-- Message shows: "Connected to RingCentral. Analyzing your data..." after OAuth
+- Clean underline input style with "Looks good" button
 
 **October 27, 2025** - Steve Jobs Simplification & Timezone Fix
 - **Critical Design Decision**: Removed "abandoned calls" metric entirely following Steve Jobs philosophy of radical simplification
@@ -169,13 +169,16 @@ DiagnosticResult: {
 
 1. **Welcome Screen**: User sees dramatic "How much are you losing?" headline
 2. **Provider Selection**: User selects their phone system provider (no login/email required)
-3. **OAuth (if RingCentral)**: User clicks "Connect RingCentral" → completes OAuth → **skips back to home, goes straight to Analysis**
-4. **Interactive Analysis**: 
-   - Shows "Connected to RingCentral. Analyzing your data..."
-   - Asks "One quick thing. What's your average sale?" 
+3. **OAuth (if RingCentral)**: User clicks "Connect RingCentral" → completes OAuth → **straight to Analysis screen**
+4. **Success Moment**: Shows checkmark with "Connected" (1.5 seconds)
+5. **Deal Size Question**: 
+   - Smooth fade to: "What's a customer worth to you?"
    - User edits deal size (default $350) and clicks "Looks good"
-   - System uses custom deal size for calculation
-5. **Results**: Large animated counter reveals total monthly losses with breakdown (using their custom deal size)
+   - **Honest approach**: No analysis until they answer
+6. **Actual Analysis**: 
+   - "Analyzing Call Data..." with dots
+   - System actually crunches numbers with their custom deal size
+7. **Results**: Large animated counter reveals total monthly losses with breakdown (using their custom deal size)
 6. **Booking**: User clicks "Reclaim Your Revenue" to open booking form
 7. **Contact Collection**: Form collects name, email, phone, company (optional) to book a call
 8. **Confirmation**: Success message displays for 3.5 seconds, then returns to Results screen

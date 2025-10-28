@@ -11,6 +11,8 @@ interface AnalysisScreenProps {
 export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenProps) {
   const [dots, setDots] = useState("");
   const [dealSize, setDealSize] = useState("350");
+  const [showConnected, setShowConnected] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(false);
 
   const analyzeMutation = useMutation({
     mutationFn: async (data: AnalyzeDiagnosticRequest & { avgDealSize?: number }) => {
@@ -29,6 +31,24 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
     const dotInterval = setInterval(() => {
       setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
     }, 400);
+
+    // Check if this is an OAuth callback
+    const params = new URLSearchParams(window.location.search);
+    const isOAuthCallback = params.get("connected") === "ringcentral";
+
+    if (isOAuthCallback) {
+      // Show "Connected" moment first
+      setShowConnected(true);
+      
+      // After 1.5 seconds, transition to question
+      setTimeout(() => {
+        setShowConnected(false);
+        setShowQuestion(true);
+      }, 1500);
+    } else {
+      // Direct navigation, show question immediately
+      setShowQuestion(true);
+    }
 
     return () => clearInterval(dotInterval);
   }, []);
@@ -107,14 +127,26 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
       <div className="text-center space-y-8">
-        {!analyzeMutation.isPending ? (
-          // Phase 1: Ask the question first (honest approach)
-          <div className="space-y-8" data-testid="panel-deal-size">
+        {showConnected ? (
+          // Success moment after OAuth
+          <div className="animate-in fade-in zoom-in duration-500 space-y-6">
+            <div className="w-20 h-20 mx-auto rounded-full border-2 border-white/30 flex items-center justify-center">
+              <svg className="w-10 h-10 text-white animate-in zoom-in duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-thin text-white tracking-tight">
+              Connected
+            </h1>
+          </div>
+        ) : !analyzeMutation.isPending && showQuestion ? (
+          // Phase 1: Ask the question (Steve Jobs verbiage)
+          <div className="animate-in fade-in duration-700 space-y-8" data-testid="panel-deal-size">
             <h1 
               className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
               data-testid="text-question"
             >
-              What's your average sale?
+              What's a customer worth to you?
             </h1>
 
             <div className="flex items-center justify-center space-x-2">
@@ -139,7 +171,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
               <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </button>
           </div>
-        ) : (
+        ) : analyzeMutation.isPending ? (
           // Phase 2: Actually analyzing with their number
           <>
             <h1 
@@ -159,7 +191,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
               {getStatusText()}
             </p>
           </>
-        )}
+        ) : null}
       </div>
     </div>
   );
