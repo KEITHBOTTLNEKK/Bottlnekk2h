@@ -21,6 +21,7 @@ export default function DiagnosticTool() {
     const connected = params.get("connected");
     // If OAuth callback with provider, set it
     if (connected === "ringcentral") return "RingCentral";
+    if (connected === "zoom") return "Zoom Phone";
     return null;
   };
 
