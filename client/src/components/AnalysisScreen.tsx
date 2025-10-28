@@ -11,7 +11,6 @@ interface AnalysisScreenProps {
 export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenProps) {
   const [dots, setDots] = useState("");
   const [dealSize, setDealSize] = useState("350");
-  const [showDealSizeQuestion, setShowDealSizeQuestion] = useState(false);
 
   const analyzeMutation = useMutation({
     mutationFn: async (data: AnalyzeDiagnosticRequest & { avgDealSize?: number }) => {
@@ -31,15 +30,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
       setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
     }, 400);
 
-    // After 2 seconds of "analyzing", show the deal size question
-    const questionTimer = setTimeout(() => {
-      setShowDealSizeQuestion(true);
-    }, 2000);
-
-    return () => {
-      clearInterval(dotInterval);
-      clearTimeout(questionTimer);
-    };
+    return () => clearInterval(dotInterval);
   }, []);
 
   const handleLooksGood = () => {
@@ -116,32 +107,9 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
       <div className="text-center space-y-8">
-        {!showDealSizeQuestion ? (
-          // Phase 1: Analyzing (first 2 seconds)
-          <>
-            <h1 
-              className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
-              data-testid="text-analyzing"
-            >
-              Analyzing Call Data{dots}
-            </h1>
-            
-            <div className="flex justify-center space-x-2">
-              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
-              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
-            </div>
-
-            <p className="text-lg font-extralight text-[#6B7280] tracking-wide">
-              {getStatusText()}
-            </p>
-          </>
-        ) : !analyzeMutation.isPending ? (
-          // Phase 2: Ask the question (after analyzing message fades)
-          <div 
-            className="animate-in fade-in duration-700 space-y-8"
-            data-testid="panel-deal-size"
-          >
+        {!analyzeMutation.isPending ? (
+          // Phase 1: Ask the question first (honest approach)
+          <div className="space-y-8" data-testid="panel-deal-size">
             <h1 
               className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
               data-testid="text-question"
@@ -172,13 +140,13 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
             </button>
           </div>
         ) : (
-          // Phase 3: Crunching numbers
+          // Phase 2: Actually analyzing with their number
           <>
             <h1 
               className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
               data-testid="text-analyzing"
             >
-              Analyzing{dots}
+              Analyzing Call Data{dots}
             </h1>
             
             <div className="flex justify-center space-x-2">
@@ -188,7 +156,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
             </div>
 
             <p className="text-lg font-extralight text-[#6B7280] tracking-wide">
-              Crunching the numbers...
+              {getStatusText()}
             </p>
           </>
         )}
