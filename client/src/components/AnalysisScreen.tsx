@@ -55,6 +55,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
   const handleLooksGood = () => {
     const avgDealSize = parseInt(dealSize) || 350;
+    setShowQuestion(false); // Hide question to prevent flash
     analyzeMutation.mutate({ provider, avgDealSize });
   };
 
@@ -142,6 +143,9 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
         ) : !analyzeMutation.isPending && showQuestion ? (
           // Phase 1: Ask the question (Steve Jobs verbiage)
           <div className="animate-in fade-in duration-700 space-y-8" data-testid="panel-deal-size">
+            <p className="text-lg font-extralight text-[#9CA3AF] tracking-wide mb-4">
+              One more thing...
+            </p>
             <h1 
               className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
               data-testid="text-question"
