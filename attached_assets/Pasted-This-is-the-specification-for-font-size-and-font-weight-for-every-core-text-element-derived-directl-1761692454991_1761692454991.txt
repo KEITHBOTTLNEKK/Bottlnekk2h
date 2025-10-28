@@ -1,0 +1,84 @@
+This is the specification for font-size and font-weight for every core text element, derived directly from the design brief.
+
+Global Font Reference:
+Font Family: Inter
+Font Weights (Numeric and Tailwind equivalent):
+100: font-thin
+200: font-extralight
+300: font-light
+400: font-normal
+500: font-medium
+600: font-semibold
+700: font-bold
+800: font-extrabold
+900: font-black
+Screen 1: Welcome Screen
+Headline: "How much are you losing?"
+Font Size: 3.75rem (60px) on mobile/default. 6rem (96px) on md screens and larger.
+Font Weight: 100 (font-thin)
+Sub-headline: "Every missed call is lost revenue."
+Font Size: 1.25rem (20px) on mobile/default. 1.5rem (24px) on md screens and larger.
+Font Weight: 300 (font-light)
+CTA Button Text: "Show Me The Number"
+Font Size: 1.125rem (18px)
+Font Weight: 600 (font-semibold)
+Footer Logo: "Bottlnekk"
+Font Size: 1.5rem (24px)
+Font Weight: 100 (font-thin)
+Footer Trademark: "™"
+Font Size: 0.75rem (12px)
+Font Weight: 300 (font-light)
+Screen 2: Connect Screen
+Headline: "Unlock Your Real Number" / "Which phone system do you use?"
+Font Size: 3rem (48px)
+Font Weight: 100 (font-thin)
+Subtext: "To calculate your losses, I need access to your phone system." / "Connect securely to analyze your call data."
+Font Size: 1.25rem (20px)
+Font Weight: 300 (font-light)
+Primary CTA Button Text: "Connect Your Phone System"
+Font Size: 1.25rem (20px)
+Font Weight: 600 (font-semibold)
+Modal Title: "Which phone system do you use?"
+Font Size: 1.5rem (24px)
+Font Weight: 300 (font-light)
+Phone System Buttons Text (e.g., "RingCentral", "GoHighLevel")
+Font Size: 1.125rem (18px)
+Font Weight: 500 (font-medium)
+Modal Footer Link: "I don't use a formal phone system"
+Font Size: 0.875rem (14px)
+Font Weight: 300 (font-light) - (Implicit, for subdued text)
+*Small Footer Text: "Your data is encrypted and secure"
+Font Size: 0.875rem (14px)
+Font Weight: 300 (font-light) - (Implicit, for subdued text)
+Screen 3: Conversational Discovery
+Headline: "What's a customer worth to you?" / "How many customer calls do you get per month?"
+Font Size: 3rem (48px)
+Font Weight: 100 (font-thin)
+Input Field Text (User Entry / Placeholder - e.g., "$ 1000", "About $1,500...")
+Font Size: 2.25rem (36px) or 3rem (48px). Let's standardize to 2.25rem (36px) as a strong minimum.
+Font Weight: 300 (font-light) for the entered text, 400 (font-normal) for placeholder.
+Screen 4: Analysis Screen
+Text: "Analyzing Call Data..."
+Font Size: 1.5rem (24px)
+Font Weight: 300 (font-light)
+Screen 5: Results Screen
+The Big Number: "$XXX,XXX"
+Font Size: 8rem (128px) on mobile/default. 10rem (160px) on md screens and larger.
+Font Weight: 100 (font-thin)
+Number Subtext: "lost this month from XX missed opportunities." / "You lost this last month."
+Font Size: 1.25rem (20px) on mobile/default. 1.5rem (24px) on md screens and larger.
+Font Weight: 300 (font-light)
+Diagnosis Text: "The bottleneck is [Stage]."
+Font Size: 2.25rem (36px) on mobile/default. 3rem (48px) on md screens and larger.
+Font Weight: 300 (font-light)
+Diagnosis Key Word (strong): e.g., "[After-Hours Calls]"
+Font Weight: 400 (font-normal) - this is a relative 'boldness' compared to font-light.
+Informational Breakdown Text: "1/7 missed calls were after hours..."
+Font Size: 1.25rem (20px)
+Font Weight: 300 (font-light)
+Final CTA Button Text: "Reclaim Your Revenue" / "Fix This"
+Font Size: 1.25rem (20px)
+Font Weight: 600 (font-semibold)
+Results Footer Text (e.g., "Window: last 30 days...")
+Font Size: 0.875rem (14px)
+Font Weight: 300 (font-light) - (Implicit, for subdued text)
