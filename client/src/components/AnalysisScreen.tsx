@@ -108,40 +108,29 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
-      <div className="text-center space-y-8 max-w-2xl mx-auto">
-        <h1 
-          className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
-          data-testid="text-analyzing"
-        >
-          Analyzing Call Data{dots}
-        </h1>
-        
-        <div className="flex justify-center space-x-2">
-          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
-          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
-        </div>
-
-        <p className="text-lg font-extralight text-[#6B7280] tracking-wide">
+      <div className="text-center max-w-2xl mx-auto">
+        {/* Status message - subtle */}
+        <p className="text-sm font-extralight text-[#6B7280] tracking-wide mb-16">
           {getStatusText()}
         </p>
 
-        {!isReady && !analyzeMutation.isPending && (
-          <div 
-            className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-4 pt-6"
-            data-testid="panel-deal-size"
-          >
-            <p className="text-base font-light text-white/80 tracking-wide">
-              One quick thing. What's your average sale?
-            </p>
+        {!isReady && !analyzeMutation.isPending ? (
+          // Before analysis starts - ask the question
+          <div className="space-y-10" data-testid="panel-deal-size">
+            <h1 
+              className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight leading-tight"
+              data-testid="text-analyzing"
+            >
+              What's your average sale?
+            </h1>
 
             <div className="flex items-center justify-center space-x-3">
-              <span className="text-3xl font-thin text-white">$</span>
+              <span className="text-5xl font-thin text-white">$</span>
               <input
                 type="text"
                 value={dealSize}
                 onChange={handleDealSizeChange}
-                className="w-32 px-6 py-3 bg-white/5 border-2 border-white/20 rounded-lg text-3xl font-thin text-white text-center focus:outline-none focus:border-white transition-colors duration-300"
+                className="w-40 px-6 py-4 bg-white/5 border-2 border-white/20 rounded-lg text-5xl font-thin text-white text-center focus:outline-none focus:border-white transition-colors duration-300"
                 placeholder="350"
                 data-testid="input-deal-size"
               />
@@ -149,12 +138,28 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
             <button
               onClick={handleLooksGood}
-              className="group relative inline-flex items-center justify-center px-10 py-4 text-base font-light text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+              className="group relative inline-flex items-center justify-center px-12 py-5 text-lg font-light text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
               data-testid="button-looks-good"
             >
               <span className="relative z-10 tracking-wide">Looks good</span>
               <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </button>
+          </div>
+        ) : (
+          // During analysis - show analyzing
+          <div className="space-y-8">
+            <h1 
+              className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
+              data-testid="text-analyzing"
+            >
+              Analyzing{dots}
+            </h1>
+            
+            <div className="flex justify-center space-x-2">
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+            </div>
           </div>
         )}
       </div>
