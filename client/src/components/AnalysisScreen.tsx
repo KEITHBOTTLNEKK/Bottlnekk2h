@@ -34,7 +34,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
     // Check if this is an OAuth callback
     const params = new URLSearchParams(window.location.search);
-    const isOAuthCallback = params.get("connected") === "ringcentral";
+    const isOAuthCallback = params.get("connected") === "ringcentral" || params.get("connected") === "zoom";
 
     if (isOAuthCallback) {
       // Show "Connected" moment first
@@ -109,7 +109,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
   const isOAuthCallback = () => {
     const params = new URLSearchParams(window.location.search);
-    return params.get("connected") === "ringcentral";
+    return params.get("connected") === "ringcentral" || params.get("connected") === "zoom";
   };
 
   const getStatusText = () => {

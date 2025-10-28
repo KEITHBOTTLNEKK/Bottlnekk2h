@@ -23,6 +23,12 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
     refetchInterval: 5000, // Refresh every 5 seconds to detect OAuth callbacks
   });
 
+  // Check Zoom Phone connection status
+  const { data: zoomStatus } = useQuery<ConnectionStatus>({
+    queryKey: ["/auth/zoom/status"],
+    refetchInterval: 5000,
+  });
+
   // Check for OAuth callback success
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -36,6 +42,14 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
       setSelectedProvider("RingCentral");
       setTimeout(() => {
         onProviderSelect("RingCentral");
+      }, 1000);
+    } else if (connected === "zoom") {
+      // Clear URL params
+      window.history.replaceState({}, "", window.location.pathname);
+      // Show success briefly then continue
+      setSelectedProvider("Zoom Phone");
+      setTimeout(() => {
+        onProviderSelect("Zoom Phone");
       }, 1000);
     } else if (error) {
       // Clear URL params
@@ -57,6 +71,16 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
         // Redirect to OAuth login
         setIsConnecting(true);
         window.location.href = "/auth/ringcentral/login";
+        return;
+      }
+    }
+
+    // For Zoom Phone, check if OAuth is needed
+    if (selectedProvider === "Zoom Phone") {
+      if (!zoomStatus?.connected || zoomStatus?.expired) {
+        // Redirect to OAuth login
+        setIsConnecting(true);
+        window.location.href = "/auth/zoom/login";
         return;
       }
     }
@@ -86,7 +110,10 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {phoneProviders.map((provider) => {
             const isRingCentral = provider === "RingCentral";
-            const isConnected = isRingCentral && ringCentralStatus?.connected && !ringCentralStatus?.expired;
+            const isZoomPhone = provider === "Zoom Phone";
+            const isConnected = 
+              (isRingCentral && ringCentralStatus?.connected && !ringCentralStatus?.expired) ||
+              (isZoomPhone && zoomStatus?.connected && !zoomStatus?.expired);
 
             return (
               <button
@@ -139,6 +166,8 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
                 {isConnecting ? 'Connecting...' : 
                  selectedProvider === "RingCentral" && (!ringCentralStatus?.connected || ringCentralStatus?.expired) 
                    ? 'Connect RingCentral' 
+                   : selectedProvider === "Zoom Phone" && (!zoomStatus?.connected || zoomStatus?.expired)
+                   ? 'Connect Zoom Phone'
                    : 'Continue Analysis'}
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -151,6 +180,8 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
             {selectedProvider 
               ? selectedProvider === "RingCentral" && (!ringCentralStatus?.connected || ringCentralStatus?.expired)
                 ? 'Click Connect to authorize access to your RingCentral account'
+                : selectedProvider === "Zoom Phone" && (!zoomStatus?.connected || zoomStatus?.expired)
+                ? 'Click Connect to authorize access to your Zoom Phone account'
                 : 'Click Continue to analyze your data'
               : 'Select your phone system provider to continue'}
           </p>

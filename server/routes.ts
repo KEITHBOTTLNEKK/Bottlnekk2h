@@ -6,6 +6,8 @@ import { getUncachableResendClient } from "./resend-client";
 import { generateDiagnosticEmailHtml, generateDiagnosticEmailText } from "./email-templates";
 import { registerRingCentralOAuth } from "./oauth/ringcentral";
 import { fetchRingCentralAnalytics } from "./api/ringcentral-client";
+import { registerZoomOAuth } from "./oauth/zoom";
+import { fetchZoomPhoneAnalytics } from "./api/zoom-client";
 
 // Helper function for currency formatting
 function formatCurrency(amount: number): string {
@@ -43,6 +45,7 @@ function generateMockDiagnostic(provider: PhoneProvider, avgRevenuePerCall: numb
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register OAuth routes
   registerRingCentralOAuth(app);
+  registerZoomOAuth(app);
 
   // POST /api/diagnostic/analyze - Analyze phone system data
   app.post("/api/diagnostic/analyze", async (req, res) => {
@@ -52,9 +55,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       let diagnosticResult: DiagnosticResult;
 
-      // Try to fetch real data for RingCentral if connected
+      // Try to fetch real data for connected providers
       if (validatedData.provider === "RingCentral") {
         const realData = await fetchRingCentralAnalytics(avgDealSize);
+        if (realData) {
+          diagnosticResult = realData;
+        } else {
+          // Fall back to mock data if not connected
+          diagnosticResult = generateMockDiagnostic(validatedData.provider, avgDealSize);
+        }
+      } else if (validatedData.provider === "Zoom Phone") {
+        const realData = await fetchZoomPhoneAnalytics(avgDealSize);
         if (realData) {
           diagnosticResult = realData;
         } else {
