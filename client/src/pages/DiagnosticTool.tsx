@@ -8,7 +8,15 @@ import type { PhoneProvider, DiagnosticResult } from "@shared/schema";
 type DiagnosticStep = "welcome" | "connect" | "analysis" | "results";
 
 export default function DiagnosticTool() {
-  const [currentStep, setCurrentStep] = useState<DiagnosticStep>("welcome");
+  // Check for OAuth callback on initial load
+  const getInitialStep = (): DiagnosticStep => {
+    const params = new URLSearchParams(window.location.search);
+    const connected = params.get("connected");
+    // If OAuth callback detected, start at connect screen for auto-progression
+    return connected ? "connect" : "welcome";
+  };
+
+  const [currentStep, setCurrentStep] = useState<DiagnosticStep>(getInitialStep);
   const [selectedProvider, setSelectedProvider] = useState<PhoneProvider | null>(null);
   const [diagnosticResult, setDiagnosticResult] = useState<DiagnosticResult | null>(null);
 
