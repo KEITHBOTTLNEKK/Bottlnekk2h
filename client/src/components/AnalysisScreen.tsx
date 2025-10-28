@@ -108,36 +108,31 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
-      <div className="text-center space-y-12 max-w-xl mx-auto">
-        <div className="space-y-6">
-          <h1 
-            className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
-            data-testid="text-analyzing"
-          >
-            Analyzing Call Data{dots}
-          </h1>
-          
-          <div className="flex justify-center space-x-2">
-            <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
-            <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-            <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
-          </div>
-
-          <p className="text-lg font-extralight text-[#6B7280] tracking-wide">
-            {getStatusText()}
-          </p>
+      <div className="text-center space-y-8 max-w-2xl mx-auto">
+        <h1 
+          className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
+          data-testid="text-analyzing"
+        >
+          Analyzing Call Data{dots}
+        </h1>
+        
+        <div className="flex justify-center space-x-2">
+          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
         </div>
+
+        <p className="text-lg font-extralight text-[#6B7280] tracking-wide">
+          {getStatusText()}
+        </p>
 
         {!isReady && !analyzeMutation.isPending && (
           <div 
-            className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6 pt-8 border-t border-white/10"
+            className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-4 pt-6"
             data-testid="panel-deal-size"
           >
-            <p className="text-xl font-light text-white tracking-wide pt-8">
-              One quick thing.
-            </p>
-            <p className="text-lg font-extralight text-[#9CA3AF] tracking-wide">
-              What's your average sale?
+            <p className="text-base font-light text-white/80 tracking-wide">
+              One quick thing. What's your average sale?
             </p>
 
             <div className="flex items-center justify-center space-x-3">
