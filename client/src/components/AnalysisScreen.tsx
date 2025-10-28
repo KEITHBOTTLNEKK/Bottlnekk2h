@@ -140,7 +140,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
               Connected
             </h1>
           </div>
-        ) : !analyzeMutation.isPending && showQuestion ? (
+        ) : showQuestion ? (
           // Phase 1: Ask the question (Steve Jobs verbiage)
           <div className="animate-in fade-in duration-700 space-y-8" data-testid="panel-deal-size">
             <p className="text-lg font-extralight text-[#9CA3AF] tracking-wide mb-4">
@@ -196,7 +196,12 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
               {getStatusText()}
             </p>
           </>
-        ) : null}
+        ) : (
+          // Fallback loading state (prevents black screen)
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight">
+            Loading...
+          </h1>
+        )}
       </div>
     </div>
   );
