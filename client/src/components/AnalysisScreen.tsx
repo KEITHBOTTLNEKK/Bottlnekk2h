@@ -114,7 +114,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
             className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
             data-testid="text-analyzing"
           >
-            {isReady ? `Analyzing${dots}` : "Almost there"}
+            Analyzing Call Data{dots}
           </h1>
           
           <div className="flex justify-center space-x-2">
@@ -130,10 +130,10 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
         {!isReady && !analyzeMutation.isPending && (
           <div 
-            className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6 pt-8"
+            className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6 pt-8 border-t border-white/10"
             data-testid="panel-deal-size"
           >
-            <p className="text-xl font-light text-white tracking-wide">
+            <p className="text-xl font-light text-white tracking-wide pt-8">
               One quick thing.
             </p>
             <p className="text-lg font-extralight text-[#9CA3AF] tracking-wide">
