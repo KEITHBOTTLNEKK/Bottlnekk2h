@@ -4,7 +4,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { sql } from "drizzle-orm";
 
 // Phone System Providers - Top Enterprise VOIP Solutions
-export const phoneProviders = ["RingCentral", "Vonage", "Nextiva", "8x8", "Zoom Phone", "Twilio"] as const;
+export const phoneProviders = ["RingCentral", "Vonage", "Nextiva", "8x8", "Zoom Phone"] as const;
 export type PhoneProvider = typeof phoneProviders[number];
 
 // Database Tables
