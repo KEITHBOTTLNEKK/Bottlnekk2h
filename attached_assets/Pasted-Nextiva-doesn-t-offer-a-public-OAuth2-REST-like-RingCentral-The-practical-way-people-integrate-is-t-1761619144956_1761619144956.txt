@@ -1,0 +1,67 @@
+Nextiva doesn’t offer a public OAuth2/REST like RingCentral. The practical way people integrate is through BroadWorks XSI Actions/Events (Nextiva is BroadWorks-based). That uses HTTP Basic Auth (username/password) against an XSP host such as https://cp.nextiva.com and returns XML call logs (missed/received/dialed). Example evidence: third-party integrators describe polling “Nextiva’s XSI API” and show the cp.nextiva.com/com.broadsoft.xsi-actions/... endpoints, which are standard BroadWorks XSI Actions URLs. 
+Cisco
+
+What this means for your app (MVP-ready path)
+
+Connection model
+
+No OAuth screen. Ask the user for:
+
+XSP host (often cp.nextiva.com, cp1.nextiva.com, or cp2.nextiva.com)
+
+User ID (their Nextiva/BroadWorks userId, commonly their DID or email)
+
+Password
+
+Store ephemerally for the session (don’t persist) to keep risk low for MVP.
+
+Endpoints you can hit
+
+Missed:
+GET https://{xsp}/com.broadsoft.xsi-actions/v2.0/user/{userId}/call-logs/missed
+
+Received:
+.../call-logs/received
+
+Placed:
+.../call-logs/placed
+
+Optional time filters (server supports query params like startTime/endTime on many BroadWorks deployments).
+
+Response: XML. Convert to JSON on your server and feed your existing pipeline.
+
+(These are the standard BroadWorks XSI “call logs” resources used by many vendors; see BroadWorks XSI references for call-log/ directory access.) 
+Grandstream
+
+What to ask the customer / Nextiva if it fails
+
+“Please enable XSI-Actions and XSI-Events on our account and ensure our users can reach the XSP host externally (e.g., cp.nextiva.com). We need call-log reads for missed/received/placed calls.”
+
+Some tenants don’t expose XSI externally by default; support can flip it. (Several CRM/CTI tools rely on exactly this.) 
+Cisco
+
+Security notes (MVP)
+
+Use TLS only, prompt clearly for credentials, never store them beyond the session, and rotate to a tokenized approach later (e.g., your own short-lived proxy token that holds the Basic creds server-side).
+
+Fallback (no XSI)
+
+If XSI isn’t available, the only universal fallback is admin call-report exports (CDR) from the Nextiva portal (CSV), which are not real-time. That’s fine for demos but not your “live” value prop.
+
+How to add “Nextiva” to your selector today
+
+In your provider switch, add a Nextiva connector that:
+
+Renders a form (XSP host, userId, password).
+
+Calls your server route /providers/nextiva/call-logs?range=last_30_days.
+
+Server route:
+
+Builds the three URLs (missed/received/placed).
+
+Sends with Basic Auth.
+
+Parses XML → JSON → normalizes to your callLog[] shape.
+
+Returns combined list for your revenue math.
