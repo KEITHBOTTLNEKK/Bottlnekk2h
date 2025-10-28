@@ -19,28 +19,6 @@ function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
-// Mock data generator for realistic phone system metrics
-function generateMockDiagnostic(provider: PhoneProvider, avgRevenuePerCall: number = 350): DiagnosticResult {
-  // Steve Jobs simplicity: just count missed opportunities
-  const missedCalls = Math.floor(Math.random() * 50) + 30; // 30-80 missed calls
-  const afterHoursCalls = Math.floor(Math.random() * Math.min(missedCalls, 30)) + 10; // Subset of missed calls
-  
-  const totalMissedOpportunities = missedCalls;
-  const totalLoss = totalMissedOpportunities * avgRevenuePerCall;
-
-  const currentDate = new Date();
-  const monthName = currentDate.toLocaleString('en-US', { month: 'long', year: 'numeric' });
-
-  return {
-    totalLoss,
-    missedCalls,
-    afterHoursCalls,
-    avgRevenuePerCall,
-    totalMissedOpportunities,
-    provider,
-    month: monthName,
-  };
-}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Register OAuth routes
@@ -55,26 +33,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       let diagnosticResult: DiagnosticResult;
 
-      // Try to fetch real data for connected providers
+      // Fetch real data from connected providers only
       if (validatedData.provider === "RingCentral") {
         const realData = await fetchRingCentralAnalytics(avgDealSize);
-        if (realData) {
-          diagnosticResult = realData;
-        } else {
-          // Fall back to mock data if not connected
-          diagnosticResult = generateMockDiagnostic(validatedData.provider, avgDealSize);
+        if (!realData) {
+          return res.status(400).json({ 
+            error: "Please connect your RingCentral account to analyze your call data." 
+          });
         }
+        diagnosticResult = realData;
       } else if (validatedData.provider === "Zoom Phone") {
         const realData = await fetchZoomPhoneAnalytics(avgDealSize);
-        if (realData) {
-          diagnosticResult = realData;
-        } else {
-          // Fall back to mock data if not connected
-          diagnosticResult = generateMockDiagnostic(validatedData.provider, avgDealSize);
+        if (!realData) {
+          return res.status(400).json({ 
+            error: "Zoom Phone service is not enabled for this account. Please contact Zoom to activate Zoom Phone." 
+          });
         }
+        diagnosticResult = realData;
       } else {
-        // Use mock data for other providers
-        diagnosticResult = generateMockDiagnostic(validatedData.provider, avgDealSize);
+        // Other providers not yet implemented
+        return res.status(400).json({ 
+          error: `${validatedData.provider} integration is coming soon. Currently only RingCentral and Zoom Phone are supported.` 
+        });
       }
       
       // Save to database
