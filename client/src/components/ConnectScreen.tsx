@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 interface ConnectScreenProps {
@@ -12,6 +12,8 @@ interface ConnectionStatus {
 }
 
 export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   // Check connection status for both providers
   const { data: ringCentralStatus } = useQuery<ConnectionStatus>({
     queryKey: ["/auth/ringcentral/status"],
@@ -37,7 +39,9 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
       setTimeout(() => onProviderSelect("Zoom Phone"), 1000);
     } else if (error) {
       window.history.replaceState({}, "", window.location.pathname);
-      alert(`Connection error: ${error}`);
+      setErrorMessage(decodeURIComponent(error));
+      // Auto-dismiss after 8 seconds
+      setTimeout(() => setErrorMessage(null), 8000);
     }
   }, [onProviderSelect]);
 
@@ -63,6 +67,34 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl w-full space-y-16">
+        {/* Error Banner */}
+        {errorMessage && (
+          <div 
+            className="mx-auto max-w-2xl px-6 py-4 border border-red-500/30 bg-red-500/10 rounded-lg animate-in fade-in slide-in-from-top-4 duration-500"
+            data-testid="error-banner"
+          >
+            <div className="flex items-start space-x-3">
+              <svg className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div className="flex-1">
+                <p className="text-sm font-light text-red-200 tracking-wide">
+                  {errorMessage}
+                </p>
+              </div>
+              <button
+                onClick={() => setErrorMessage(null)}
+                className="text-red-400 hover:text-red-300 transition-colors"
+                data-testid="button-dismiss-error"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="text-center space-y-6">
           <h1 

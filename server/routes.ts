@@ -46,7 +46,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const realData = await fetchZoomPhoneAnalytics(avgDealSize);
         if (!realData) {
           return res.status(400).json({ 
-            error: "Zoom Phone service is not enabled for this account. Please contact Zoom to activate Zoom Phone." 
+            error: "Your Zoom account doesn't have Zoom Phone enabled. Contact Zoom to activate it." 
           });
         }
         diagnosticResult = realData;
