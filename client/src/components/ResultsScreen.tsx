@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useCounter } from "@/hooks/useCounter";
 import type { DiagnosticResult } from "@shared/schema";
 
@@ -20,11 +20,15 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [countComplete, setCountComplete] = useState(false);
 
+  const handleCountComplete = useCallback(() => {
+    setCountComplete(true);
+  }, []);
+
   const animatedTotal = useCounter({ 
     end: result.totalLoss, 
     duration: 3500,
     start: 0,
-    onComplete: () => setCountComplete(true)
+    onComplete: handleCountComplete
   });
 
   const formatCurrency = (amount: number) => {
