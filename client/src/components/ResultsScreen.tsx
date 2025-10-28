@@ -18,11 +18,13 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [countComplete, setCountComplete] = useState(false);
 
   const animatedTotal = useCounter({ 
     end: result.totalLoss, 
-    duration: 2500,
-    start: 0
+    duration: 3500,
+    start: 0,
+    onComplete: () => setCountComplete(true)
   });
 
   const formatCurrency = (amount: number) => {
@@ -250,66 +252,76 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
   }
 
   return (
-    <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-      <div className="max-w-4xl w-full space-y-20">
-        {/* The Number - Make it HURT */}
-        <div className="text-center space-y-6">
+    <div className="min-h-screen bg-black dark:bg-black flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+      <div className="w-full max-w-6xl">
+        {/* The Number - MASSIVE and Centered */}
+        <div className="text-center mb-16">
           <h1 
-            className="text-8xl sm:text-9xl lg:text-[12rem] font-thin text-white tracking-tighter leading-none"
+            className="text-[10rem] sm:text-[14rem] lg:text-[18rem] xl:text-[22rem] font-thin text-white tracking-tighter leading-none"
             data-testid="text-total-loss"
+            style={{ lineHeight: '0.85' }}
           >
             {formatCurrency(animatedTotal)}
           </h1>
-          <p 
-            className="text-2xl sm:text-3xl font-thin text-white/60 tracking-wide max-w-2xl mx-auto"
-            data-testid="text-loss-description"
-          >
-            You lost this last month.
-          </p>
         </div>
 
-        {/* Simple Insight - Conversational, not data */}
-        <div className="text-center space-y-3 max-w-xl mx-auto">
-          <p className="text-lg sm:text-xl font-light text-white/80 tracking-wide" data-testid="metric-missed-calls">
-            {formatNumber(result.missedCalls)} missed {result.missedCalls === 1 ? 'call' : 'calls'}.
-            {result.afterHoursCalls > 0 && (
-              <span className="text-white/50"> {formatNumber(result.afterHoursCalls)} {result.afterHoursCalls === 1 ? 'was' : 'were'} after hours.</span>
-            )}
-          </p>
-          <p className="text-base font-extralight text-white/40 tracking-wide">
-            At {formatCurrency(result.avgRevenuePerCall)} per customer
-          </p>
-        </div>
+        {/* Everything else fades in AFTER the count */}
+        {countComplete && (
+          <div className="space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            {/* Emotional Impact */}
+            <div className="text-center">
+              <p 
+                className="text-2xl sm:text-3xl lg:text-4xl font-thin text-white/60 tracking-wide max-w-2xl mx-auto"
+                data-testid="text-loss-description"
+              >
+                You lost this last month.
+              </p>
+            </div>
 
-        {/* ONE Clear Action */}
-        <div className="text-center space-y-6">
-          <button
-            onClick={handleBookCall}
-            className="group relative inline-flex items-center justify-center px-16 py-6 text-xl font-light text-black bg-white rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
-            data-testid="button-reclaim"
-          >
-            <span className="relative z-10 tracking-wide">Fix This</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </button>
-          
-          <p className="text-sm font-light text-white/30 tracking-wide">
-            Book a 15-minute call with our team
-          </p>
-        </div>
+            {/* Simple Insight - Conversational */}
+            <div className="text-center space-y-3 max-w-xl mx-auto">
+              <p className="text-lg sm:text-xl font-light text-white/80 tracking-wide" data-testid="metric-missed-calls">
+                {formatNumber(result.missedCalls)} missed {result.missedCalls === 1 ? 'call' : 'calls'}.
+                {result.afterHoursCalls > 0 && (
+                  <span className="text-white/50"> {formatNumber(result.afterHoursCalls)} {result.afterHoursCalls === 1 ? 'was' : 'were'} after hours.</span>
+                )}
+              </p>
+              <p className="text-base font-extralight text-white/40 tracking-wide">
+                At {formatCurrency(result.avgRevenuePerCall)} per customer
+              </p>
+            </div>
 
-        {/* Minimal footer */}
-        <div className="text-center space-y-4 pt-12">
-          <p className="text-xs font-light text-white/20 tracking-wide">
-            {result.provider} • {result.month}
-          </p>
-          <button
-            onClick={onRestart}
-            className="text-xs font-light text-white/20 hover:text-white/60 tracking-wide transition-colors duration-300"
-            data-testid="button-restart"
-          >
-            Run another diagnostic
-          </button>
-        </div>
+            {/* ONE Clear Action */}
+            <div className="text-center space-y-6">
+              <button
+                onClick={handleBookCall}
+                className="group relative inline-flex items-center justify-center px-16 py-6 text-xl font-light text-black bg-white rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+                data-testid="button-reclaim"
+              >
+                <span className="relative z-10 tracking-wide">Fix This</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </button>
+              
+              <p className="text-sm font-light text-white/30 tracking-wide">
+                Book a 15-minute call with our team
+              </p>
+            </div>
+
+            {/* Minimal footer */}
+            <div className="text-center space-y-4 pt-8">
+              <p className="text-xs font-light text-white/20 tracking-wide">
+                {result.provider} • {result.month}
+              </p>
+              <button
+                onClick={onRestart}
+                className="text-xs font-light text-white/20 hover:text-white/60 tracking-wide transition-colors duration-300"
+                data-testid="button-restart"
+              >
+                Run another diagnostic
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
