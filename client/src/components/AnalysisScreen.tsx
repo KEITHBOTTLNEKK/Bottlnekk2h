@@ -11,7 +11,7 @@ interface AnalysisScreenProps {
 export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenProps) {
   const [dots, setDots] = useState("");
   const [dealSize, setDealSize] = useState("350");
-  const [isReady, setIsReady] = useState(false);
+  const [showDealSizeQuestion, setShowDealSizeQuestion] = useState(false);
 
   const analyzeMutation = useMutation({
     mutationFn: async (data: AnalyzeDiagnosticRequest & { avgDealSize?: number }) => {
@@ -31,11 +31,18 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
       setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
     }, 400);
 
-    return () => clearInterval(dotInterval);
+    // After 2 seconds of "analyzing", show the deal size question
+    const questionTimer = setTimeout(() => {
+      setShowDealSizeQuestion(true);
+    }, 2000);
+
+    return () => {
+      clearInterval(dotInterval);
+      clearTimeout(questionTimer);
+    };
   }, []);
 
   const handleLooksGood = () => {
-    setIsReady(true);
     const avgDealSize = parseInt(dealSize) || 350;
     analyzeMutation.mutate({ provider, avgDealSize });
   };
@@ -109,52 +116,81 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
       <div className="text-center space-y-8">
-        <h1 
-          className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
-          data-testid="text-analyzing"
-        >
-          Analyzing Call Data{dots}
-        </h1>
-        
-        <div className="flex justify-center space-x-2">
-          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
-          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
-        </div>
+        {!showDealSizeQuestion ? (
+          // Phase 1: Analyzing (first 2 seconds)
+          <>
+            <h1 
+              className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
+              data-testid="text-analyzing"
+            >
+              Analyzing Call Data{dots}
+            </h1>
+            
+            <div className="flex justify-center space-x-2">
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+            </div>
 
-        <p className="text-lg font-extralight text-[#6B7280] tracking-wide">
-          {getStatusText()}
-        </p>
-
-        {!isReady && !analyzeMutation.isPending && (
+            <p className="text-lg font-extralight text-[#6B7280] tracking-wide">
+              {getStatusText()}
+            </p>
+          </>
+        ) : !analyzeMutation.isPending ? (
+          // Phase 2: Ask the question (after analyzing message fades)
           <div 
-            className="animate-in fade-in slide-in-from-bottom-2 duration-700 pt-12"
+            className="animate-in fade-in duration-700 space-y-8"
             data-testid="panel-deal-size"
           >
-            <p className="text-base font-extralight text-[#9CA3AF] tracking-wide mb-6">
-              One last thing. What's your average sale?
-            </p>
+            <h1 
+              className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
+              data-testid="text-question"
+            >
+              What's your average sale?
+            </h1>
 
-            <div className="flex items-center justify-center space-x-2 mb-6">
-              <span className="text-2xl font-thin text-white/60">$</span>
+            <div className="flex items-center justify-center space-x-2">
+              <span className="text-3xl font-thin text-white/60">$</span>
               <input
                 type="text"
                 value={dealSize}
                 onChange={handleDealSizeChange}
-                className="w-24 px-4 py-2 bg-transparent border-b-2 border-white/20 text-2xl font-thin text-white text-center focus:outline-none focus:border-white/60 transition-colors duration-300"
+                className="w-32 px-4 py-3 bg-transparent border-b-2 border-white/30 text-3xl font-thin text-white text-center focus:outline-none focus:border-white transition-colors duration-300"
                 placeholder="350"
                 data-testid="input-deal-size"
+                autoFocus
               />
             </div>
 
             <button
               onClick={handleLooksGood}
-              className="text-sm font-light text-white/60 hover:text-white tracking-wide transition-colors duration-300"
+              className="group relative inline-flex items-center justify-center px-10 py-4 text-base font-light text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
               data-testid="button-looks-good"
             >
-              Looks good →
+              <span className="relative z-10 tracking-wide">Looks good</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </button>
           </div>
+        ) : (
+          // Phase 3: Crunching numbers
+          <>
+            <h1 
+              className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
+              data-testid="text-analyzing"
+            >
+              Analyzing{dots}
+            </h1>
+            
+            <div className="flex justify-center space-x-2">
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+            </div>
+
+            <p className="text-lg font-extralight text-[#6B7280] tracking-wide">
+              Crunching the numbers...
+            </p>
+          </>
         )}
       </div>
     </div>
