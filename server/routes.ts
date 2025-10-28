@@ -18,13 +18,10 @@ function formatCurrency(amount: number): string {
 }
 
 // Mock data generator for realistic phone system metrics
-function generateMockDiagnostic(provider: PhoneProvider): DiagnosticResult {
+function generateMockDiagnostic(provider: PhoneProvider, avgRevenuePerCall: number = 350): DiagnosticResult {
   // Steve Jobs simplicity: just count missed opportunities
   const missedCalls = Math.floor(Math.random() * 50) + 30; // 30-80 missed calls
   const afterHoursCalls = Math.floor(Math.random() * Math.min(missedCalls, 30)) + 10; // Subset of missed calls
-  
-  // Average revenue per call for home services (plumbing, HVAC, electrical)
-  const avgRevenuePerCall = Math.floor(Math.random() * 200) + 250; // $250-$450 per call
   
   const totalMissedOpportunities = missedCalls;
   const totalLoss = totalMissedOpportunities * avgRevenuePerCall;
@@ -51,21 +48,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/diagnostic/analyze", async (req, res) => {
     try {
       const validatedData = analyzeDiagnosticRequestSchema.parse(req.body);
+      const avgDealSize = req.body.avgDealSize || 350; // Use custom deal size or default
       
       let diagnosticResult: DiagnosticResult;
 
       // Try to fetch real data for RingCentral if connected
       if (validatedData.provider === "RingCentral") {
-        const realData = await fetchRingCentralAnalytics();
+        const realData = await fetchRingCentralAnalytics(avgDealSize);
         if (realData) {
           diagnosticResult = realData;
         } else {
           // Fall back to mock data if not connected
-          diagnosticResult = generateMockDiagnostic(validatedData.provider);
+          diagnosticResult = generateMockDiagnostic(validatedData.provider, avgDealSize);
         }
       } else {
         // Use mock data for other providers
-        diagnosticResult = generateMockDiagnostic(validatedData.provider);
+        diagnosticResult = generateMockDiagnostic(validatedData.provider, avgDealSize);
       }
       
       // Save to database

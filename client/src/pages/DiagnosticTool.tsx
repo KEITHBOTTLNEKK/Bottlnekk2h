@@ -12,12 +12,20 @@ export default function DiagnosticTool() {
   const getInitialStep = (): DiagnosticStep => {
     const params = new URLSearchParams(window.location.search);
     const connected = params.get("connected");
-    // If OAuth callback detected, start at connect screen for auto-progression
-    return connected ? "connect" : "welcome";
+    // If OAuth callback detected, go straight to analysis
+    return connected ? "analysis" : "welcome";
+  };
+
+  const getInitialProvider = (): PhoneProvider | null => {
+    const params = new URLSearchParams(window.location.search);
+    const connected = params.get("connected");
+    // If OAuth callback with provider, set it
+    if (connected === "ringcentral") return "RingCentral";
+    return null;
   };
 
   const [currentStep, setCurrentStep] = useState<DiagnosticStep>(getInitialStep);
-  const [selectedProvider, setSelectedProvider] = useState<PhoneProvider | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState<PhoneProvider | null>(getInitialProvider);
   const [diagnosticResult, setDiagnosticResult] = useState<DiagnosticResult | null>(null);
 
   const handleStart = () => {

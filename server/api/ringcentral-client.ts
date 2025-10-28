@@ -62,7 +62,7 @@ async function refreshTokenIfNeeded(connection: any): Promise<string> {
 }
 
 // Fetch call analytics from RingCentral
-export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | null> {
+export async function fetchRingCentralAnalytics(avgRevenuePerCall: number = 350): Promise<DiagnosticResult | null> {
   try {
     // Get OAuth connection
     const connection = await db.query.oauthConnections.findFirst({
@@ -148,8 +148,7 @@ export async function fetchRingCentralAnalytics(): Promise<DiagnosticResult | nu
       }
     }
 
-    // Estimate average revenue per call (industry standard for home services)
-    const avgRevenuePerCall = 350;
+    // Use the provided average revenue per call
 
     // Clean calculation: every missed call = lost revenue
     const totalMissedOpportunities = missedCalls;

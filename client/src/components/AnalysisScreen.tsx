@@ -10,9 +10,11 @@ interface AnalysisScreenProps {
 
 export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenProps) {
   const [dots, setDots] = useState("");
+  const [dealSize, setDealSize] = useState("350");
+  const [isReady, setIsReady] = useState(false);
 
   const analyzeMutation = useMutation({
-    mutationFn: async (data: AnalyzeDiagnosticRequest) => {
+    mutationFn: async (data: AnalyzeDiagnosticRequest & { avgDealSize?: number }) => {
       const response = await apiRequest("POST", "/api/diagnostic/analyze", data);
       const result = await response.json() as DiagnosticResult;
       return result;
@@ -29,12 +31,19 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
       setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
     }, 400);
 
-    if (!analyzeMutation.isError && !analyzeMutation.isSuccess && !analyzeMutation.isPending) {
-      analyzeMutation.mutate({ provider });
-    }
-
     return () => clearInterval(dotInterval);
-  }, [provider]);
+  }, []);
+
+  const handleLooksGood = () => {
+    setIsReady(true);
+    const avgDealSize = parseInt(dealSize) || 350;
+    analyzeMutation.mutate({ provider, avgDealSize });
+  };
+
+  const handleDealSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^0-9]/g, "");
+    setDealSize(value);
+  };
 
   const handleRetry = () => {
     analyzeMutation.reset();
@@ -79,35 +88,80 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
     );
   }
 
+  const isOAuthCallback = () => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("connected") === "ringcentral";
+  };
+
   const getStatusText = () => {
     if (analyzeMutation.isSuccess) {
       return "Processing complete...";
     }
     if (analyzeMutation.isPending) {
-      return `Connecting to ${provider}`;
+      return "Crunching the numbers...";
     }
-    return "Initializing...";
+    if (isOAuthCallback()) {
+      return `Connected to ${provider}. Analyzing your data...`;
+    }
+    return "Analyzing your data...";
   };
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
-      <div className="text-center space-y-8">
-        <h1 
-          className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
-          data-testid="text-analyzing"
-        >
-          Analyzing Call Data{dots}
-        </h1>
-        
-        <div className="flex justify-center space-x-2">
-          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
-          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-          <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+      <div className="text-center space-y-12 max-w-xl mx-auto">
+        <div className="space-y-6">
+          <h1 
+            className="text-4xl sm:text-5xl lg:text-6xl font-thin text-white tracking-tight"
+            data-testid="text-analyzing"
+          >
+            {isReady ? `Analyzing${dots}` : "Almost there"}
+          </h1>
+          
+          <div className="flex justify-center space-x-2">
+            <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+            <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+            <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+          </div>
+
+          <p className="text-lg font-extralight text-[#6B7280] tracking-wide">
+            {getStatusText()}
+          </p>
         </div>
 
-        <p className="text-lg font-extralight text-[#6B7280] tracking-wide">
-          {getStatusText()}
-        </p>
+        {!isReady && !analyzeMutation.isPending && (
+          <div 
+            className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6 pt-8"
+            data-testid="panel-deal-size"
+          >
+            <p className="text-xl font-light text-white tracking-wide">
+              One quick thing.
+            </p>
+            <p className="text-lg font-extralight text-[#9CA3AF] tracking-wide">
+              What's your average sale?
+            </p>
+
+            <div className="flex items-center justify-center space-x-3">
+              <span className="text-3xl font-thin text-white">$</span>
+              <input
+                type="text"
+                value={dealSize}
+                onChange={handleDealSizeChange}
+                className="w-32 px-6 py-3 bg-white/5 border-2 border-white/20 rounded-lg text-3xl font-thin text-white text-center focus:outline-none focus:border-white transition-colors duration-300"
+                placeholder="350"
+                data-testid="input-deal-size"
+              />
+            </div>
+
+            <button
+              onClick={handleLooksGood}
+              className="group relative inline-flex items-center justify-center px-10 py-4 text-base font-light text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+              data-testid="button-looks-good"
+            >
+              <span className="relative z-10 tracking-wide">Looks good</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -12,6 +12,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+**October 27, 2025** - OAuth Flow Perfection & Interactive Deal Size
+- **Seamless OAuth**: After RingCentral OAuth, users now skip home screen and go straight to Analysis (no extra clicks)
+- **Steve Jobs Moment**: While analyzing, ask "One quick thing. What's your average sale?" with editable $350 field
+- Turn waiting time into productive interaction - collect deal size while crunching numbers
+- Users click "Looks good" button to proceed with their custom deal size
+- Custom deal size used in real-time calculation instead of hardcoded $350
+- Message shows: "Connected to RingCentral. Analyzing your data..." after OAuth
+
 **October 27, 2025** - Steve Jobs Simplification & Timezone Fix
 - **Critical Design Decision**: Removed "abandoned calls" metric entirely following Steve Jobs philosophy of radical simplification
 - Business owner insight: A missed opportunity is a missed opportunity - no need for technical categories
@@ -70,7 +78,7 @@ Preferred communication style: Simple, everyday language.
 **Key Components**
 - `WelcomeScreen`: Dramatic landing with headline and CTA
 - `ConnectScreen`: Grid of phone provider cards (RingCentral, Vonage, Nextiva, 8x8, Zoom Phone) with OAuth connection capability
-- `AnalysisScreen`: Loading state with animated dots and mutation lifecycle management
+- `AnalysisScreen`: **Interactive loading screen** - Shows "Connected to [provider]" message + deal size input ("What's your average sale?") while analyzing. User enters custom deal size, clicks "Looks good" to proceed
 - `ResultsScreen`: Large animated counter with breakdown metrics + booking form modal with client-side validation
 - `useCounter` hook: Custom animation hook implementing easeOutExpo easing
 
@@ -161,11 +169,16 @@ DiagnosticResult: {
 
 1. **Welcome Screen**: User sees dramatic "How much are you losing?" headline
 2. **Provider Selection**: User selects their phone system provider (no login/email required)
-3. **Analysis**: System analyzes call data with loading animation (500-1000ms)
-4. **Results**: Large animated counter reveals total monthly losses with breakdown
-5. **Booking**: User clicks "Reclaim Your Revenue" to open booking form
-6. **Contact Collection**: Form collects name, email, phone, company (optional) to book a call
-7. **Confirmation**: Success message displays for 3.5 seconds, then returns to Results screen
+3. **OAuth (if RingCentral)**: User clicks "Connect RingCentral" → completes OAuth → **skips back to home, goes straight to Analysis**
+4. **Interactive Analysis**: 
+   - Shows "Connected to RingCentral. Analyzing your data..."
+   - Asks "One quick thing. What's your average sale?" 
+   - User edits deal size (default $350) and clicks "Looks good"
+   - System uses custom deal size for calculation
+5. **Results**: Large animated counter reveals total monthly losses with breakdown (using their custom deal size)
+6. **Booking**: User clicks "Reclaim Your Revenue" to open booking form
+7. **Contact Collection**: Form collects name, email, phone, company (optional) to book a call
+8. **Confirmation**: Success message displays for 3.5 seconds, then returns to Results screen
 
 ## Testing & Quality
 
