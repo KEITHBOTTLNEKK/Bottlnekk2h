@@ -8,13 +8,13 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
       <div className="max-w-4xl w-full text-center space-y-12">
         <div className="space-y-6">
           <h1 
-            className="text-[3.75rem] md:text-[6rem] font-thin text-white tracking-tight leading-none"
+            className="text-welcome-sm md:text-welcome-lg font-thin text-white tracking-tight leading-none"
             data-testid="heading-welcome"
           >
             How much are you losing?
           </h1>
           <p 
-            className="text-[1.25rem] md:text-[1.5rem] font-light text-[#9CA3AF] tracking-wide"
+            className="text-subtext-sm md:text-subtext-lg font-light text-[#9CA3AF] tracking-wide"
             data-testid="text-subheading"
           >
             Every missed call is lost revenue.
@@ -24,7 +24,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         <div className="pt-8">
           <button
             onClick={onStart}
-            className="group relative inline-flex items-center justify-center px-12 py-5 text-[1.125rem] font-semibold text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+            className="group relative inline-flex items-center justify-center px-12 py-5 text-button font-semibold text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
             data-testid="button-start"
           >
             <span className="relative z-10 tracking-wide">Show Me The Number</span>

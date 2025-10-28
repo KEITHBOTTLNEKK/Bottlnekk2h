@@ -98,13 +98,13 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
         {/* Header */}
         <div className="text-center space-y-6">
           <h1 
-            className="text-[3rem] font-thin text-white tracking-tight"
+            className="text-connect font-thin text-white tracking-tight"
             data-testid="heading-connect"
           >
             Which phone system do you use?
           </h1>
           <p 
-            className="text-[1.25rem] font-light text-[#9CA3AF] tracking-wide max-w-2xl mx-auto"
+            className="text-subtext-sm font-light text-[#9CA3AF] tracking-wide max-w-2xl mx-auto"
             data-testid="text-connect-subheading"
           >
             Connect securely to analyze your call data
@@ -126,7 +126,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
               </div>
               
               {/* Name */}
-              <h2 className="text-[1.125rem] font-medium text-white tracking-wide">
+              <h2 className="text-button font-medium text-white tracking-wide">
                 RingCentral
               </h2>
               
@@ -163,7 +163,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
               </div>
               
               {/* Name */}
-              <h2 className="text-[1.125rem] font-medium text-white tracking-wide">
+              <h2 className="text-button font-medium text-white tracking-wide">
                 Zoom Phone
               </h2>
               
@@ -190,7 +190,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
 
         {/* Footer */}
         <div className="text-center">
-          <p className="text-[0.875rem] font-light text-[#6B7280] tracking-wide">
+          <p className="text-small font-light text-[#6B7280] tracking-wide">
             Your data is encrypted and secure
           </p>
         </div>

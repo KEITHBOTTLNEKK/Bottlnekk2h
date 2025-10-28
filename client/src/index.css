@@ -139,6 +139,5 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    border: 5px solid red; /* CACHE TEST - DELETE THIS AFTER CONFIRMING */
   }
 }

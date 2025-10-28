@@ -5,6 +5,19 @@ export default {
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontSize: {
+        'welcome-sm': '3.75rem',    // 60px
+        'welcome-lg': '6rem',       // 96px
+        'connect': '3rem',          // 48px
+        'input-deal': '2.25rem',    // 36px
+        'analysis': '1.5rem',       // 24px
+        'results-sm': '8rem',       // 128px
+        'results-lg': '10rem',      // 160px
+        'subtext-sm': '1.25rem',    // 20px
+        'subtext-lg': '1.5rem',     // 24px
+        'button': '1.125rem',       // 18px
+        'small': '0.875rem',        // 14px
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
