@@ -12,6 +12,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+**October 28, 2025** - Zoom Phone OAuth Integration Complete
+- **Full OAuth Implementation**: Added complete Zoom Phone OAuth flow (login, callback, disconnect, status endpoints)
+- **API Client**: Implemented fetchZoomPhoneAnalytics() to fetch real Zoom call history and calculate missed/after-hours calls
+- **Frontend Integration**: ConnectScreen now detects Zoom connection status and initiates OAuth when needed
+- **Seamless Flow**: After Zoom OAuth success, shows checkmark → "One more thing..." → deal size question → analysis
+- **Custom Deal Size**: Zoom analytics use user's custom avgDealSize (default $1000) instead of hardcoded value
+- **Configuration Required**: Zoom OAuth redirect URI must be registered in Zoom app settings (standard OAuth requirement)
+- **Testing**: End-to-end test verified complete flow works with mock data when OAuth not configured
+- **Consistency**: Follows identical pattern to RingCentral OAuth implementation for maintainability
+
 **October 27, 2025** - OAuth Flow Perfection & Interactive Deal Size
 - **Success Moment**: After OAuth, show checkmark animation with "Connected" message (1.5s)
 - **Seamless Transition**: Fade from success moment into deal size question
@@ -120,9 +130,11 @@ Preferred communication style: Simple, everyday language.
 
 **Phone System Integrations**
 - Designed to connect with top 5 enterprise VOIP providers: RingCentral, Vonage, Nextiva, 8x8, Zoom Phone
-- RingCentral OAuth fully functional with real call analytics data
-- Other providers currently use mock data (OAuth implementation pending)
+- **RingCentral OAuth**: Fully functional with real call analytics data
+- **Zoom Phone OAuth**: Fully implemented (requires redirect URI registration in Zoom app settings)
+- **Other Providers**: Vonage, Nextiva, 8x8 currently use mock data (OAuth implementation pending)
 - Schema supports provider-specific data structures through type-safe enums
+- OAuth redirect URI setup required for production use (must match deployment URL)
 
 **Email Service**
 - Resend integration configured for transactional emails
@@ -169,7 +181,7 @@ DiagnosticResult: {
 
 1. **Welcome Screen**: User sees dramatic "How much are you losing?" headline
 2. **Provider Selection**: User selects their phone system provider (no login/email required)
-3. **OAuth (if RingCentral)**: User clicks "Connect RingCentral" → completes OAuth → **straight to Analysis screen**
+3. **OAuth (if RingCentral or Zoom Phone)**: User clicks "Connect [Provider]" → completes OAuth → **straight to Analysis screen**
 4. **Success Moment**: Shows checkmark with "Connected" (1.5 seconds)
 5. **Deal Size Question**: 
    - Smooth fade to: "What's a customer worth to you?"
