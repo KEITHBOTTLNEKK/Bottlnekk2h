@@ -192,7 +192,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
 
         {/* Footer */}
         <div className="text-center">
-          <p className="font-light text-[#6B7280] tracking-wide" style={{ fontSize: '0.875rem' }}>
+          <p className="font-semibold text-[#6B7280] tracking-wide" style={{ fontSize: '0.875rem' }}>
             Your data is encrypted and secure
           </p>
         </div>
