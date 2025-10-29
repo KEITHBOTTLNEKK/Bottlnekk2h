@@ -67,9 +67,11 @@ function formatCallbackTime(minutes: number | null): string {
 }
 
 function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult): string {
-  const callbackTime = formatCallbackTime(diagnostic.avgCallbackTimeMinutes);
-  const answerRate = diagnostic.totalInboundCalls > 0 
-    ? Math.round((diagnostic.acceptedCalls / diagnostic.totalInboundCalls) * 100)
+  const callbackTime = formatCallbackTime(diagnostic.avgCallbackTimeMinutes ?? null);
+  const totalInbound = diagnostic.totalInboundCalls ?? 0;
+  const accepted = diagnostic.acceptedCalls ?? 0;
+  const answerRate = totalInbound > 0 
+    ? Math.round((accepted / totalInbound) * 100)
     : 0;
   
   // Potential revenue recovery: 35% of missed calls could be recovered
@@ -133,7 +135,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
     <div class="metric">
       <div class="metric-label">Missed Calls</div>
       <div class="metric-value">${diagnostic.missedCalls}</div>
-      <div class="metric-unit">of ${diagnostic.totalInboundCalls} total</div>
+      <div class="metric-unit">of ${totalInbound} total</div>
     </div>
 
     <div class="metric">
@@ -145,7 +147,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
     <div class="metric">
       <div class="metric-label">Answer Rate</div>
       <div class="metric-value">${answerRate}%</div>
-      <div class="metric-unit">${diagnostic.acceptedCalls} calls answered</div>
+      <div class="metric-unit">${accepted} calls answered</div>
     </div>
 
     <div class="metric">
@@ -177,9 +179,11 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
 }
 
 function createSalesEmailText(booking: BookingData, diagnostic: DiagnosticResult): string {
-  const callbackTime = formatCallbackTime(diagnostic.avgCallbackTimeMinutes);
-  const answerRate = diagnostic.totalInboundCalls > 0 
-    ? Math.round((diagnostic.acceptedCalls / diagnostic.totalInboundCalls) * 100)
+  const callbackTime = formatCallbackTime(diagnostic.avgCallbackTimeMinutes ?? null);
+  const totalInbound = diagnostic.totalInboundCalls ?? 0;
+  const accepted = diagnostic.acceptedCalls ?? 0;
+  const answerRate = totalInbound > 0 
+    ? Math.round((accepted / totalInbound) * 100)
     : 0;
   
   // Potential revenue recovery: 35% of missed calls could be recovered
@@ -208,13 +212,13 @@ TOTAL REVENUE LOSS: $${diagnostic.totalLoss.toLocaleString()}
 In unanswered calls
 
 MISSED CALLS: ${diagnostic.missedCalls}
-Of ${diagnostic.totalInboundCalls} total inbound calls
+Of ${totalInbound} total inbound calls
 
 AFTER-HOURS CALLS: ${diagnostic.afterHoursCalls}
 Outside business hours (8am-6pm ET, Mon-Fri)
 
 ANSWER RATE: ${answerRate}%
-${diagnostic.acceptedCalls} calls answered
+${accepted} calls answered
 
 AVG CUSTOMER VALUE: $${diagnostic.avgRevenuePerCall}
 Per call

@@ -18,9 +18,9 @@ export const diagnosticResults = pgTable("diagnostic_results", {
   totalMissedOpportunities: integer("total_missed_opportunities").notNull(),
   month: text("month").notNull(),
   businessEmail: text("business_email"),
-  // Sales intelligence metrics
-  totalInboundCalls: integer("total_inbound_calls").notNull(),
-  acceptedCalls: integer("accepted_calls").notNull(),
+  // Sales intelligence metrics (optional for backwards compatibility)
+  totalInboundCalls: integer("total_inbound_calls"),
+  acceptedCalls: integer("accepted_calls"),
   avgCallbackTimeMinutes: integer("avg_callback_time_minutes"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -48,10 +48,10 @@ export const diagnosticResultSchema = z.object({
   totalMissedOpportunities: z.number(),
   provider: z.enum(phoneProviders),
   month: z.string(),
-  // Sales intelligence metrics
-  totalInboundCalls: z.number(),
-  acceptedCalls: z.number(),
-  avgCallbackTimeMinutes: z.number().nullable(),
+  // Sales intelligence metrics (optional for backwards compatibility)
+  totalInboundCalls: z.number().optional().default(0),
+  acceptedCalls: z.number().optional().default(0),
+  avgCallbackTimeMinutes: z.number().nullable().optional(),
 });
 
 export type DiagnosticResult = z.infer<typeof diagnosticResultSchema>;
