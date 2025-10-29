@@ -81,13 +81,13 @@ export async function generateDiagnosticPDF(
       doc.fontSize(12).fillColor('#1a1a1a').font('Helvetica-Bold');
       doc.text(`${companyName} • ${industry}`, 310, 161, { width: 250 });
 
-      // HERO RECOVERY
-      doc.rect(40, 185, 532, 85).lineWidth(2).fillAndStroke('#e8f5e9', '#4caf50');
-      doc.fontSize(11).fillColor('#2e7d32').font('Helvetica-Bold');
+      // HERO RECOVERY (Bottlnekk Green)
+      doc.rect(40, 185, 532, 85).lineWidth(2).fillAndStroke('#e6f9f2', '#00C97B');
+      doc.fontSize(11).fillColor('#00A565').font('Helvetica-Bold');
       doc.text('POTENTIAL REVENUE RECOVERY', 50, 195, { width: 512, align: 'center' });
-      doc.fontSize(40).fillColor('#1b5e20').font('Helvetica-Bold');
+      doc.fontSize(40).fillColor('#008558').font('Helvetica-Bold');
       doc.text(`$${potentialRecovery.toLocaleString()}`, 50, 215, { width: 512, align: 'center' });
-      doc.fontSize(11).fillColor('#2e7d32').font('Helvetica');
+      doc.fontSize(11).fillColor('#00A565').font('Helvetica');
       doc.text('Estimated from missed inbound opportunities', 50, 253, { width: 512, align: 'center' });
 
       // POTENTIAL BUDGET (Internal Use Only)
