@@ -6,6 +6,14 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
+### Brand Color Finalization (October 29, 2025 - Evening)
+- **Bottlnekk Green (#00C97B)**: Finalized signature accent color for brand recall and visual distinction
+- **Strategic Choice**: Green = growth/revenue/recovery symbolism without generic finance associations
+- **Minimalist Application**: Used sparingly on pure black background for maximum impact (Steve Jobs core aesthetic)
+- **Accent Usage**: CTA buttons, hourglass glow, input focus states, hover effects, recovery metrics, and status indicators
+- **Cross-Platform Consistency**: Green implemented in frontend (all screens), PDF reports, email templates, and admin dashboard
+- **Color Palette**: Primary `#00C97B`, darker shade `#008558`, lighter shade `#00A565`, background tint `#e6f9f2`
+
 ### Sales Intelligence Enhancements
 - **Potential Budget Metric**: Added internal sales metric (answered calls × deal size × 30%) with prominent "(Internal Use Only - Never Mention to Client)" warning in both PDF and email
 - **Formula Protection**: Removed all calculation formulas from sales intelligence reports - competitive moat protected by showing only final numbers and their meaning
@@ -80,7 +88,9 @@ The core analytics logic calculates missed calls (unanswered inbound calls) and 
 
 ### UI/UX Decisions
 
-The application boasts a dramatic, high-contrast black minimalist design inspired by Apple. It uses the ultra-thin Inter typography for a premium aesthetic. Key design elements include large, animated counters for impact, consistent Apple-style white outline buttons, and a focus on radical simplification by presenting only essential metrics (missed calls and after-hours calls). The user flow is designed for seamless transitions, including a clear success moment after OAuth and an interactive deal size question before analysis.
+The application boasts a dramatic, high-contrast black minimalist design inspired by Apple. It uses the ultra-thin Inter typography for a premium aesthetic paired with Bottlnekk green (#00C97B) as the signature accent color. Key design elements include large, animated counters for impact, consistent green-accented CTA buttons with hover fill effects, and a focus on radical simplification by presenting only essential metrics (missed calls and after-hours calls). The user flow is designed for seamless transitions, including a clear success moment after OAuth and an interactive deal size question before analysis.
+
+**Bottlnekk Branding**: Logo (hourglass icon + wordmark) appears top-left with subtle green glow effect. Clicking the logo restarts the diagnostic flow. Green accents used strategically for CTAs, recovery metrics, connection status, and focus states throughout the application.
 
 ## External Dependencies
 
