@@ -52,7 +52,7 @@ export function LandingPage() {
       <Branding accentColor={BOTTLNEKK_GREEN} />
       
       {/* Tagline Section - Top of page */}
-      <section className="pt-32 pb-8 px-4">
+      <section className="pt-32 pb-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <div 
             className="text-lg sm:text-xl font-semibold tracking-wide inline-flex items-center justify-center gap-2"
