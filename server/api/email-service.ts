@@ -258,8 +258,12 @@ export async function sendSalesIntelligenceEmail(
     });
 
     if (error) {
-      console.error('Failed to send sales email:', error);
-      throw new Error('Failed to send sales email');
+      console.error('❌ Resend API error:', {
+        name: error.name,
+        message: error.message,
+        statusCode: (error as any).statusCode,
+      });
+      throw new Error(`Failed to send sales email: ${error.message}`);
     }
 
     console.log('✅ Sales intelligence email sent successfully:', data?.id);
