@@ -52,7 +52,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             </p>
           </div>
 
-          <div className="w-full bg-white/5 rounded-xl overflow-hidden" style={{ minHeight: '800px' }}>
+          <div className="w-full">
             <iframe 
               src="https://api.leadconnectorhq.com/widget/bookings/reclaim-your-revenue"
               className="w-full border-0"
