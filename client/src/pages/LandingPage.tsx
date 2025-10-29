@@ -55,7 +55,7 @@ export function LandingPage() {
       <section className="pt-32 pb-8 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <div 
-            className="text-2xl sm:text-3xl font-semibold tracking-wide inline-flex items-center justify-center gap-3"
+            className="text-lg sm:text-xl font-semibold tracking-wide inline-flex items-center justify-center gap-2"
             data-testid="text-tagline"
           >
             <span className="text-white">Behind Every</span>
@@ -67,7 +67,7 @@ export function LandingPage() {
               <img 
                 src={logoIcon}
                 alt="Bottlnekk Icon" 
-                className="h-10 w-10 sm:h-12 sm:w-12 relative z-10 inline-block"
+                className="h-8 w-8 sm:h-9 sm:w-9 relative z-10 inline-block"
                 style={{ filter: 'brightness(0) invert(1)' }}
               />
             </div>

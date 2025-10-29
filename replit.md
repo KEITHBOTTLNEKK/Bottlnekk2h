@@ -8,10 +8,10 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ### Steve Jobs Minimalist Refinements (October 29, 2025 - Final)
 - **Horizontal Tagline**: "Behind Every [icon] Bottlnekk Lives Freedom" displayed inline with constrained width (max-w-3xl)
+- **Smaller, Bold Tagline**: Reduced to text-lg/xl (was text-2xl/3xl) while maintaining font-semibold and font-bold for impact
 - **Tighter Spacing**: Tagline brought closer to hero section (pb-8 instead of pb-16) for unified visual flow
 - **Actual Logo Integration**: Uses real hourglass logo asset (same logo from top-left branding)
-- **Logo Styling**: White hourglass icon (h-10 to h-12) with green glow effect (#00C97B), integrated inline
-- **Bold Typography**: Tagline uses font-semibold for overall weight, with "Bottlnekk" in font-bold for maximum impact
+- **Logo Styling**: White hourglass icon (h-8 to h-9) with green glow effect (#00C97B), integrated inline
 - **Hero Decluttered**: Removed three trust badges (Free Analysis, 60 Second Setup, No Credit Card) - hero now shows only headline + CTA
 - **Improved Hero Spacing**: Generous space-y-16 between headline and subheadline, with extra pt-8 padding above CTA button for clean vertical rhythm
 - **Larger Headline**: Hero headline increased to text-6xl/7xl/8xl (was text-5xl/6xl/7xl) with updated amount to $10,000+ for stronger impact
