@@ -63,12 +63,12 @@ export async function generateDiagnosticPDF(
       doc.fillColor('#ffffff')
          .fontSize(22)
          .font('Helvetica-Bold')
-         .text('Revenue Recovery Intelligence Report', 50, 30, { align: 'center' });
+         .text('Revenue Recovery Intelligence Report', 50, 30, { width: doc.page.width - 100, align: 'center' });
       
       doc.fontSize(10)
          .font('Helvetica')
          .fillColor('#cccccc')
-         .text(new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }), 50, 58, { align: 'center' });
+         .text(new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }), 50, 58, { width: doc.page.width - 100, align: 'center' });
 
       let y = 100;
 
@@ -134,17 +134,17 @@ export async function generateDiagnosticPDF(
       doc.fontSize(9)
          .fillColor('#2e7d32')
          .font('Helvetica-Bold')
-         .text('POTENTIAL REVENUE RECOVERY', 50, y + 12, { align: 'center' });
+         .text('POTENTIAL REVENUE RECOVERY', 50, y + 12, { width: doc.page.width - 100, align: 'center' });
 
       doc.fontSize(36)
          .fillColor('#1b5e20')
          .font('Helvetica-Bold')
-         .text(`$${potentialRecovery.toLocaleString()}`, 50, y + 28, { align: 'center' });
+         .text(`$${potentialRecovery.toLocaleString()}`, 50, y + 28, { width: doc.page.width - 100, align: 'center' });
 
       doc.fontSize(9)
          .fillColor('#2e7d32')
          .font('Helvetica')
-         .text('60% conversion rate for hot inbound leads', 50, y + 65, { align: 'center' });
+         .text('60% conversion rate for hot inbound leads', 50, y + 65, { width: doc.page.width - 100, align: 'center' });
 
       y += 88;
 
@@ -233,14 +233,8 @@ export async function generateDiagnosticPDF(
 
         doc.fontSize(8)
            .fillColor('#3e2723')
-           .font('Helvetica-Bold')
-           .text(`${diagnostic.afterHoursCalls} calls (${afterHoursPercentage}%)`, 60, y + 24, { continued: true })
            .font('Helvetica')
-           .text(` after hours = `, { continued: true })
-           .font('Helvetica-Bold')
-           .text(`$${afterHoursRevenue.toLocaleString()}`, { continued: true })
-           .font('Helvetica')
-           .text(` opportunity for extended coverage.`, { width: doc.page.width - 120 });
+           .text(`${diagnostic.afterHoursCalls} calls (${afterHoursPercentage}%) after hours = $${afterHoursRevenue.toLocaleString()} opportunity for extended coverage.`, 60, y + 24, { width: doc.page.width - 120 });
 
         y += 58;
       }
@@ -251,16 +245,16 @@ export async function generateDiagnosticPDF(
       doc.fontSize(9)
          .fillColor('#000000')
          .font('Helvetica-Bold')
-         .text('Revenue Leak Diagnostic Tool', 50, footerY, { align: 'center' });
+         .text('Revenue Leak Diagnostic Tool', 50, footerY, { width: doc.page.width - 100, align: 'center' });
 
       doc.fontSize(8)
          .fillColor('#666666')
          .font('Helvetica')
-         .text(`${diagnostic.provider} • 30-day analysis`, 50, footerY + 14, { align: 'center' });
+         .text(`${diagnostic.provider} • 30-day analysis`, 50, footerY + 14, { width: doc.page.width - 100, align: 'center' });
 
       doc.fontSize(7)
          .fillColor('#999999')
-         .text('Revenue recovery opportunity analysis', 50, footerY + 28, { align: 'center' });
+         .text('Revenue recovery opportunity analysis', 50, footerY + 28, { width: doc.page.width - 100, align: 'center' });
 
       doc.end();
     } catch (error) {
