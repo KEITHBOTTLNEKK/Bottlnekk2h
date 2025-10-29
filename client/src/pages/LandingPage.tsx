@@ -53,28 +53,26 @@ export function LandingPage() {
       
       {/* Tagline Section - Top of page */}
       <section className="pt-32 pb-16 px-4">
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center">
           <div 
-            className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-wider opacity-90 inline-block"
+            className="text-2xl sm:text-3xl font-semibold tracking-wide inline-flex items-center justify-center gap-3"
             data-testid="text-tagline"
           >
-            <div className="text-white/80 mb-3">Behind Every</div>
-            <div className="flex justify-center mb-3">
-              <div className="relative">
-                <div 
-                  className="absolute inset-0 rounded-full blur-md opacity-30"
-                  style={{ backgroundColor: BOTTLNEKK_GREEN }}
-                />
-                <img 
-                  src={logoIcon}
-                  alt="Bottlnekk Icon" 
-                  className="h-12 w-12 sm:h-16 sm:w-16 relative z-10"
-                  style={{ filter: 'brightness(0) invert(1)' }}
-                />
-              </div>
+            <span className="text-white">Behind Every</span>
+            <div className="relative inline-block">
+              <div 
+                className="absolute inset-0 rounded-full blur-md opacity-30"
+                style={{ backgroundColor: BOTTLNEKK_GREEN }}
+              />
+              <img 
+                src={logoIcon}
+                alt="Bottlnekk Icon" 
+                className="h-10 w-10 sm:h-12 sm:w-12 relative z-10 inline-block"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
             </div>
-            <div className="font-normal mb-3" style={{ color: BOTTLNEKK_GREEN }}>Bottlnekk</div>
-            <div className="text-white/80">Lives Freedom</div>
+            <span className="font-bold" style={{ color: BOTTLNEKK_GREEN }}>Bottlnekk</span>
+            <span className="text-white">Lives Freedom</span>
           </div>
         </div>
       </section>
