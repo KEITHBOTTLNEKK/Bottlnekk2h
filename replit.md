@@ -14,6 +14,7 @@ A premium, Apple-inspired web application designed for home service businesses (
 - **Logo Styling**: White hourglass icon (h-8 to h-9) with green glow effect (#00C97B), integrated inline
 - **Hero Decluttered**: Removed three trust badges (Free Analysis, 60 Second Setup, No Credit Card) - hero now shows only headline + CTA
 - **Improved Hero Spacing**: Generous space-y-16 between headline and subheadline, with extra pt-8 padding above CTA button for clean vertical rhythm
+- **Full-Screen Hero**: Hero section expanded to min-h-screen (was min-h-[70vh]) so "Proven Results" section requires scroll
 - **Larger Headline**: Hero headline increased to text-6xl/7xl/8xl (was text-5xl/6xl/7xl) with updated amount to $10,000+ for stronger impact
 - **Case Studies Reduced**: Only 2 impactful stories shown (Tire Boss: 97% reduction + 30% sales increase, Call Centre: 81% reduction + 3X efficiency) for focused credibility
 - **Revenue Numbers Visible**: Both testimonials show clear revenue growth ($50K→$65K, $120K→$180K monthly) for financial proof

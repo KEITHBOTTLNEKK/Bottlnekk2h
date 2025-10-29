@@ -61,7 +61,7 @@ export function LandingPage() {
       </section>
       
       {/* Hero Section */}
-      <section className="min-h-[70vh] flex items-center justify-center px-4 pb-20">
+      <section className="min-h-screen flex items-center justify-center px-4 pb-20">
         <div className="max-w-5xl w-full text-center space-y-16">
           {/* Main Headline */}
           <h1 
@@ -235,7 +235,7 @@ export function LandingPage() {
             Join hundreds of businesses recovering thousands in lost revenue
           </p>
 
-          <div className="pt-8">
+          <div className="pt-4">
             <Link href="/diagnostic">
               <CTAButton data-testid="button-final-cta">
                 Run Your Free Diagnostic Now
