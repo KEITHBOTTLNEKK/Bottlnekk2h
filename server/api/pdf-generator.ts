@@ -95,12 +95,26 @@ export async function generateDiagnosticPDF(
       doc.fontSize(9).fillColor('#37474f').font('Courier');
       doc.text(`${diagnostic.missedCalls} calls x $${diagnostic.avgRevenuePerCall} x 60% = $${potentialRecovery.toLocaleString()}`, 50, 261, { width: 512 });
 
+      // AFTER-HOURS OPPORTUNITY (if applicable)
+      let afterHoursBoxHeight = 0;
+      if (diagnostic.afterHoursCalls > 0) {
+        afterHoursBoxHeight = 52;
+        doc.rect(40, 288, 532, afterHoursBoxHeight).fillAndStroke('#fff9e6', '#ff9800');
+        doc.fontSize(9).fillColor('#e65100').font('Helvetica-Bold');
+        doc.text('AFTER-HOURS OPPORTUNITY', 50, 295, { width: 512 });
+        doc.fontSize(8).fillColor('#3e2723').font('Helvetica');
+        doc.text(`${diagnostic.afterHoursCalls} of the ${diagnostic.missedCalls} missed calls came after business hours (nights/weekends) = $${afterHoursRevenue.toLocaleString()} opportunity.`, 50, 308, { width: 512 });
+        doc.fontSize(8).fillColor('#e65100').font('Helvetica-Bold');
+        doc.text(`AI answering service works 24/7 and books appointments regardless of time or day.`, 50, 322, { width: 512 });
+      }
+
       // ANALYTICS HEADER
+      const analyticsY = 288 + afterHoursBoxHeight + 10;
       doc.fontSize(12).fillColor('#1a1a1a').font('Helvetica-Bold');
-      doc.text('30-Day Call Analytics', 50, 290, { width: 512 });
-      doc.moveTo(50, 305).lineTo(562, 305).lineWidth(1).stroke('#e0e0e0');
+      doc.text('30-Day Call Analytics', 50, analyticsY, { width: 512 });
+      doc.moveTo(50, analyticsY + 15).lineTo(562, analyticsY + 15).lineWidth(1).stroke('#e0e0e0');
       doc.fontSize(8).fillColor('#666666').font('Helvetica');
-      doc.text(`${diagnostic.provider} • ${diagnostic.month}`, 50, 308, { width: 512 });
+      doc.text(`${diagnostic.provider} • ${diagnostic.month}`, 50, analyticsY + 18, { width: 512 });
 
       // METRICS GRID (3x2)
       const metrics = [
@@ -112,7 +126,7 @@ export async function generateDiagnosticPDF(
         { label: 'CALLBACK', value: callbackTime, unit: 'response' },
       ];
 
-      const startY = 325;
+      const startY = analyticsY + 35;
       for (let i = 0; i < 6; i++) {
         const row = Math.floor(i / 3);
         const col = i % 3;
@@ -126,15 +140,6 @@ export async function generateDiagnosticPDF(
         doc.text(metrics[i].value, x + 5, y + 17, { width: 154, align: 'center' });
         doc.fontSize(7).fillColor('#666666').font('Helvetica');
         doc.text(metrics[i].unit, x + 5, y + 35, { width: 154, align: 'center' });
-      }
-
-      // AFTER-HOURS INSIGHT
-      if (diagnostic.afterHoursCalls > 0) {
-        doc.rect(40, 435, 532, 42).fillAndStroke('#fff9e6', '#ff9800');
-        doc.fontSize(9).fillColor('#e65100').font('Helvetica-Bold');
-        doc.text('AFTER-HOURS INSIGHT', 50, 442, { width: 512 });
-        doc.fontSize(8).fillColor('#3e2723').font('Helvetica');
-        doc.text(`${diagnostic.afterHoursCalls} calls (${afterHoursPercentage}%) after hours = $${afterHoursRevenue.toLocaleString()} opportunity for extended coverage.`, 50, 456, { width: 512 });
       }
 
       // FOOTER
