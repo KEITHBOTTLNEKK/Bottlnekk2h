@@ -54,7 +54,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
           <div className="w-full">
             <iframe 
-              src="https://api.leadconnectorhq.com/widget/bookings/reclaim-your-revenue"
+              src="https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak"
               className="w-full border-0"
               style={{ height: '800px', minHeight: '800px' }}
               id="ghl-booking-widget"
