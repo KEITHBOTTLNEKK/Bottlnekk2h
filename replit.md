@@ -6,8 +6,16 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
+### Professional PDF Reports & Email Redesign
+- **PDF Generation**: Implemented PDFKit-based PDF report generator (pure JavaScript, no browser dependencies)
+- **Professional PDF Design**: Multi-page report with branded header, lead info grid, hero recovery metric, calculation breakdown, 6-metric analytics dashboard, after-hours insight box, and professional footer
+- **Email Format Improvements**: Redesigned HTML email with modern card layout, gradient headers, 3-column stats grid, and prominent PDF attachment callout
+- **Revenue Clarity**: Updated calculation display to clearly show "35% conversion rate" formula in both email and PDF
+- **Smart Attachments**: PDFs automatically attached to sales intelligence emails with descriptive filenames (Revenue-Recovery-Report-{Name}.pdf)
+- **Subject Line**: Changed from total loss to actionable recovery opportunity ($X,XXX Recovery Opportunity)
+
 ### Diagnostic Matching System
-- **Unique Diagnostic Tracking**: Each analysis now returns a unique `diagnosticId` that tracks through the entire booking flow
+- **Unique Diagnostic Tracking**: Each analysis returns a unique `diagnosticId` that tracks through the entire booking flow
 - **Efficient Lookup**: Webhook uses `storage.getDiagnostic(id)` for O(1) database lookup instead of linear scanning
 - **URL Parameter Passing**: Diagnostic ID appended to GHL calendar URL (`?diagnosticId=XYZ`) and captured via webhook
 - **Graceful Fallback**: System falls back to most recent diagnostic if ID missing/invalid, with comprehensive logging
@@ -56,10 +64,13 @@ The application boasts a dramatic, high-contrast black minimalist design inspire
 
 **Email Service**
 - Resend: Configured for transactional emails via Replit connector integration. Uses default sender (`onboarding@resend.dev`) when domain not verified.
-- Sales Intelligence Emails: Automatically sent to SALES_EMAIL when users book calls, includes contact info, revenue recovery metrics (35% conversion rate), answer rate, callback time, and after-hours insights.
+- Sales Intelligence Emails: Automatically sent to SALES_EMAIL when users book calls with professional PDF report attached
+- Email Format: Modern HTML design with contact grid, hero recovery metric, quick stats overview, and after-hours insights
+- PDF Reports: Professional multi-page reports generated with PDFKit including branded header, complete analytics dashboard, calculation breakdowns, and actionable insights
+- Revenue Recovery Calculation: Clearly displays "missed_calls × avg_revenue_per_call × 35% conversion = recoverable_revenue" in both email and PDF
 - Diagnostic Matching: Each booking matched to exact diagnostic via unique `diagnosticId` passed through GHL calendar URL
-- User Experience Protection: All sales fields are optional - backend email failures never break the user diagnostic flow.
-- Observability: Webhook returns `emailSent` and `emailError` fields; all failures logged as CRITICAL with full context.
+- User Experience Protection: All sales fields are optional - backend email failures never break the user diagnostic flow
+- Observability: Webhook returns `emailSent` and `emailError` fields; all failures logged as CRITICAL with full context
 
 **UI Libraries**
 - Radix UI: Primitives for accessible components.
