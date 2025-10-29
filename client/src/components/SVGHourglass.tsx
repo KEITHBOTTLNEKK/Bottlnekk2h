@@ -4,9 +4,9 @@ export function SVGHourglass() {
   return (
     <div className="hourglass-container">
       <svg
-        width="140"
-        height="200"
-        viewBox="0 0 140 200"
+        width="120"
+        height="180"
+        viewBox="0 0 120 180"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="hourglass-svg"
@@ -20,119 +20,143 @@ export function SVGHourglass() {
             <stop offset="100%" stopColor={BOTTLNEKK_GREEN} stopOpacity="1" />
           </linearGradient>
 
-          {/* Clip paths for sand levels */}
-          <clipPath id="topSandClip">
-            <rect x="20" y="20" width="100" height="60" className="top-sand-clip" />
-          </clipPath>
-
-          <clipPath id="bottomSandClip">
-            <rect x="20" y="140" width="100" height="0" className="bottom-sand-clip" />
-          </clipPath>
+          {/* Pattern for vertical stripes in sand */}
+          <pattern id="sandStripes" patternUnits="userSpaceOnUse" width="10" height="100">
+            <rect x="0" y="0" width="5" height="100" fill={BOTTLNEKK_GREEN} />
+            <rect x="5" y="0" width="5" height="100" fill="#000" />
+          </pattern>
         </defs>
 
-        {/* Top stand */}
-        <rect x="5" y="5" width="130" height="12" rx="6" fill="#1a1a1a" stroke="white" strokeWidth="1.5" opacity="0.9" />
+        {/* Top stand with decorative notches */}
+        <g className="top-stand">
+          <rect x="2" y="2" width="116" height="8" rx="4" fill="#1a1a1a" stroke="white" strokeWidth="2" />
+          <rect x="8" y="10" width="12" height="4" rx="2" fill="#1a1a1a" stroke="white" strokeWidth="1.5" />
+          <rect x="100" y="10" width="12" height="4" rx="2" fill="#1a1a1a" stroke="white" strokeWidth="1.5" />
+        </g>
 
         {/* Top bulb outline */}
         <path
-          d="M 20 22 L 20 60 Q 20 80 40 92 L 60 100 L 80 92 Q 100 80 100 60 L 100 22 Z"
+          d="M 20 18 L 20 55 Q 20 72 35 82 L 52 90 L 68 82 Q 83 72 83 55 L 83 18 Z"
           fill="white"
           fillOpacity="0.05"
           stroke="white"
-          strokeWidth="2"
-          opacity="0.8"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
 
-        {/* Top sand with horizontal stripes */}
-        <g clipPath="url(#topSandClip)" className="top-sand-group">
-          {/* Sand background */}
+        {/* Top sand with vertical stripes */}
+        <g className="top-sand-group">
+          <clipPath id="topSandClip">
+            <rect x="23" y="20" width="57" height="50" className="top-sand-level" />
+          </clipPath>
+          
+          {/* Sand background with stripe pattern */}
           <path
-            d="M 25 28 L 25 60 Q 25 78 43 88 L 60 95 L 77 88 Q 95 78 95 60 L 95 28 Z"
-            fill="url(#sandGradient)"
+            d="M 23 25 L 23 55 Q 23 68 36 77 L 51.5 85 L 67 77 Q 80 68 80 55 L 80 25 Z"
+            fill="url(#sandStripes)"
+            clipPath="url(#topSandClip)"
           />
           
-          {/* Horizontal stripes in top sand */}
-          <g opacity="0.4">
-            <line x1="30" y1="35" x2="90" y2="35" stroke="#000" strokeWidth="2" />
-            <line x1="32" y1="45" x2="88" y2="45" stroke="#000" strokeWidth="2" />
-            <line x1="35" y1="55" x2="85" y2="55" stroke="#000" strokeWidth="2" />
-            <line x1="38" y1="65" x2="82" y2="65" stroke="#000" strokeWidth="2" />
-            <line x1="42" y1="75" x2="78" y2="75" stroke="#000" strokeWidth="2" />
-            <line x1="48" y1="82" x2="72" y2="82" stroke="#000" strokeWidth="2" />
+          {/* Diagonal bars creating the triangle pattern */}
+          <g clipPath="url(#topSandClip)">
+            <rect x="35" y="68" width="4" height="20" fill={BOTTLNEKK_GREEN} transform="rotate(-70 37 78)" />
+            <rect x="42" y="68" width="4" height="24" fill={BOTTLNEKK_GREEN} transform="rotate(-70 44 80)" />
+            <rect x="49" y="68" width="4" height="28" fill={BOTTLNEKK_GREEN} transform="rotate(-70 51 82)" />
+            <rect x="56" y="68" width="4" height="24" fill={BOTTLNEKK_GREEN} transform="rotate(-70 58 80)" />
+            <rect x="63" y="68" width="4" height="20" fill={BOTTLNEKK_GREEN} transform="rotate(-70 65 78)" />
           </g>
         </g>
 
         {/* Neck - widens during animation */}
         <g className="neck-group">
+          <line x1="51.5" y1="90" x2="51.5" y2="98" stroke="white" strokeWidth="2" opacity="0.3" />
           <path
-            d="M 58 100 L 50 110 L 70 110 L 62 100 Z"
-            fill="url(#sandGradient)"
-            opacity="0.95"
+            d="M 50 90 L 48 98 L 55 98 L 53 90 Z"
+            fill={BOTTLNEKK_GREEN}
+            opacity="0.9"
           />
         </g>
 
-        {/* Crack at bottom of top bulb - ALWAYS VISIBLE */}
+        {/* Crack - zigzag pattern at neck */}
         <g className="crack-group">
-          {/* Crack outline */}
           <path
-            d="M 58 98 L 56 102 M 58 98 L 60 101 M 60 101 L 62 103"
+            d="M 49 98 L 47 101 L 49 104 L 47 107"
             stroke="white"
             strokeWidth="2"
             strokeLinecap="round"
+            strokeLinejoin="round"
             className="crack-outline"
-            opacity="0.6"
+            fill="none"
           />
           
           {/* Flow through crack */}
           <line
-            x1="60"
+            x1="48"
             y1="98"
-            x2="60"
+            x2="48"
             y2="110"
             stroke={BOTTLNEKK_GREEN}
-            strokeWidth="1"
+            strokeWidth="1.5"
             strokeLinecap="round"
             className="crack-flow"
-            opacity="0.7"
           />
         </g>
 
         {/* Bottom bulb outline */}
         <path
-          d="M 20 178 L 20 140 Q 20 120 40 108 L 60 100 L 80 108 Q 100 120 100 140 L 100 178 Z"
+          d="M 20 162 L 20 125 Q 20 108 35 98 L 52 90 L 68 98 Q 83 108 83 125 L 83 162 Z"
           fill="white"
           fillOpacity="0.05"
           stroke="white"
-          strokeWidth="2"
-          opacity="0.8"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
 
-        {/* Bottom sand with horizontal stripes */}
-        <g clipPath="url(#bottomSandClip)" className="bottom-sand-group">
-          {/* Sand background */}
+        {/* Wavy notch on left side of bottom bulb */}
+        <path
+          d="M 20 135 Q 15 137 15 140 Q 15 143 20 145"
+          fill="white"
+          fillOpacity="0.1"
+          stroke="white"
+          strokeWidth="2"
+        />
+
+        {/* Bottom sand with vertical stripes */}
+        <g className="bottom-sand-group">
+          <clipPath id="bottomSandClip">
+            <rect x="23" y="110" width="57" height="0" className="bottom-sand-level" />
+          </clipPath>
+          
+          {/* Sand background with stripe pattern */}
           <path
-            d="M 25 172 L 25 140 Q 25 122 43 112 L 60 105 L 77 112 Q 95 122 95 140 L 95 172 Z"
-            fill="url(#sandGradient)"
+            d="M 23 155 L 23 125 Q 23 112 36 103 L 51.5 95 L 67 103 Q 80 112 80 125 L 80 155 Z"
+            fill="url(#sandStripes)"
+            clipPath="url(#bottomSandClip)"
           />
           
-          {/* Horizontal stripes in bottom sand */}
-          <g opacity="0.4">
-            <line x1="48" y1="118" x2="72" y2="118" stroke="#000" strokeWidth="2" />
-            <line x1="42" y1="125" x2="78" y2="125" stroke="#000" strokeWidth="2" />
-            <line x1="38" y1="135" x2="82" y2="135" stroke="#000" strokeWidth="2" />
-            <line x1="35" y1="145" x2="85" y2="145" stroke="#000" strokeWidth="2" />
-            <line x1="32" y1="155" x2="88" y2="155" stroke="#000" strokeWidth="2" />
-            <line x1="30" y1="165" x2="90" y2="165" stroke="#000" strokeWidth="2" />
+          {/* Diagonal bars creating triangle pattern */}
+          <g clipPath="url(#bottomSandClip)">
+            <rect x="35" y="102" width="4" height="20" fill={BOTTLNEKK_GREEN} transform="rotate(70 37 102)" />
+            <rect x="42" y="100" width="4" height="24" fill={BOTTLNEKK_GREEN} transform="rotate(70 44 100)" />
+            <rect x="49" y="98" width="4" height="28" fill={BOTTLNEKK_GREEN} transform="rotate(70 51 98)" />
+            <rect x="56" y="100" width="4" height="24" fill={BOTTLNEKK_GREEN} transform="rotate(70 58 100)" />
+            <rect x="63" y="102" width="4" height="20" fill={BOTTLNEKK_GREEN} transform="rotate(70 65 102)" />
           </g>
         </g>
 
-        {/* Bottom stand */}
-        <rect x="5" y="183" width="130" height="12" rx="6" fill="#1a1a1a" stroke="white" strokeWidth="1.5" opacity="0.9" />
+        {/* Bottom stand with decorative notches */}
+        <g className="bottom-stand">
+          <rect x="8" y="166" width="12" height="4" rx="2" fill="#1a1a1a" stroke="white" strokeWidth="1.5" />
+          <rect x="100" y="166" width="12" height="4" rx="2" fill="#1a1a1a" stroke="white" strokeWidth="1.5" />
+          <rect x="2" y="170" width="116" height="8" rx="4" fill="#1a1a1a" stroke="white" strokeWidth="2" />
+        </g>
 
         {/* Falling particles */}
-        <circle cx="60" cy="102" r="1.5" fill={BOTTLNEKK_GREEN} className="particle-1" opacity="0" />
-        <circle cx="58" cy="105" r="1.2" fill={BOTTLNEKK_GREEN} className="particle-2" opacity="0" />
-        <circle cx="62" cy="107" r="1.3" fill={BOTTLNEKK_GREEN} className="particle-3" opacity="0" />
+        <circle cx="51.5" cy="92" r="1.5" fill={BOTTLNEKK_GREEN} className="particle-1" opacity="0" />
+        <circle cx="49" cy="95" r="1.2" fill={BOTTLNEKK_GREEN} className="particle-2" opacity="0" />
+        <circle cx="54" cy="97" r="1.3" fill={BOTTLNEKK_GREEN} className="particle-3" opacity="0" />
       </svg>
 
       <p 
@@ -165,45 +189,41 @@ export function SVGHourglass() {
           margin: 0;
         }
 
-        /* Animation Phases:
-           0-30%: Initial leak (narrow neck, dripping)
-           30-50%: Neck widens (bottleneck opening)
-           50-100%: Controlled flow (crack becomes channel, steady stream)
-        */
+        /* Animation: 6s transformation from leak to controlled flow */
 
-        /* Top sand empties */
-        .top-sand-clip {
+        /* Top sand level decreases */
+        .top-sand-level {
           animation: emptySand 6s ease-in-out forwards;
         }
 
         @keyframes emptySand {
           0% {
-            height: 60px;
+            height: 50px;
             y: 20;
           }
           50%, 100% {
-            height: 25px;
-            y: 55;
+            height: 20px;
+            y: 50;
           }
         }
 
-        /* Bottom sand fills */
-        .bottom-sand-clip {
+        /* Bottom sand level increases */
+        .bottom-sand-level {
           animation: fillSand 6s ease-in-out forwards;
         }
 
         @keyframes fillSand {
           0% {
             height: 0px;
-            y: 140;
+            y: 110;
           }
           50%, 100% {
-            height: 35px;
-            y: 105;
+            height: 45px;
+            y: 65;
           }
         }
 
-        /* Neck widens and stays wide */
+        /* Neck widens */
         .neck-group {
           transform-origin: center;
           animation: widenNeck 6s ease-in-out forwards;
@@ -214,54 +234,51 @@ export function SVGHourglass() {
             transform: scaleX(1);
           }
           35%, 100% {
-            transform: scaleX(2.5);
+            transform: scaleX(2.8);
           }
         }
 
-        /* Crack flow: drip → stream → steady controlled flow */
+        /* Crack flow transforms */
         .crack-flow {
           animation: transformFlow 6s ease-in-out forwards;
         }
 
         @keyframes transformFlow {
-          /* Phase 1: Leak (dripping) */
           0%, 25% {
-            stroke-width: 1;
+            stroke-width: 1.5;
             opacity: 0.4;
             stroke-dasharray: 2, 3;
           }
-          /* Phase 2: Opening (stream forming) */
           30% {
-            stroke-width: 3;
+            stroke-width: 3.5;
             opacity: 0.7;
             stroke-dasharray: 4, 1;
           }
-          /* Phase 3: Controlled flow (stays steady) */
           40%, 100% {
-            stroke-width: 5;
+            stroke-width: 6;
             opacity: 1;
             stroke-dasharray: 0, 0;
           }
         }
 
-        /* Crack outline glows */
+        /* Crack outline glows green */
         .crack-outline {
           animation: pulseCrack 6s ease-in-out forwards;
         }
 
         @keyframes pulseCrack {
           0%, 25% {
-            opacity: 0.6;
             stroke: white;
+            opacity: 0.6;
           }
           40%, 100% {
-            opacity: 1;
             stroke: ${BOTTLNEKK_GREEN};
+            opacity: 1;
             filter: drop-shadow(0 0 8px ${BOTTLNEKK_GREEN});
           }
         }
 
-        /* Gentle pulsing glow after transformation */
+        /* Gentle glow after transformation */
         .hourglass-svg {
           animation: gentleGlow 3s ease-in-out 6s infinite;
         }
@@ -275,7 +292,7 @@ export function SVGHourglass() {
           }
         }
 
-        /* Particles fall */
+        /* Falling particles */
         .particle-1 {
           animation: fallParticle1 2s ease-in infinite;
         }
@@ -290,63 +307,63 @@ export function SVGHourglass() {
 
         @keyframes fallParticle1 {
           0% {
-            cy: 102;
+            cy: 92;
             opacity: 0;
           }
           15% {
-            opacity: 0.8;
+            opacity: 0.9;
           }
           85% {
-            cy: 145;
+            cy: 140;
             opacity: 0.6;
           }
           100% {
-            cy: 148;
+            cy: 145;
             opacity: 0;
           }
         }
 
         @keyframes fallParticle2 {
           0% {
-            cy: 105;
+            cy: 95;
             opacity: 0;
           }
           15% {
-            opacity: 0.7;
+            opacity: 0.8;
           }
           85% {
-            cy: 145;
+            cy: 140;
             opacity: 0.5;
           }
           100% {
-            cy: 148;
+            cy: 145;
             opacity: 0;
           }
         }
 
         @keyframes fallParticle3 {
           0% {
-            cy: 107;
+            cy: 97;
             opacity: 0;
           }
           15% {
-            opacity: 0.7;
+            opacity: 0.8;
           }
           85% {
-            cy: 145;
+            cy: 140;
             opacity: 0.5;
           }
           100% {
-            cy: 148;
+            cy: 145;
             opacity: 0;
           }
         }
 
-        /* Accessibility: Reduced motion - show controlled flow state */
+        /* Accessibility: Reduced motion */
         @media (prefers-reduced-motion: reduce) {
           .hourglass-svg,
-          .top-sand-clip,
-          .bottom-sand-clip,
+          .top-sand-level,
+          .bottom-sand-level,
           .neck-group,
           .crack-flow,
           .crack-outline,
@@ -356,30 +373,29 @@ export function SVGHourglass() {
             animation: none !important;
           }
 
-          /* Static state: controlled flow achieved */
+          /* Show controlled flow state */
           .neck-group {
-            transform: scaleX(2.5);
+            transform: scaleX(2.8);
           }
 
           .crack-flow {
-            stroke-width: 5;
+            stroke-width: 6;
             opacity: 1;
-            stroke-dasharray: 0, 0;
           }
 
           .crack-outline {
-            opacity: 1;
             stroke: ${BOTTLNEKK_GREEN};
+            opacity: 1;
           }
 
-          .top-sand-clip {
-            height: 25px;
-            y: 55;
+          .top-sand-level {
+            height: 20px;
+            y: 50;
           }
 
-          .bottom-sand-clip {
-            height: 35px;
-            y: 105;
+          .bottom-sand-level {
+            height: 45px;
+            y: 65;
           }
 
           .hourglass-svg {
