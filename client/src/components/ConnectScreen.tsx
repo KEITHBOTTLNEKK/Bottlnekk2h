@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import ringCentralLogo from "@assets/image_1761697572364.png";
 
 interface ConnectScreenProps {
   onProviderSelect: (provider: "RingCentral" | "Zoom Phone") => void;
@@ -123,12 +124,12 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
           >
             <div className="flex flex-col items-center justify-center space-y-6">
               {/* RingCentral Logo */}
-              <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300 overflow-hidden">
-                <svg viewBox="0 0 100 100" className="w-12 h-12 opacity-85 group-hover:opacity-100 transition-opacity duration-300">
-                  <rect x="10" y="10" width="80" height="80" rx="15" fill="none" stroke="white" strokeWidth="4"/>
-                  <path d="M30 35 L30 65 M30 35 L45 35 Q50 35 50 40 Q50 45 45 45 L35 45 M45 45 L55 65" 
-                    stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                </svg>
+              <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300 p-3 bg-white/5">
+                <img 
+                  src={ringCentralLogo} 
+                  alt="RingCentral" 
+                  className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                />
               </div>
               
               {/* Name */}
@@ -164,11 +165,13 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
           >
             <div className="flex flex-col items-center justify-center space-y-6">
               {/* Zoom Logo */}
-              <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300 overflow-hidden">
-                <svg viewBox="0 0 100 100" className="w-12 h-12 opacity-85 group-hover:opacity-100 transition-opacity duration-300">
-                  <rect x="15" y="15" width="70" height="70" rx="12" fill="none" stroke="white" strokeWidth="4"/>
-                  <path d="M30 40 L60 40 L30 60 L60 60" 
-                    stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300 p-3 bg-white/5">
+                <svg viewBox="0 0 100 100" className="w-full h-full opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                  <rect x="10" y="10" width="80" height="80" rx="12" fill="#2D8CFF"/>
+                  <g fill="white">
+                    <path d="M30 35 L60 35 L45 50 L60 50 L30 65 Z"/>
+                    <circle cx="70" cy="35" r="5"/>
+                  </g>
                 </svg>
               </div>
               
