@@ -51,37 +51,37 @@ export function LandingPage() {
     <div className="min-h-screen bg-black text-white">
       <Branding accentColor={BOTTLNEKK_GREEN} />
       
-      {/* Combined Tagline + Hero Section */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-4 py-20">
-        <div className="max-w-5xl w-full text-center space-y-16">
-          
-          {/* Tagline - Vertical Stack */}
+      {/* Tagline Section - Top of page */}
+      <section className="pt-32 pb-8 px-4">
+        <div className="max-w-3xl mx-auto text-center">
           <div 
-            className="text-2xl sm:text-3xl font-semibold tracking-wide space-y-4"
+            className="text-2xl sm:text-3xl font-semibold tracking-wide inline-flex items-center justify-center gap-3"
             data-testid="text-tagline"
           >
-            <div className="text-white">Behind Every</div>
-            <div className="flex justify-center">
-              <div className="relative">
-                <div 
-                  className="absolute inset-0 rounded-full blur-md opacity-30"
-                  style={{ backgroundColor: BOTTLNEKK_GREEN }}
-                />
-                <img 
-                  src={logoIcon}
-                  alt="Bottlnekk Icon" 
-                  className="h-14 w-14 sm:h-16 sm:w-16 relative z-10"
-                  style={{ filter: 'brightness(0) invert(1)' }}
-                />
-              </div>
+            <span className="text-white">Behind Every</span>
+            <div className="relative inline-block">
+              <div 
+                className="absolute inset-0 rounded-full blur-md opacity-30"
+                style={{ backgroundColor: BOTTLNEKK_GREEN }}
+              />
+              <img 
+                src={logoIcon}
+                alt="Bottlnekk Icon" 
+                className="h-10 w-10 sm:h-12 sm:w-12 relative z-10 inline-block"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
             </div>
-            <div className="font-bold" style={{ color: BOTTLNEKK_GREEN }}>Bottlnekk</div>
-            <div className="text-white">Lives Freedom</div>
+            <span className="font-bold" style={{ color: BOTTLNEKK_GREEN }}>Bottlnekk</span>
+            <span className="text-white">Lives Freedom</span>
           </div>
-
-          {/* Hero Content */}
-          <div className="space-y-10">
-            {/* Main Headline */}
+        </div>
+      </section>
+      
+      {/* Hero Section */}
+      <section className="min-h-[70vh] flex items-center justify-center px-4 pb-20">
+        <div className="max-w-5xl w-full text-center space-y-12">
+          {/* Main Headline */}
+          <div className="space-y-6">
             <h1 
               className="text-5xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-tight"
               data-testid="text-hero-headline"
@@ -94,25 +94,21 @@ export function LandingPage() {
               Every Month to Missed Calls
             </h1>
             
-            {/* Subheadline */}
             <p 
               className="text-xl sm:text-2xl font-light text-white/70 tracking-wide max-w-3xl mx-auto"
               data-testid="text-hero-subhead"
             >
               See exactly how much revenue is leaking through your phone system in 60 seconds
             </p>
-
-            {/* CTA Button */}
-            <div className="pt-4">
-              <Link href="/diagnostic">
-                <CTAButton data-testid="button-hero-cta">
-                  Show Me My Revenue Leak
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </CTAButton>
-              </Link>
-            </div>
           </div>
 
+          {/* CTA Button */}
+          <Link href="/diagnostic">
+            <CTAButton data-testid="button-hero-cta">
+              Show Me My Revenue Leak
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </CTAButton>
+          </Link>
         </div>
       </section>
 

@@ -7,12 +7,11 @@ A premium, Apple-inspired web application designed for home service businesses (
 ## Recent Changes (October 29, 2025)
 
 ### Steve Jobs Minimalist Refinements (October 29, 2025 - Final)
-- **Vertical Tagline Layout**: Tagline stacked vertically (Behind Every / Icon / Bottlnekk / Lives Freedom) with space-y-4 between lines
-- **Unified Section**: Tagline and hero combined into single centered section with space-y-16 between major blocks
+- **Horizontal Tagline**: "Behind Every [icon] Bottlnekk Lives Freedom" displayed inline with constrained width (max-w-3xl)
+- **Tighter Spacing**: Tagline brought closer to hero section (pb-8 instead of pb-16) for unified visual flow
 - **Actual Logo Integration**: Uses real hourglass logo asset (same logo from top-left branding)
-- **Logo Styling**: White hourglass icon (h-14 to h-16) with green glow effect (#00C97B), centered in layout
+- **Logo Styling**: White hourglass icon (h-10 to h-12) with green glow effect (#00C97B), integrated inline
 - **Bold Typography**: Tagline uses font-semibold for overall weight, with "Bottlnekk" in font-bold for maximum impact
-- **Refined Spacing**: space-y-10 between hero headline, subheadline, and CTA button for clean vertical rhythm
 - **Hero Decluttered**: Removed three trust badges (Free Analysis, 60 Second Setup, No Credit Card) - hero now shows only headline + CTA
 - **Case Studies - Impact Focus**: Removed all monthly pricing ($499, $800, $999) and replaced with outcome metrics:
   - MedSpa: "15% Booking Rate Increase" + "2X ROAS" (was $499/month)
