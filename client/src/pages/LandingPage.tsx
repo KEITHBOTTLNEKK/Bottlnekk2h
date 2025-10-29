@@ -20,8 +20,8 @@ export function LandingPage() {
     {
       company: "MedSpa",
       industry: "Healthcare",
-      metric1: "$499",
-      metric1Label: "Monthly Investment",
+      metric1: "15%",
+      metric1Label: "Booking Rate Increase",
       metric2: "2X",
       metric2Label: "Return on Ad Spend",
       quote: "Instant engagement with leads transformed our booking rate and customer satisfaction."
@@ -29,19 +29,19 @@ export function LandingPage() {
     {
       company: "Real Estate Brokerage",
       industry: "Real Estate",
-      metric1: "$800",
-      metric1Label: "Monthly Investment",
-      metric2: "Fast",
-      metric2Label: "Speed to Lead",
+      metric1: "< 2 min",
+      metric1Label: "Speed to Lead",
+      metric2: "100%",
+      metric2Label: "Lead Follow-Up Rate",
       quote: "No more missed opportunities. Every lead gets immediate attention and proper follow-up."
     },
     {
       company: "Call Centre",
       industry: "Customer Service",
-      metric1: "$999",
-      metric1Label: "Monthly Investment",
-      metric2: "81%",
-      metric2Label: "Reduction in Response Time",
+      metric1: "81%",
+      metric1Label: "Reduction in Response Time",
+      metric2: "3X",
+      metric2Label: "Team Efficiency Gain",
       quote: "Automated scheduling and follow-up freed up our team to focus on high-value conversations."
     }
   ];
@@ -50,8 +50,30 @@ export function LandingPage() {
     <div className="min-h-screen bg-black text-white">
       <Branding accentColor={BOTTLNEKK_GREEN} />
       
+      {/* Tagline Section - Top of page */}
+      <section className="pt-32 pb-16 px-4">
+        <div className="max-w-5xl mx-auto text-center">
+          <div 
+            className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-wider inline-flex items-center justify-center gap-3 opacity-90"
+            style={{ color: BOTTLNEKK_GREEN }}
+            data-testid="text-tagline"
+          >
+            <span className="text-white/80">Behind Every</span>
+            <svg width="32" height="48" viewBox="0 0 140 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block">
+              <rect x="5" y="5" width="130" height="12" rx="6" fill="#1a1a1a" stroke="white" strokeWidth="3"/>
+              <path d="M 25 25 L 25 70 Q 25 85 40 95 L 65 105 L 75 105 L 100 95 Q 115 85 115 70 L 115 25 Z" fill="none" stroke="white" strokeWidth="4"/>
+              <rect x="67" y="105" width="6" height="18" fill={BOTTLNEKK_GREEN}/>
+              <path d="M 25 175 L 25 130 Q 25 115 40 105 L 65 95 L 75 95 L 100 105 Q 115 115 115 130 L 115 175 Z" fill="none" stroke="white" strokeWidth="4"/>
+              <rect x="5" y="183" width="130" height="12" rx="6" fill="#1a1a1a" stroke="white" strokeWidth="3"/>
+            </svg>
+            <span className="font-normal">Bottlnekk</span>
+            <span className="text-white/80">Lives Freedom</span>
+          </div>
+        </div>
+      </section>
+      
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-4 py-20">
+      <section className="min-h-[70vh] flex items-center justify-center px-4 pb-20">
         <div className="max-w-5xl w-full text-center space-y-12">
           {/* Main Headline */}
           <div className="space-y-6">
@@ -75,15 +97,6 @@ export function LandingPage() {
             </p>
           </div>
 
-          {/* Tagline */}
-          <div 
-            className="text-2xl sm:text-3xl font-light tracking-wider opacity-80"
-            style={{ color: BOTTLNEKK_GREEN }}
-            data-testid="text-tagline"
-          >
-            Behind Every Bottlnekk Is Freedom
-          </div>
-
           {/* CTA Button */}
           <Link href="/diagnostic">
             <CTAButton data-testid="button-hero-cta">
@@ -91,22 +104,6 @@ export function LandingPage() {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </CTAButton>
           </Link>
-
-          {/* Trust Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-8 pt-8 text-sm text-white/50">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4" style={{ color: BOTTLNEKK_GREEN }} />
-              Free Analysis
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4" style={{ color: BOTTLNEKK_GREEN }} />
-              60 Second Setup
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4" style={{ color: BOTTLNEKK_GREEN }} />
-              No Credit Card
-            </div>
-          </div>
         </div>
       </section>
 
