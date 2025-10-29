@@ -9,7 +9,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         <div className="space-y-6">
           <h1 
             className="font-thin text-white leading-none"
-            style={{ fontSize: 'clamp(4rem, 8vw, 8rem)', letterSpacing: '0.02em', fontWeight: '200' }}
+            style={{ fontSize: 'clamp(3.5rem, 7vw, 6.5rem)', letterSpacing: '0.02em', fontWeight: '200' }}
             data-testid="heading-welcome"
           >
             How much are you losing?
