@@ -16,8 +16,16 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
   const analyzeMutation = useMutation({
     mutationFn: async (data: AnalyzeDiagnosticRequest & { avgDealSize?: number }) => {
+      const startTime = Date.now();
       const response = await apiRequest("POST", "/api/diagnostic/analyze", data);
       const result = await response.json() as DiagnosticResult;
+      
+      // Ensure minimum 2 seconds of analysis time
+      const elapsed = Date.now() - startTime;
+      if (elapsed < 2000) {
+        await new Promise(resolve => setTimeout(resolve, 2000 - elapsed));
+      }
+      
       return result;
     },
     onSuccess: (data) => {
@@ -186,7 +194,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
               style={{ fontSize: '1.5rem' }}
               data-testid="text-analyzing"
             >
-              Analyzing Call Data{dots}
+              Analyzing Call Data
             </h1>
             
             <div className="flex justify-center space-x-2">
