@@ -179,12 +179,22 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
             </button>
           </div>
         ) : analyzeMutation.isPending ? (
-          // Phase 2: Actually analyzing with their number - just show loading dots
-          <div className="flex justify-center space-x-2">
-            <div className="w-3 h-3 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
-            <div className="w-3 h-3 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-            <div className="w-3 h-3 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
-          </div>
+          // Phase 2: Actually analyzing with their number
+          <>
+            <h1 
+              className="font-light text-white tracking-tight"
+              style={{ fontSize: '1.5rem' }}
+              data-testid="text-analyzing"
+            >
+              Analyzing Call Data{dots}
+            </h1>
+            
+            <div className="flex justify-center space-x-2">
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+            </div>
+          </>
         ) : (
           // Fallback loading state (prevents black screen)
           <h1 className="font-light text-white tracking-tight" style={{ fontSize: '1.5rem' }}>
