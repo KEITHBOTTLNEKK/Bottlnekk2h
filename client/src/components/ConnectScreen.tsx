@@ -98,13 +98,15 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
         {/* Header */}
         <div className="text-center space-y-6">
           <h1 
-            className="text-connect font-thin text-white tracking-tight"
+            className="font-thin text-white tracking-tight"
+            style={{ fontSize: '3rem' }}
             data-testid="heading-connect"
           >
             Which phone system do you use?
           </h1>
           <p 
-            className="text-subtext-sm font-light text-[#9CA3AF] tracking-wide max-w-2xl mx-auto"
+            className="font-light text-[#9CA3AF] tracking-wide max-w-2xl mx-auto"
+            style={{ fontSize: '1.25rem' }}
             data-testid="text-connect-subheading"
           >
             Connect securely to analyze your call data
@@ -126,7 +128,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
               </div>
               
               {/* Name */}
-              <h2 className="text-button font-medium text-white tracking-wide">
+              <h2 className="font-medium text-white tracking-wide" style={{ fontSize: '1.125rem' }}>
                 RingCentral
               </h2>
               
@@ -163,7 +165,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
               </div>
               
               {/* Name */}
-              <h2 className="text-button font-medium text-white tracking-wide">
+              <h2 className="font-medium text-white tracking-wide" style={{ fontSize: '1.125rem' }}>
                 Zoom Phone
               </h2>
               
@@ -190,7 +192,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
 
         {/* Footer */}
         <div className="text-center">
-          <p className="text-small font-light text-[#6B7280] tracking-wide">
+          <p className="font-light text-[#6B7280] tracking-wide" style={{ fontSize: '0.875rem' }}>
             Your data is encrypted and secure
           </p>
         </div>

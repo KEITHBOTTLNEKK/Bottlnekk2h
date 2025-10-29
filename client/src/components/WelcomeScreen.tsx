@@ -8,13 +8,15 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
       <div className="max-w-4xl w-full text-center space-y-12">
         <div className="space-y-6">
           <h1 
-            className="text-welcome-sm md:text-welcome-lg font-thin text-white tracking-tight leading-none"
+            className="font-thin text-white tracking-tight leading-none"
+            style={{ fontSize: 'clamp(3.75rem, 8vw, 6rem)' }}
             data-testid="heading-welcome"
           >
             How much are you losing?
           </h1>
           <p 
-            className="text-subtext-sm md:text-subtext-lg font-light text-[#9CA3AF] tracking-wide"
+            className="font-light text-[#9CA3AF] tracking-wide"
+            style={{ fontSize: 'clamp(1.25rem, 2.5vw, 1.5rem)' }}
             data-testid="text-subheading"
           >
             Every missed call is lost revenue.
@@ -24,7 +26,8 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         <div className="pt-8">
           <button
             onClick={onStart}
-            className="group relative inline-flex items-center justify-center px-12 py-5 text-button font-semibold text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+            className="group relative inline-flex items-center justify-center px-12 py-5 font-semibold text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+            style={{ fontSize: '1.125rem' }}
             data-testid="button-start"
           >
             <span className="relative z-10 tracking-wide">Show Me The Number</span>

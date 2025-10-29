@@ -261,9 +261,9 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
         {/* The Number - MASSIVE and Centered */}
         <div className="text-center mb-16">
           <h1 
-            className="text-results-sm md:text-results-lg font-thin text-white tracking-tighter leading-none"
+            className="font-thin text-white tracking-tighter leading-none"
             data-testid="text-total-loss"
-            style={{ lineHeight: '0.85' }}
+            style={{ fontSize: 'clamp(8rem, 15vw, 10rem)', lineHeight: '0.85' }}
           >
             {formatCurrency(animatedTotal)}
           </h1>
@@ -275,7 +275,8 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             {/* Emotional Impact */}
             <div className="text-center">
               <p 
-                className="text-subtext-sm md:text-subtext-lg font-light text-white/60 tracking-wide max-w-2xl mx-auto"
+                className="font-light text-white/60 tracking-wide max-w-2xl mx-auto"
+                style={{ fontSize: 'clamp(1.25rem, 2vw, 1.5rem)' }}
                 data-testid="text-loss-description"
               >
                 You lost this last month.
@@ -284,7 +285,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
             {/* Simple Insight - Conversational */}
             <div className="text-center space-y-3 max-w-xl mx-auto">
-              <p className="text-subtext-sm font-light text-white/80 tracking-wide" data-testid="metric-missed-calls">
+              <p className="font-light text-white/80 tracking-wide" style={{ fontSize: '1.25rem' }} data-testid="metric-missed-calls">
                 {formatNumber(result.missedCalls)} missed {result.missedCalls === 1 ? 'call' : 'calls'}.
                 {result.afterHoursCalls > 0 && (
                   <span className="text-white/50"> {formatNumber(result.afterHoursCalls)} {result.afterHoursCalls === 1 ? 'was' : 'were'} after hours.</span>
@@ -299,7 +300,8 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             <div className="text-center space-y-6">
               <button
                 onClick={handleBookCall}
-                className="group relative inline-flex items-center justify-center px-16 py-6 text-subtext-sm font-semibold text-black bg-white rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+                className="group relative inline-flex items-center justify-center px-16 py-6 font-semibold text-black bg-white rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+                style={{ fontSize: '1.25rem' }}
                 data-testid="button-reclaim"
               >
                 <span className="relative z-10 tracking-wide">Fix This</span>
@@ -313,12 +315,13 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
             {/* Minimal footer */}
             <div className="text-center space-y-4 pt-8">
-              <p className="text-small font-light text-white/20 tracking-wide">
+              <p className="font-light text-white/20 tracking-wide" style={{ fontSize: '0.875rem' }}>
                 {result.provider} • {result.month}
               </p>
               <button
                 onClick={onRestart}
-                className="text-small font-light text-white/20 hover:text-white/60 tracking-wide transition-colors duration-300"
+                className="font-light text-white/20 hover:text-white/60 tracking-wide transition-colors duration-300"
+                style={{ fontSize: '0.875rem' }}
                 data-testid="button-restart"
               >
                 Run another diagnostic

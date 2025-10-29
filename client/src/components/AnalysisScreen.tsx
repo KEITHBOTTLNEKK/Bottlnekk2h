@@ -147,19 +147,21 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
               One more thing...
             </p>
             <h1 
-              className="text-connect font-thin text-white tracking-tight"
+              className="font-thin text-white tracking-tight"
+              style={{ fontSize: '3rem' }}
               data-testid="text-question"
             >
               What's a customer worth to you?
             </h1>
 
             <div className="flex items-center justify-center space-x-2">
-              <span className="text-input-deal font-light text-white/60">$</span>
+              <span className="font-light text-white/60" style={{ fontSize: '2.25rem' }}>$</span>
               <input
                 type="text"
                 value={dealSize}
                 onChange={handleDealSizeChange}
-                className="w-32 px-4 py-3 bg-transparent border-b-2 border-white/30 text-input-deal font-light text-white text-center focus:outline-none focus:border-white transition-colors duration-300 placeholder:font-normal placeholder:text-white/30"
+                className="w-32 px-4 py-3 bg-transparent border-b-2 border-white/30 font-light text-white text-center focus:outline-none focus:border-white transition-colors duration-300 placeholder:font-normal placeholder:text-white/30"
+                style={{ fontSize: '2.25rem' }}
                 placeholder="1000"
                 data-testid="input-deal-size"
                 autoFocus
@@ -180,7 +182,8 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
           // Phase 2: Actually analyzing with their number
           <>
             <h1 
-              className="text-analysis font-light text-white tracking-tight"
+              className="font-light text-white tracking-tight"
+              style={{ fontSize: '1.5rem' }}
               data-testid="text-analyzing"
             >
               Analyzing Call Data{dots}
@@ -198,7 +201,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
           </>
         ) : (
           // Fallback loading state (prevents black screen)
-          <h1 className="text-analysis font-light text-white tracking-tight">
+          <h1 className="font-light text-white tracking-tight" style={{ fontSize: '1.5rem' }}>
             Loading...
           </h1>
         )}
