@@ -58,7 +58,7 @@ export async function generateDiagnosticPDF(
       const industry = diagnostic.industry || 'Home Services';
       
       doc.rect(40, 95, 532, 75).fillAndStroke('#f8f9fa', '#e0e0e0');
-      doc.fontSize(11).fillColor('#0066cc').font('Helvetica-Bold');
+      doc.fontSize(11).fillColor('#00C97B').font('Helvetica-Bold');
       doc.text('LEAD INFORMATION', 50, 103, { width: 512 });
       
       doc.fontSize(8).fillColor('#666666').font('Helvetica');

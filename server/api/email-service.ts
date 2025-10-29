@@ -160,7 +160,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
       background: #f8f9fa;
       padding: 20px;
       border-radius: 8px;
-      border-left: 3px solid #0066cc;
+      border-left: 3px solid #00C97B;
     }
     .contact-label {
       font-size: 11px;
@@ -176,8 +176,8 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
       font-weight: 600;
     }
     .pdf-box {
-      background: #f0f9ff;
-      border: 2px solid #0066cc;
+      background: #e6f9f2;
+      border: 2px solid #00C97B;
       padding: 30px;
       margin: 35px 0;
       text-align: center;
@@ -186,7 +186,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
     .pdf-box h3 {
       margin: 0 0 10px 0;
       font-size: 18px;
-      color: #0066cc;
+      color: #00C97B;
     }
     .pdf-box p {
       margin: 0;

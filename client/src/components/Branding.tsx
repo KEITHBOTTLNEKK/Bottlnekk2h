@@ -1,11 +1,13 @@
 import logoIcon from "@assets/hourglass-cracked_transparent_1761722440145.png";
 
+const BOTTLNEKK_GREEN = "#00C97B";
+
 interface BrandingProps {
   onRestart?: () => void;
   accentColor?: string;
 }
 
-export function Branding({ onRestart, accentColor = "#007AFF" }: BrandingProps) {
+export function Branding({ onRestart, accentColor = BOTTLNEKK_GREEN }: BrandingProps) {
   return (
     <button
       onClick={onRestart}
