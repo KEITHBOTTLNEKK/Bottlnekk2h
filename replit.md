@@ -6,6 +6,16 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
+### Marketing Landing Page (October 29, 2025 - Late Evening)
+- **Public Landing Page**: New marketing page at `/` for VCs, prospects, and visitors
+- **Tagline**: "Behind Every Bottlnekk Is Freedom" - reframes bottleneck problems as pathway to freedom
+- **Hero Section**: Revenue loss headline with 60-second diagnostic promise and prominent CTA to `/diagnostic`
+- **Social Proof**: Featured case studies with metrics from Tire Boss (97% response improvement, 30% sales increase), MedSpa, Real Estate, and Call Centre clients
+- **How It Works**: 3-step visualization (Connect → Analyze → Fix) explaining diagnostic flow
+- **Footer**: Subtle "Powered by Hexona" credit acknowledging development partner
+- **Routing Changes**: Diagnostic tool moved from `/` to `/diagnostic`, landing page now at root
+- **Design Consistency**: Same black minimal aesthetic with Bottlnekk green accents throughout
+
 ### Brand Color Finalization (October 29, 2025 - Evening)
 - **Bottlnekk Green (#00C97B)**: Finalized signature accent color for brand recall and visual distinction
 - **Strategic Choice**: Green = growth/revenue/recovery symbolism without generic finance associations

@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { ArrowRight, Phone, TrendingUp, Users, CheckCircle2 } from "lucide-react";
 import { Branding } from "@/components/Branding";
+import { CTAButton } from "@/components/CTAButton";
 
 const BOTTLNEKK_GREEN = "#00C97B";
 
@@ -60,7 +61,7 @@ export function LandingPage() {
             >
               Stop Losing{" "}
               <span style={{ color: BOTTLNEKK_GREEN }} className="font-normal">
-                $XX,XXX
+                $15,000+
               </span>
               <br />
               Every Month to Missed Calls
@@ -85,22 +86,10 @@ export function LandingPage() {
 
           {/* CTA Button */}
           <Link href="/diagnostic">
-            <button
-              className="group inline-flex items-center justify-center gap-3 px-12 py-5 text-lg font-normal border-2 rounded-xl transition-all duration-300"
-              style={{ borderColor: BOTTLNEKK_GREEN }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
-                e.currentTarget.style.color = '#000000';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#FFFFFF';
-              }}
-              data-testid="button-hero-cta"
-            >
+            <CTAButton data-testid="button-hero-cta">
               Show Me My Revenue Leak
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </CTAButton>
           </Link>
 
           {/* Trust Badges */}
@@ -261,22 +250,10 @@ export function LandingPage() {
           </p>
 
           <Link href="/diagnostic">
-            <button
-              className="group inline-flex items-center justify-center gap-3 px-12 py-5 text-lg font-normal border-2 rounded-xl transition-all duration-300"
-              style={{ borderColor: BOTTLNEKK_GREEN }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
-                e.currentTarget.style.color = '#000000';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#FFFFFF';
-              }}
-              data-testid="button-final-cta"
-            >
+            <CTAButton data-testid="button-final-cta">
               Run Your Free Diagnostic Now
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </CTAButton>
           </Link>
         </div>
       </section>
