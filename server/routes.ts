@@ -2,8 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { analyzeDiagnosticRequestSchema, bookingSchema, type DiagnosticResult, type PhoneProvider } from "@shared/schema";
-import { getUncachableResendClient } from "./resend-client";
-import { generateDiagnosticEmailHtml, generateDiagnosticEmailText } from "./email-templates";
+import { sendSalesIntelligenceEmail } from "./api/email-service";
 import { registerRingCentralOAuth } from "./oauth/ringcentral";
 import { fetchRingCentralAnalytics } from "./api/ringcentral-client";
 import { registerZoomOAuth } from "./oauth/zoom";
@@ -66,6 +65,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         avgRevenuePerCall: diagnosticResult.avgRevenuePerCall,
         totalMissedOpportunities: diagnosticResult.totalMissedOpportunities,
         month: diagnosticResult.month,
+        totalInboundCalls: diagnosticResult.totalInboundCalls,
+        acceptedCalls: diagnosticResult.acceptedCalls,
+        avgCallbackTimeMinutes: diagnosticResult.avgCallbackTimeMinutes,
         businessEmail: null,
       });
       
@@ -117,8 +119,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         totalLoss: validatedData.diagnosticData.totalLoss,
       });
 
-      // TODO: Send booking notification email to sales team
-      // For now, just log the booking
+      // Send sales intelligence email to sales team
+      try {
+        await sendSalesIntelligenceEmail(
+          {
+            name: validatedData.name,
+            email: validatedData.email,
+            phone: validatedData.phone,
+            company: validatedData.company,
+          },
+          validatedData.diagnosticData
+        );
+        console.log("✅ Sales intelligence email sent successfully");
+      } catch (emailError) {
+        // Log error but don't fail the booking - email is a nice-to-have
+        console.error("⚠️ Failed to send sales email (booking still recorded):", emailError);
+      }
       
       res.json({ success: true, message: "Booking request received" });
     } catch (error) {

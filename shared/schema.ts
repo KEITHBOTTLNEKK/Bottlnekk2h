@@ -78,10 +78,7 @@ export const bookingSchema = z.object({
   email: z.string().email("Please enter a valid email"),
   phone: z.string().min(1, "Phone number is required"),
   company: z.string().optional(),
-  diagnosticData: z.object({
-    totalLoss: z.number(),
-    provider: z.enum(phoneProviders),
-  }),
+  diagnosticData: diagnosticResultSchema, // Full diagnostic result for sales intelligence
 });
 
 export type BookingRequest = z.infer<typeof bookingSchema>;
