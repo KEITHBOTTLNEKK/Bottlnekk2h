@@ -4,6 +4,8 @@ import ringCentralLogo from "@assets/image_1761697572364.png";
 import zoomLogo from "@assets/image_1761697991725.png";
 import { Branding } from "./Branding";
 
+const BOTTLNEKK_GREEN = "#00C97B";
+
 interface ConnectScreenProps {
   onProviderSelect: (provider: "RingCentral" | "Zoom Phone") => void;
   onRestart?: () => void;
@@ -70,7 +72,7 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8">
-      <Branding onRestart={onRestart} />
+      <Branding onRestart={onRestart} accentColor={BOTTLNEKK_GREEN} />
       <div className="max-w-5xl w-full space-y-16">
         {/* Error Banner */}
         {errorMessage && (
@@ -123,7 +125,18 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
           {/* RingCentral */}
           <button
             onClick={() => handleConnect("RingCentral")}
-            className="group relative px-10 py-16 border-2 border-white rounded-2xl transition-all duration-300 hover:bg-white hover:border-white"
+            className="group relative px-10 py-16 border-2 rounded-2xl transition-all duration-300"
+            style={{
+              borderColor: isRingCentralConnected ? BOTTLNEKK_GREEN : '#FFFFFF',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
+              e.currentTarget.style.borderColor = BOTTLNEKK_GREEN;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.borderColor = isRingCentralConnected ? BOTTLNEKK_GREEN : '#FFFFFF';
+            }}
             data-testid="button-provider-ringcentral"
           >
             <div className="flex flex-col items-center justify-center space-y-6">
@@ -144,10 +157,10 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
               {/* Status */}
               {isRingCentralConnected ? (
                 <div className="flex items-center space-x-2">
-                  <svg className="w-5 h-5 text-green-400 group-hover:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 group-hover:text-black transition-colors" style={{ color: BOTTLNEKK_GREEN }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-sm font-light text-green-400 group-hover:text-green-600 tracking-wide transition-colors duration-300">
+                  <span className="text-sm font-light tracking-wide transition-colors duration-300 group-hover:text-black" style={{ color: BOTTLNEKK_GREEN }}>
                     Connected
                   </span>
                 </div>
@@ -162,7 +175,18 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
           {/* Zoom Phone */}
           <button
             onClick={() => handleConnect("Zoom Phone")}
-            className="group relative px-10 py-16 border-2 border-white rounded-2xl transition-all duration-300 hover:bg-white hover:border-white"
+            className="group relative px-10 py-16 border-2 rounded-2xl transition-all duration-300"
+            style={{
+              borderColor: isZoomConnected ? BOTTLNEKK_GREEN : '#FFFFFF',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
+              e.currentTarget.style.borderColor = BOTTLNEKK_GREEN;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.borderColor = isZoomConnected ? BOTTLNEKK_GREEN : '#FFFFFF';
+            }}
             data-testid="button-provider-zoom phone"
           >
             <div className="flex flex-col items-center justify-center space-y-6">
@@ -183,10 +207,10 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
               {/* Status */}
               {isZoomConnected ? (
                 <div className="flex items-center space-x-2">
-                  <svg className="w-5 h-5 text-green-400 group-hover:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 group-hover:text-black transition-colors" style={{ color: BOTTLNEKK_GREEN }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-sm font-light text-green-400 group-hover:text-green-600 tracking-wide transition-colors duration-300">
+                  <span className="text-sm font-light tracking-wide transition-colors duration-300 group-hover:text-black" style={{ color: BOTTLNEKK_GREEN }}>
                     Connected
                   </span>
                 </div>
