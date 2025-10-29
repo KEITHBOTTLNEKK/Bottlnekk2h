@@ -143,11 +143,11 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
         ) : showQuestion ? (
           // Phase 1: Ask the question (Steve Jobs verbiage)
           <div className="animate-in fade-in duration-700 space-y-8" data-testid="panel-deal-size">
-            <p className="text-lg font-extralight text-[#9CA3AF] tracking-wide mb-4">
+            <p className="text-lg font-semibold text-[#9CA3AF] tracking-wide mb-4">
               One more thing...
             </p>
             <h1 
-              className="font-thin text-white tracking-tight"
+              className="font-bold text-white tracking-tight"
               style={{ fontSize: '4.5rem' }}
               data-testid="text-question"
             >
@@ -171,7 +171,8 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
             <button
               onClick={handleLooksGood}
               disabled={!dealSize}
-              className="group relative inline-flex items-center justify-center px-10 py-4 text-base font-light text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="group relative inline-flex items-center justify-center px-10 py-4 font-bold text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+              style={{ fontSize: '1.125rem' }}
               data-testid="button-looks-good"
             >
               <span className="relative z-10 tracking-wide">Show Me How Many I'm Losing</span>
