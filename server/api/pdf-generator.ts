@@ -40,6 +40,7 @@ export async function generateDiagnosticPDF(
       const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
       const totalInbound = diagnostic.totalInboundCalls ?? 0;
       const accepted = diagnostic.acceptedCalls ?? 0;
+      const potentialBudget = Math.round(accepted * diagnostic.avgRevenuePerCall * 0.30);
       const answerRate = totalInbound > 0 ? Math.round((accepted / totalInbound) * 100) : 0;
       const afterHoursPercentage = diagnostic.missedCalls > 0 ? Math.round((diagnostic.afterHoursCalls / diagnostic.missedCalls) * 100) : 0;
       const afterHoursRevenue = diagnostic.afterHoursCalls * diagnostic.avgRevenuePerCall;
