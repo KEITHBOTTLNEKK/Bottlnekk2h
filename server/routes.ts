@@ -7,6 +7,10 @@ import { registerRingCentralOAuth } from "./oauth/ringcentral";
 import { fetchRingCentralAnalytics } from "./api/ringcentral-client";
 import { registerZoomOAuth } from "./oauth/zoom";
 import { fetchZoomPhoneAnalytics } from "./api/zoom-client";
+import { detectIndustry } from "./utils/industry-detector";
+import { db } from "./db";
+import { oauthConnections } from "@shared/schema";
+import { eq } from "drizzle-orm";
 
 // Helper function for currency formatting
 function formatCurrency(amount: number): string {
@@ -56,6 +60,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
+      // Get company name from OAuth connection
+      const connection = await db.query.oauthConnections.findFirst({
+        where: eq(oauthConnections.provider, validatedData.provider),
+      });
+      
+      const companyName = connection?.companyName || null;
+      const industry = companyName ? detectIndustry(companyName) : null;
+      
+      console.log("Company info:", { companyName, industry });
+      
       // Save to database
       const saved = await storage.saveDiagnostic({
         provider: diagnosticResult.provider,
@@ -69,11 +83,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         acceptedCalls: diagnosticResult.acceptedCalls,
         avgCallbackTimeMinutes: diagnosticResult.avgCallbackTimeMinutes,
         businessEmail: null,
+        companyName,
+        industry,
       });
       
       // Return diagnostic with ID for session tracking
       res.json({
         ...diagnosticResult,
+        companyName,
+        industry,
         diagnosticId: saved.id, // Include ID for booking flow
       });
     } catch (error) {

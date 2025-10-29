@@ -18,6 +18,8 @@ export const diagnosticResults = pgTable("diagnostic_results", {
   totalMissedOpportunities: integer("total_missed_opportunities").notNull(),
   month: text("month").notNull(),
   businessEmail: text("business_email"),
+  companyName: text("company_name"),
+  industry: text("industry"),
   // Sales intelligence metrics (optional for backwards compatibility)
   totalInboundCalls: integer("total_inbound_calls"),
   acceptedCalls: integer("accepted_calls"),
@@ -33,6 +35,7 @@ export const oauthConnections = pgTable("oauth_connections", {
   tokenExpiry: timestamp("token_expiry"),
   userId: text("user_id"),
   accountId: text("account_id").notNull(),
+  companyName: text("company_name"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 }, (table) => ({
@@ -48,6 +51,8 @@ export const diagnosticResultSchema = z.object({
   totalMissedOpportunities: z.number(),
   provider: z.enum(phoneProviders),
   month: z.string(),
+  companyName: z.string().optional(),
+  industry: z.string().optional(),
   // Sales intelligence metrics (optional for backwards compatibility)
   totalInboundCalls: z.number().optional().default(0),
   acceptedCalls: z.number().optional().default(0),

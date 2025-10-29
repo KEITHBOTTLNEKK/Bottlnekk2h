@@ -93,6 +93,9 @@ export function registerRingCentralOAuth(app: Express) {
 
       const accountData = await accountResponse.json();
       const accountId = accountData.id || "default";
+      const companyName = accountData.name || accountData.mainCompanyName || null;
+
+      console.log("RingCentral account data:", { accountId, companyName });
 
       // Save OAuth connection to database (use upsert to update if exists)
       const existingConnection = await db.query.oauthConnections.findFirst({
@@ -110,6 +113,7 @@ export function registerRingCentralOAuth(app: Express) {
             accessToken: tokenData.access_token,
             refreshToken: tokenData.refresh_token || existingConnection.refreshToken,
             tokenExpiry,
+            companyName: companyName || existingConnection.companyName,
             updatedAt: new Date(),
           })
           .where(eq(oauthConnections.id, existingConnection.id));
@@ -122,6 +126,7 @@ export function registerRingCentralOAuth(app: Express) {
           tokenExpiry,
           accountId,
           userId: accountId,
+          companyName,
         });
       }
 

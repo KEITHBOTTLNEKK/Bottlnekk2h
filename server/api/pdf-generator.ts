@@ -53,6 +53,9 @@ export async function generateDiagnosticPDF(
       doc.text(new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }), 50, 58, { width: 512 });
 
       // LEAD INFO
+      const companyName = diagnostic.companyName || booking.company || 'Not provided';
+      const industry = diagnostic.industry || 'Home Services';
+      
       doc.rect(40, 95, 532, 75).fillAndStroke('#f8f9fa', '#e0e0e0');
       doc.fontSize(11).fillColor('#0066cc').font('Helvetica-Bold');
       doc.text('LEAD INFORMATION', 50, 103, { width: 512 });
@@ -72,12 +75,10 @@ export async function generateDiagnosticPDF(
       doc.fontSize(12).fillColor('#1a1a1a').font('Helvetica-Bold');
       doc.text(booking.phone, 50, 161, { width: 250 });
       
-      if (booking.company) {
-        doc.fontSize(8).fillColor('#666666').font('Helvetica');
-        doc.text('COMPANY', 310, 150, { width: 250 });
-        doc.fontSize(12).fillColor('#1a1a1a').font('Helvetica-Bold');
-        doc.text(booking.company, 310, 161, { width: 250 });
-      }
+      doc.fontSize(8).fillColor('#666666').font('Helvetica');
+      doc.text('COMPANY / INDUSTRY', 310, 150, { width: 250 });
+      doc.fontSize(12).fillColor('#1a1a1a').font('Helvetica-Bold');
+      doc.text(`${companyName} • ${industry}`, 310, 161, { width: 250 });
 
       // HERO RECOVERY
       doc.rect(40, 185, 532, 85).lineWidth(2).fillAndStroke('#e8f5e9', '#4caf50');
