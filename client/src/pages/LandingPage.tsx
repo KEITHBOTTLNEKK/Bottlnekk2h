@@ -235,12 +235,14 @@ export function LandingPage() {
             Join hundreds of businesses recovering thousands in lost revenue
           </p>
 
-          <Link href="/diagnostic">
-            <CTAButton data-testid="button-final-cta">
-              Run Your Free Diagnostic Now
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </CTAButton>
-          </Link>
+          <div className="pt-8">
+            <Link href="/diagnostic">
+              <CTAButton data-testid="button-final-cta">
+                Run Your Free Diagnostic Now
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </CTAButton>
+            </Link>
+          </div>
         </div>
       </section>
 
