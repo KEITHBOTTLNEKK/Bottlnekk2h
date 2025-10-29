@@ -10,6 +10,8 @@ export function SVGHourglass() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="hourglass-svg"
+        role="img"
+        aria-label="Analyzing your call data"
       >
         <defs>
           {/* Gradient for sand */}
@@ -18,21 +20,11 @@ export function SVGHourglass() {
             <stop offset="100%" stopColor={BOTTLNEKK_GREEN} stopOpacity="1" />
           </linearGradient>
 
-          {/* Gradient for flow */}
+          {/* Gradient for controlled flow */}
           <linearGradient id="flowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor={BOTTLNEKK_GREEN} stopOpacity="0.3" />
+            <stop offset="0%" stopColor={BOTTLNEKK_GREEN} stopOpacity="0.6" />
             <stop offset="100%" stopColor={BOTTLNEKK_GREEN} stopOpacity="1" />
           </linearGradient>
-
-          {/* Clip path for top sand */}
-          <clipPath id="topSandClip">
-            <rect x="30" y="20" width="60" height="40" className="top-sand-mask" />
-          </clipPath>
-
-          {/* Clip path for bottom sand */}
-          <clipPath id="bottomSandClip">
-            <rect x="30" y="120" width="60" height="0" className="bottom-sand-mask" />
-          </clipPath>
         </defs>
 
         {/* Base stand */}
@@ -48,20 +40,20 @@ export function SVGHourglass() {
           opacity="0.4"
         />
 
-        {/* Top sand fill */}
-        <path
-          d="M 30 20 L 30 50 Q 30 63 38 68 L 55 76 L 82 68 Q 90 63 90 50 L 90 20 Z"
-          fill="url(#sandGradient)"
-          clipPath="url(#topSandClip)"
-          className="top-sand"
-        />
+        {/* Top sand fill - animated via transform */}
+        <g className="top-sand-group">
+          <path
+            d="M 30 20 L 30 50 Q 30 63 38 68 L 55 76 L 82 68 Q 90 63 90 50 L 90 20 Z"
+            fill="url(#sandGradient)"
+          />
+        </g>
 
-        {/* Neck - this will widen */}
+        {/* Neck - widens over time */}
         <g className="neck-group">
           <path
             d="M 58 80 L 54 90 L 66 90 L 62 80 Z"
             fill="url(#sandGradient)"
-            className="neck-sand"
+            opacity="0.9"
           />
         </g>
 
@@ -74,13 +66,13 @@ export function SVGHourglass() {
           opacity="0.4"
         />
 
-        {/* Bottom sand fill */}
-        <path
-          d="M 30 140 L 30 110 Q 30 97 38 92 L 55 84 L 82 92 Q 90 97 90 110 L 90 140 Z"
-          fill="url(#sandGradient)"
-          clipPath="url(#bottomSandClip)"
-          className="bottom-sand"
-        />
+        {/* Bottom sand fill - animated via transform */}
+        <g className="bottom-sand-group">
+          <path
+            d="M 30 120 L 30 110 Q 30 97 38 92 L 55 84 L 82 92 Q 90 97 90 110 L 90 120 Z"
+            fill="url(#sandGradient)"
+          />
+        </g>
 
         {/* Crack at bottom - ALWAYS VISIBLE */}
         <g className="crack-group">
@@ -88,12 +80,12 @@ export function SVGHourglass() {
             d="M 58 148 L 56 153 M 58 148 L 60 152 M 60 152 L 62 154"
             stroke="white"
             strokeWidth="1.5"
-            opacity="0.5"
+            opacity="0.6"
             strokeLinecap="round"
             className="crack-outline"
           />
           
-          {/* Flow through crack - starts as leak, becomes controlled */}
+          {/* Flow through crack - transforms from drip to steady stream */}
           <line
             x1="60"
             y1="148"
@@ -113,11 +105,20 @@ export function SVGHourglass() {
         <circle cx="62" cy="90" r="1.2" fill={BOTTLNEKK_GREEN} opacity="0.7" className="particle-3" />
       </svg>
 
+      <p 
+        className="status-text"
+        aria-live="polite"
+      >
+        Turning leaks into flow
+      </p>
+
       <style>{`
         .hourglass-container {
           display: flex;
-          justify-content: center;
+          flex-direction: column;
           align-items: center;
+          justify-content: center;
+          gap: 1.5rem;
           margin: 2rem 0;
         }
 
@@ -125,103 +126,128 @@ export function SVGHourglass() {
           filter: drop-shadow(0 0 20px rgba(0, 201, 123, 0.3));
         }
 
-        /* Phase 1: Initial leak (0-33%) */
-        /* Phase 2: Neck widening (33-66%) */
-        /* Phase 3: Controlled flow (66-100%) */
+        .status-text {
+          color: white;
+          font-size: 1.125rem;
+          font-weight: 300;
+          letter-spacing: 0.02em;
+          opacity: 0.7;
+          margin: 0;
+        }
 
-        /* Top sand empties */
-        .top-sand-mask {
-          animation: emptySand 8s ease-in-out infinite;
+        /* Animation: One-time transformation from leak to controlled flow
+           0-30%: Initial leak (narrow neck, dripping)
+           30-50%: Neck widens (bottleneck opening)
+           50-100%: Controlled flow maintained (crack becomes stable channel)
+        */
+
+        /* Top sand decreases and stays reduced */
+        .top-sand-group {
+          transform-origin: center;
+          animation: emptySand 6s ease-in-out forwards;
         }
 
         @keyframes emptySand {
-          0%, 100% {
-            height: 40px;
-            y: 20;
+          0% {
+            transform: translateY(0) scaleY(1);
+            opacity: 1;
           }
-          50% {
-            height: 15px;
-            y: 45;
+          50%, 100% {
+            transform: translateY(8px) scaleY(0.6);
+            opacity: 0.9;
           }
         }
 
-        /* Bottom sand fills */
-        .bottom-sand-mask {
-          animation: fillSand 8s ease-in-out infinite;
+        /* Bottom sand increases and stays filled */
+        .bottom-sand-group {
+          transform-origin: center;
+          animation: fillSand 6s ease-in-out forwards;
         }
 
         @keyframes fillSand {
-          0%, 100% {
-            height: 0px;
-            y: 120;
+          0% {
+            transform: translateY(0) scaleY(0.2);
+            opacity: 0.6;
           }
-          50% {
-            height: 25px;
-            y: 95;
+          50%, 100% {
+            transform: translateY(-6px) scaleY(1);
+            opacity: 1;
           }
         }
 
-        /* Neck widens over time */
+        /* Neck widens and stays wide */
         .neck-group {
           transform-origin: center;
-          animation: widenNeck 8s ease-in-out infinite;
+          animation: widenNeck 6s ease-in-out forwards;
         }
 
         @keyframes widenNeck {
-          0%, 20% {
+          0%, 25% {
             transform: scaleX(1);
           }
-          40%, 60% {
-            transform: scaleX(1.8);
-          }
-          80%, 100% {
-            transform: scaleX(1);
+          35%, 100% {
+            transform: scaleX(2.2);
           }
         }
 
-        /* Crack flow transforms from leak to controlled stream */
+        /* Crack flow: drip → stream → steady controlled flow (stays steady) */
         .crack-flow {
-          animation: transformFlow 8s ease-in-out infinite;
+          animation: transformFlow 6s ease-in-out forwards;
         }
 
         @keyframes transformFlow {
-          0%, 20% {
+          /* Phase 1: Leak (dripping) */
+          0%, 25% {
             stroke-width: 1;
-            opacity: 0.3;
-            stroke-dasharray: 2, 2;
+            opacity: 0.4;
+            stroke-dasharray: 2, 3;
           }
-          40%, 60% {
+          /* Phase 2: Opening (stream forming) */
+          30% {
+            stroke-width: 2.5;
+            opacity: 0.7;
+            stroke-dasharray: 4, 1;
+          }
+          /* Phase 3: Controlled flow (stays steady) */
+          40%, 100% {
             stroke-width: 4;
-            opacity: 0.9;
+            opacity: 1;
             stroke-dasharray: 0, 0;
-          }
-          80%, 100% {
-            stroke-width: 1;
-            opacity: 0.3;
-            stroke-dasharray: 2, 2;
           }
         }
 
-        /* Crack outline pulses */
+        /* Crack outline glows and stays glowing */
         .crack-outline {
-          animation: pulseCrack 8s ease-in-out infinite;
+          animation: pulseCrack 6s ease-in-out forwards;
         }
 
         @keyframes pulseCrack {
-          0%, 20% {
-            opacity: 0.5;
+          0%, 25% {
+            opacity: 0.6;
+            stroke: white;
           }
-          40%, 60% {
+          40%, 100% {
             opacity: 0.9;
             stroke: ${BOTTLNEKK_GREEN};
-            filter: drop-shadow(0 0 4px ${BOTTLNEKK_GREEN});
-          }
-          80%, 100% {
-            opacity: 0.5;
+            filter: drop-shadow(0 0 6px ${BOTTLNEKK_GREEN});
           }
         }
 
-        /* Particles fall and fade */
+        /* Gentle pulsing glow after transformation complete */
+        .hourglass-svg {
+          animation: gentleGlow 3s ease-in-out 6s infinite;
+        }
+
+        @keyframes gentleGlow {
+          0%, 100% {
+            filter: drop-shadow(0 0 20px rgba(0, 201, 123, 0.3));
+          }
+          50% {
+            filter: drop-shadow(0 0 30px rgba(0, 201, 123, 0.5));
+          }
+        }
+
+        /* Particles fall continuously */
         .particle-1 {
           animation: fallParticle1 2s ease-in infinite;
         }
@@ -236,90 +262,101 @@ export function SVGHourglass() {
 
         @keyframes fallParticle1 {
           0% {
-            cy: 85;
+            transform: translateY(0);
             opacity: 0;
           }
           20% {
             opacity: 0.8;
           }
           80% {
-            cy: 145;
-            opacity: 0.8;
+            transform: translateY(60px);
+            opacity: 0.4;
           }
           100% {
-            cy: 148;
+            transform: translateY(63px);
             opacity: 0;
           }
         }
 
         @keyframes fallParticle2 {
           0% {
-            cy: 88;
+            transform: translateY(0);
             opacity: 0;
           }
           20% {
             opacity: 0.6;
           }
           80% {
-            cy: 145;
-            opacity: 0.6;
+            transform: translateY(60px);
+            opacity: 0.3;
           }
           100% {
-            cy: 148;
+            transform: translateY(63px);
             opacity: 0;
           }
         }
 
         @keyframes fallParticle3 {
           0% {
-            cy: 90;
+            transform: translateY(0);
             opacity: 0;
           }
           20% {
             opacity: 0.7;
           }
           80% {
-            cy: 145;
-            opacity: 0.7;
+            transform: translateY(60px);
+            opacity: 0.4;
           }
           100% {
-            cy: 148;
+            transform: translateY(63px);
             opacity: 0;
           }
         }
 
-        /* Accessibility: Reduce motion */
+        /* Accessibility: Reduced motion - show final controlled state */
         @media (prefers-reduced-motion: reduce) {
           .hourglass-svg,
-          .top-sand-mask,
-          .bottom-sand-mask,
+          .top-sand-group,
+          .bottom-sand-group,
           .neck-group,
           .crack-flow,
           .crack-outline,
           .particle-1,
           .particle-2,
-          .particle-3 {
+          .particle-3,
+          .status-text {
             animation: none !important;
           }
 
-          /* Show static mid-animation state */
+          /* Static state: controlled flow achieved */
           .neck-group {
-            transform: scaleX(1.4);
+            transform: scaleX(2.2);
           }
 
           .crack-flow {
-            stroke-width: 3;
-            opacity: 0.8;
+            stroke-width: 4;
+            opacity: 1;
+            stroke-dasharray: 0, 0;
           }
 
-          .top-sand-mask {
-            height: 25px;
-            y: 35;
+          .crack-outline {
+            opacity: 0.9;
+            stroke: ${BOTTLNEKK_GREEN};
           }
 
-          .bottom-sand-mask {
-            height: 15px;
-            y: 105;
+          .top-sand-group {
+            transform: translateY(8px) scaleY(0.6);
+          }
+
+          .bottom-sand-group {
+            transform: translateY(-6px) scaleY(1);
+          }
+
+          .particle-1,
+          .particle-2,
+          .particle-3 {
+            opacity: 0;
           }
         }
       `}</style>
