@@ -4,6 +4,8 @@ import { apiRequest } from "@/lib/queryClient";
 import type { PhoneProvider, DiagnosticResult, AnalyzeDiagnosticRequest } from "@shared/schema";
 import { Branding } from "./Branding";
 
+const BOTTLNEKK_GREEN = "#00C97B";
+
 interface AnalysisScreenProps {
   provider: PhoneProvider;
   onAnalysisComplete: (result: DiagnosticResult) => void;
@@ -82,7 +84,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: Anal
   if (analyzeMutation.isError) {
     return (
       <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
-        <Branding onRestart={onRestart} />
+        <Branding onRestart={onRestart} accentColor={BOTTLNEKK_GREEN} />
         <div className="text-center space-y-8 max-w-2xl">
           <div className="space-y-4">
             <h1 
@@ -138,13 +140,13 @@ export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: Anal
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
-      <Branding onRestart={onRestart} />
+      <Branding onRestart={onRestart} accentColor={BOTTLNEKK_GREEN} />
       <div className="text-center space-y-8">
         {showConnected ? (
           // Success moment after OAuth
           <div className="animate-in fade-in zoom-in duration-500 space-y-6">
-            <div className="w-20 h-20 mx-auto rounded-full border-2 border-white/30 flex items-center justify-center">
-              <svg className="w-10 h-10 text-white animate-in zoom-in duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-20 h-20 mx-auto rounded-full border-2 flex items-center justify-center" style={{ borderColor: BOTTLNEKK_GREEN }}>
+              <svg className="w-10 h-10 animate-in zoom-in duration-300" style={{ color: BOTTLNEKK_GREEN }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
               </svg>
             </div>
@@ -172,19 +174,40 @@ export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: Anal
                 type="text"
                 value={dealSize}
                 onChange={handleDealSizeChange}
-                className="w-48 px-4 py-3 bg-transparent border-b-2 border-white/30 font-light text-white text-center focus:outline-none focus:border-white transition-colors duration-300 placeholder:font-normal placeholder:text-white/30"
+                className="w-48 px-4 py-3 bg-transparent border-b-2 border-white/30 font-light text-white text-center focus:outline-none transition-colors duration-300 placeholder:font-normal placeholder:text-white/30"
                 style={{ fontSize: '3rem' }}
                 placeholder="1000"
                 data-testid="input-deal-size"
                 autoFocus
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = BOTTLNEKK_GREEN;
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                }}
               />
             </div>
 
             <button
               onClick={handleLooksGood}
               disabled={!dealSize}
-              className="inline-flex items-center justify-center px-16 py-5 font-bold text-white border-2 border-white rounded-xl transition-all duration-300 hover:bg-white hover:text-black disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-white"
-              style={{ fontSize: '1.125rem' }}
+              className="inline-flex items-center justify-center px-16 py-5 font-bold text-white border-2 rounded-xl transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-white"
+              style={{ 
+                fontSize: '1.125rem',
+                borderColor: BOTTLNEKK_GREEN,
+              }}
+              onMouseEnter={(e) => {
+                if (!e.currentTarget.disabled) {
+                  e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
+                  e.currentTarget.style.color = '#000000';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!e.currentTarget.disabled) {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }
+              }}
               data-testid="button-looks-good"
             >
               Show Me How Many I'm Losing
