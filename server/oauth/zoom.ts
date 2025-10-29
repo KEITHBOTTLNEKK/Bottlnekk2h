@@ -41,11 +41,11 @@ export function registerZoomOAuth(app: Express) {
 
     if (error) {
       console.error("Zoom OAuth error:", error);
-      return res.redirect(`/?error=${encodeURIComponent(error as string || 'Authentication failed')}`);
+      return res.redirect(`/diagnostic?error=${encodeURIComponent(error as string || 'Authentication failed')}`);
     }
 
     if (!code || !CLIENT_ID || !CLIENT_SECRET) {
-      return res.redirect("/?error=Invalid callback parameters");
+      return res.redirect("/diagnostic?error=Invalid callback parameters");
     }
 
     try {
@@ -126,10 +126,10 @@ export function registerZoomOAuth(app: Express) {
       }
 
       // Redirect back to app with success
-      res.redirect("/?connected=zoom");
+      res.redirect("/diagnostic?connected=zoom");
     } catch (error) {
       console.error("Error in Zoom callback:", error);
-      res.redirect(`/?error=${encodeURIComponent('Failed to connect to Zoom Phone')}`);
+      res.redirect(`/diagnostic?error=${encodeURIComponent('Failed to connect to Zoom Phone')}`);
     }
   });
 

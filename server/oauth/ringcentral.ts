@@ -41,11 +41,11 @@ export function registerRingCentralOAuth(app: Express) {
 
     if (error) {
       console.error("RingCentral OAuth error:", error_description);
-      return res.redirect(`/?error=${encodeURIComponent(error_description as string || 'Authentication failed')}`);
+      return res.redirect(`/diagnostic?error=${encodeURIComponent(error_description as string || 'Authentication failed')}`);
     }
 
     if (!code || !CLIENT_ID || !CLIENT_SECRET) {
-      return res.redirect("/?error=Invalid callback parameters");
+      return res.redirect("/diagnostic?error=Invalid callback parameters");
     }
 
     try {
@@ -131,10 +131,10 @@ export function registerRingCentralOAuth(app: Express) {
       }
 
       // Redirect back to app with success
-      res.redirect("/?connected=ringcentral");
+      res.redirect("/diagnostic?connected=ringcentral");
     } catch (error) {
       console.error("Error in RingCentral callback:", error);
-      res.redirect(`/?error=${encodeURIComponent('Failed to connect to RingCentral')}`);
+      res.redirect(`/diagnostic?error=${encodeURIComponent('Failed to connect to RingCentral')}`);
     }
   });
 
