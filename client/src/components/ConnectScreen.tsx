@@ -120,83 +120,79 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
           {/* RingCentral */}
           <button
             onClick={() => handleConnect("RingCentral")}
-            className="group relative px-10 py-16 border border-white/20 rounded-2xl transition-all duration-500 hover:border-white hover:bg-white/5 hover:scale-105 hover:shadow-2xl hover:shadow-white/10"
+            className="group relative px-10 py-16 border-2 border-white rounded-2xl transition-all duration-300 hover:bg-white hover:border-white"
             data-testid="button-provider-ringcentral"
           >
             <div className="flex flex-col items-center justify-center space-y-6">
               {/* RingCentral Logo */}
-              <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300 p-3 bg-white/5">
+              <div className="w-20 h-20 rounded-full border-2 border-white flex items-center justify-center p-3 bg-white">
                 <img 
                   src={ringCentralLogo} 
                   alt="RingCentral" 
-                  className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                  className="w-full h-full object-contain"
                 />
               </div>
               
               {/* Name */}
-              <h2 className="font-medium text-white tracking-wide" style={{ fontSize: '1.125rem' }}>
+              <h2 className="font-medium text-white tracking-wide group-hover:text-black transition-colors duration-300" style={{ fontSize: '1.125rem' }}>
                 RingCentral
               </h2>
               
               {/* Status */}
               {isRingCentralConnected ? (
                 <div className="flex items-center space-x-2">
-                  <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-green-400 group-hover:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-sm font-light text-green-400 tracking-wide">
+                  <span className="text-sm font-light text-green-400 group-hover:text-green-600 tracking-wide transition-colors duration-300">
                     Connected
                   </span>
                 </div>
               ) : (
-                <span className="text-sm font-extralight text-white/60 tracking-wide">
+                <span className="text-sm font-extralight text-white group-hover:text-black tracking-wide transition-colors duration-300">
                   Click to connect
                 </span>
               )}
             </div>
-            
-            <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
           </button>
 
           {/* Zoom Phone */}
           <button
             onClick={() => handleConnect("Zoom Phone")}
-            className="group relative px-10 py-16 border border-white/20 rounded-2xl transition-all duration-500 hover:border-white hover:bg-white/5 hover:scale-105 hover:shadow-2xl hover:shadow-white/10"
+            className="group relative px-10 py-16 border-2 border-white rounded-2xl transition-all duration-300 hover:bg-white hover:border-white"
             data-testid="button-provider-zoom phone"
           >
             <div className="flex flex-col items-center justify-center space-y-6">
               {/* Zoom Logo */}
-              <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300 p-3 bg-white/5">
+              <div className="w-20 h-20 rounded-full border-2 border-white flex items-center justify-center p-3 bg-white">
                 <img 
                   src={zoomLogo} 
                   alt="Zoom Phone" 
-                  className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                  className="w-full h-full object-contain"
                 />
               </div>
               
               {/* Name */}
-              <h2 className="font-medium text-white tracking-wide" style={{ fontSize: '1.125rem' }}>
+              <h2 className="font-medium text-white tracking-wide group-hover:text-black transition-colors duration-300" style={{ fontSize: '1.125rem' }}>
                 Zoom Phone
               </h2>
               
               {/* Status */}
               {isZoomConnected ? (
                 <div className="flex items-center space-x-2">
-                  <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-green-400 group-hover:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-sm font-light text-green-400 tracking-wide">
+                  <span className="text-sm font-light text-green-400 group-hover:text-green-600 tracking-wide transition-colors duration-300">
                     Connected
                   </span>
                 </div>
               ) : (
-                <span className="text-sm font-extralight text-white/60 tracking-wide">
+                <span className="text-sm font-extralight text-white group-hover:text-black tracking-wide transition-colors duration-300">
                   Click to connect
                 </span>
               )}
             </div>
-            
-            <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
           </button>
         </div>
 
