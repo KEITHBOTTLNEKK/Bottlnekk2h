@@ -197,12 +197,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
               Analyzing Call Data{dots}
             </h1>
           </>
-        ) : (
-          // Fallback loading state (prevents black screen)
-          <h1 className="font-light text-white tracking-tight" style={{ fontSize: '1.5rem' }}>
-            Loading...
-          </h1>
-        )}
+        ) : null}
       </div>
     </div>
   );
