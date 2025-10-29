@@ -12,6 +12,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+**October 29, 2025** - Typography & Branding Enhancements
+- **Inline Font Sizing**: Switched from Tailwind classes to inline styles for reliable font size control across all screens
+- **Dramatic Scaling**: Welcome headline now 96px-160px (responsive), Results number 192px-320px for maximum visual impact
+- **Bold Headlines**: Connect screen "Which phone system do you use?" changed to bold font weight for emphasis
+- **Company Emblems**: Added minimalist monogram initials ("RC" for RingCentral, "Z" for Zoom) in circular frames
+- **Enhanced CTAs**: Larger button and subtext sizes for improved readability and conversion
+- **Security Badge**: Bolded "Your data is encrypted and secure" message for trust-building
+- **Horizontal Spread**: Welcome screen text now spans full viewport width with refined letter spacing
+
 **October 28, 2025** - Zoom Phone OAuth Integration Complete
 - **Full OAuth Implementation**: Added complete Zoom Phone OAuth flow (login, callback, disconnect, status endpoints)
 - **API Client**: Implemented fetchZoomPhoneAnalytics() to fetch real Zoom call history and calculate missed/after-hours calls

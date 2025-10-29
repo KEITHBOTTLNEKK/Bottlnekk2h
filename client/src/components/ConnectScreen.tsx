@@ -98,7 +98,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
         {/* Header */}
         <div className="text-center space-y-6">
           <h1 
-            className="font-thin text-white tracking-tight"
+            className="font-bold text-white tracking-tight"
             style={{ fontSize: '4.5rem' }}
             data-testid="heading-connect"
           >
@@ -122,9 +122,11 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
             data-testid="button-provider-ringcentral"
           >
             <div className="flex flex-col items-center justify-center space-y-6">
-              {/* Icon */}
+              {/* RingCentral Logo */}
               <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300">
-                <div className="w-10 h-10 rounded-full bg-white/20 group-hover:bg-white/40 transition-colors duration-300" />
+                <span className="text-white/85 group-hover:text-white transition-colors duration-300" style={{ fontSize: '1.75rem', fontWeight: '300', letterSpacing: '-0.05em' }}>
+                  RC
+                </span>
               </div>
               
               {/* Name */}
@@ -159,9 +161,11 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
             data-testid="button-provider-zoom phone"
           >
             <div className="flex flex-col items-center justify-center space-y-6">
-              {/* Icon */}
+              {/* Zoom Logo */}
               <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300">
-                <div className="w-10 h-10 rounded-full bg-white/20 group-hover:bg-white/40 transition-colors duration-300" />
+                <span className="text-white/85 group-hover:text-white transition-colors duration-300" style={{ fontSize: '1.75rem', fontWeight: '300', letterSpacing: '-0.05em' }}>
+                  Z
+                </span>
               </div>
               
               {/* Name */}
