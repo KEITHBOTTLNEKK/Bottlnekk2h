@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Branding } from "./Branding";
 
+const BOTTLNEKK_GREEN = "#00C97B";
+
 interface ResultsScreenProps {
   result: DiagnosticResult;
   onRestart: () => void;
@@ -102,8 +104,19 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           <div className="text-center pt-8">
             <button
               onClick={onRestart}
-              className="inline-flex items-center justify-center px-12 py-6 font-bold text-white border-2 border-white rounded-xl transition-all duration-300 hover:bg-white hover:text-black"
-              style={{ fontSize: '1.25rem' }}
+              className="inline-flex items-center justify-center px-12 py-6 font-bold text-white border-2 rounded-xl transition-all duration-300"
+              style={{ 
+                fontSize: '1.25rem',
+                borderColor: BOTTLNEKK_GREEN,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
+                e.currentTarget.style.color = '#000000';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#FFFFFF';
+              }}
               data-testid="button-restart"
             >
               Run Another Analysis
@@ -159,15 +172,20 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-      <Branding onRestart={onRestart} />
+      <Branding onRestart={onRestart} accentColor={BOTTLNEKK_GREEN} />
       <div className="w-full max-w-6xl space-y-16">
 
         {/* The Number - MASSIVE and Centered */}
         <div className="text-center space-y-10 px-2">
           <h1 
-            className="font-bold text-white tracking-tighter leading-none break-all"
+            className="font-bold tracking-tighter leading-none break-all"
             data-testid="text-total-loss"
-            style={{ fontSize: 'clamp(6rem, 15vw, 16rem)', lineHeight: '0.85', wordBreak: 'keep-all' }}
+            style={{ 
+              fontSize: 'clamp(6rem, 15vw, 16rem)', 
+              lineHeight: '0.85', 
+              wordBreak: 'keep-all',
+              color: BOTTLNEKK_GREEN,
+            }}
           >
             {formatCurrency(animatedTotal)}
           </h1>
@@ -187,8 +205,19 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           <div className="text-center pt-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <button
               onClick={handleBookCall}
-              className="inline-flex items-center justify-center px-16 py-8 font-bold text-white border-2 border-white rounded-xl transition-all duration-300 hover:bg-white hover:text-black"
-              style={{ fontSize: '1.75rem' }}
+              className="inline-flex items-center justify-center px-16 py-8 font-bold text-white border-2 rounded-xl transition-all duration-300"
+              style={{ 
+                fontSize: '1.75rem',
+                borderColor: BOTTLNEKK_GREEN,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
+                e.currentTarget.style.color = '#000000';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#FFFFFF';
+              }}
               data-testid="button-reclaim"
             >
               Fix This
