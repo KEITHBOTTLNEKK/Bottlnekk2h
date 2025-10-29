@@ -79,28 +79,27 @@ export function LandingPage() {
       
       {/* Hero Section */}
       <section className="min-h-[70vh] flex items-center justify-center px-4 pb-20">
-        <div className="max-w-5xl w-full text-center space-y-12">
+        <div className="max-w-5xl w-full text-center space-y-16">
           {/* Main Headline */}
-          <div className="space-y-6">
-            <h1 
-              className="text-5xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-tight"
-              data-testid="text-hero-headline"
-            >
-              Stop Losing{" "}
-              <span style={{ color: BOTTLNEKK_GREEN }} className="font-normal">
-                $15,000+
-              </span>
-              <br />
-              Every Month to Missed Calls
-            </h1>
-            
-            <p 
-              className="text-xl sm:text-2xl font-light text-white/70 tracking-wide max-w-3xl mx-auto"
-              data-testid="text-hero-subhead"
-            >
-              See exactly how much revenue is leaking through your phone system in 60 seconds
-            </p>
-          </div>
+          <h1 
+            className="text-5xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-tight"
+            data-testid="text-hero-headline"
+          >
+            Stop Losing{" "}
+            <span style={{ color: BOTTLNEKK_GREEN }} className="font-normal">
+              $15,000+
+            </span>
+            <br />
+            Every Month to Missed Calls
+          </h1>
+          
+          {/* Subheadline */}
+          <p 
+            className="text-xl sm:text-2xl font-light text-white/70 tracking-wide max-w-3xl mx-auto"
+            data-testid="text-hero-subhead"
+          >
+            See exactly how much revenue is leaking through your phone system in 60 seconds
+          </p>
 
           {/* CTA Button */}
           <Link href="/diagnostic">
