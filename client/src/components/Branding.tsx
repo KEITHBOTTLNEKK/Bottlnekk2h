@@ -1,4 +1,4 @@
-import logoIcon from "@assets/hourglass-cracked_1761720845280.png";
+import logoIcon from "@assets/hourglass-cracked_transparent_1761722440145.png";
 
 export function Branding() {
   return (
