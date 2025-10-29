@@ -260,7 +260,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
       <div className="w-full max-w-6xl space-y-16">
 
         {/* The Number - MASSIVE and Centered */}
-        <div className="text-center space-y-6">
+        <div className="text-center space-y-10">
           <h1 
             className="font-bold text-white tracking-tighter leading-none"
             data-testid="text-total-loss"
