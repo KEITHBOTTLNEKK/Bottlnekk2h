@@ -19,24 +19,6 @@ export function LandingPage() {
       quote: "The automated callback system has been a game-changer for us. Not only have we seen a significant increase in sales, but our customers also appreciate the quick response times."
     },
     {
-      company: "MedSpa",
-      industry: "Healthcare",
-      metric1: "15%",
-      metric1Label: "Booking Rate Increase",
-      metric2: "2X",
-      metric2Label: "Return on Ad Spend",
-      quote: "Instant engagement with leads transformed our booking rate and customer satisfaction."
-    },
-    {
-      company: "Real Estate Brokerage",
-      industry: "Real Estate",
-      metric1: "< 2 min",
-      metric1Label: "Speed to Lead",
-      metric2: "100%",
-      metric2Label: "Lead Follow-Up Rate",
-      quote: "No more missed opportunities. Every lead gets immediate attention and proper follow-up."
-    },
-    {
       company: "Call Centre",
       industry: "Customer Service",
       metric1: "81%",
@@ -52,7 +34,7 @@ export function LandingPage() {
       <Branding accentColor={BOTTLNEKK_GREEN} />
       
       {/* Tagline Section - Top of page */}
-      <section className="pt-32 pb-16 px-4">
+      <section className="pt-32 pb-8 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <div 
             className="text-lg sm:text-xl font-semibold tracking-wide inline-flex items-center justify-center gap-2"

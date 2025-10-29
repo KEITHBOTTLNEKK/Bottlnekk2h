@@ -9,17 +9,13 @@ A premium, Apple-inspired web application designed for home service businesses (
 ### Steve Jobs Minimalist Refinements (October 29, 2025 - Final)
 - **Horizontal Tagline**: "Behind Every [icon] Bottlnekk Lives Freedom" displayed inline with constrained width (max-w-3xl)
 - **Smaller, Bold Tagline**: Reduced to text-lg/xl (was text-2xl/3xl) while maintaining font-semibold and font-bold for impact
-- **Balanced Spacing**: Tagline section uses pb-16 for breathing room between tagline and hero headline
+- **Balanced Spacing**: Tagline section uses pb-8 for breathing room between tagline and hero headline
 - **Actual Logo Integration**: Uses real hourglass logo asset (same logo from top-left branding)
 - **Logo Styling**: White hourglass icon (h-8 to h-9) with green glow effect (#00C97B), integrated inline
 - **Hero Decluttered**: Removed three trust badges (Free Analysis, 60 Second Setup, No Credit Card) - hero now shows only headline + CTA
 - **Improved Hero Spacing**: Generous space-y-16 between headline and subheadline, with extra pt-8 padding above CTA button for clean vertical rhythm
 - **Larger Headline**: Hero headline increased to text-6xl/7xl/8xl (was text-5xl/6xl/7xl) with updated amount to $10,000+ for stronger impact
-- **Case Studies - Impact Focus**: Removed all monthly pricing ($499, $800, $999) and replaced with outcome metrics:
-  - MedSpa: "15% Booking Rate Increase" + "2X ROAS" (was $499/month)
-  - Real Estate: "< 2 min Speed to Lead" + "100% Follow-Up Rate" (was $800/month)
-  - Call Centre: "81% Reduction" + "3X Efficiency Gain" (was $999/month)
-  - Tire Boss: Unchanged (already had killer metrics: 97% reduction, 30% sales increase)
+- **Case Studies Reduced**: Only 2 impactful stories shown (Tire Boss: 97% reduction + 30% sales increase, Call Centre: 81% reduction + 3X efficiency) for focused credibility
 - **Radical Simplification**: Applied Steve Jobs principles - generous whitespace, minimal clutter, maximum impact
 - **Page Flow**: Tagline → Hero Problem → Case Study Proof → How It Works → Final CTA
 
