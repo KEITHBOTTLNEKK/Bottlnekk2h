@@ -6,6 +6,19 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
+### Caller Deduplication (30-Day Window)
+- **Unique Caller Tracking**: System now counts unique phone numbers instead of total calls within 30-day analysis period
+- **Accurate Metrics**: If same customer calls 5 times, counts as 1 missed opportunity (not 5) - reflects real customer loss, not call volume
+- **Smart Sets**: Uses JavaScript Set data structure to track `uniqueMissedCallers` and `uniqueAfterHoursCallers`
+- **Both Providers**: Deduplication implemented in both RingCentral and Zoom Phone analytics engines
+- **Business Logic**: Prevents inflated loss numbers from repeat callers while maintaining callback time analysis accuracy
+
+### Clickable Logo Restart
+- **Logo Functionality**: Clicking Bottlnekk logo (top-left) restarts entire diagnostic flow from welcome screen
+- **Standard UX Pattern**: Follows web convention of "click logo = go home"
+- **Clean Reset**: Clears all state (provider selection, diagnostic results, current step)
+- **Available Everywhere**: Works from all screens (Welcome, Connect, Analysis, Results)
+
 ### Replit Auth Integration for Admin Dashboard
 - **Protected Admin Route**: `/admin/diagnostics` now requires authentication via Replit Auth
 - **Login Options**: Sales team can log in with Google, GitHub, X, Apple, or email/password

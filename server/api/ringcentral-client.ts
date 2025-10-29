@@ -117,14 +117,16 @@ export async function fetchRingCentralAnalytics(avgRevenuePerCall: number = 350)
       console.log(`📞 Sample call: direction=${firstCall.direction}, result=${firstCall.result}, startTime=${firstCall.startTime}, duration=${firstCall.duration}s`);
     }
 
-    // Analyze calls - Enhanced for sales intelligence
-    let missedCalls = 0;
-    let afterHoursCalls = 0;
+    // Analyze calls - Enhanced for sales intelligence with deduplication
     let totalInboundCalls = 0;
     let acceptedCalls = 0;
 
-    // Track calls by phone number for callback time analysis
-    const callsByNumber: Map<string, Array<{time: Date, isMissed: boolean}>> = new Map();
+    // Track calls by phone number for callback time analysis AND deduplication
+    const callsByNumber: Map<string, Array<{time: Date, isMissed: boolean, isAfterHours: boolean}>> = new Map();
+    
+    // Track unique callers who had at least one missed call
+    const uniqueMissedCallers = new Set<string>();
+    const uniqueAfterHoursCallers = new Set<string>();
 
     for (const call of records) {
       // Only count inbound calls
@@ -145,7 +147,7 @@ export async function fetchRingCentralAnalytics(avgRevenuePerCall: number = 350)
       const isAfterHours = hour < 8 || hour >= 18 || isWeekend;
       
       // Debug logging for first inbound call
-      if (call.direction === "Inbound" && missedCalls === 0) {
+      if (call.direction === "Inbound" && uniqueMissedCallers.size === 0) {
         console.log(`🕐 Time analysis: ${call.startTime} → ET hour=${hour}, day=${dayOfWeek}, isAfterHours=${isAfterHours}`);
       }
 
@@ -155,13 +157,13 @@ export async function fetchRingCentralAnalytics(avgRevenuePerCall: number = 350)
       // RingCentral uses "Call connected" or duration > 0 for successful calls
       const isAccepted = !isMissed && call.result === "Call connected";
 
-      // Simple: Any unanswered inbound call is a missed opportunity
+      // Track unique callers who had at least one missed call
       if (isMissed) {
-        missedCalls++;
+        uniqueMissedCallers.add(phoneNumber);
         
-        // Track if this was after-hours (subset for actionable insight)
+        // Track unique callers who had after-hours missed calls
         if (isAfterHours) {
-          afterHoursCalls++;
+          uniqueAfterHoursCallers.add(phoneNumber);
         }
       } else if (isAccepted) {
         // Call was genuinely accepted/answered (not busy, not declined)
@@ -172,18 +174,22 @@ export async function fetchRingCentralAnalytics(avgRevenuePerCall: number = 350)
       if (!callsByNumber.has(phoneNumber)) {
         callsByNumber.set(phoneNumber, []);
       }
-      callsByNumber.get(phoneNumber)!.push({ time: startTime, isMissed });
+      callsByNumber.get(phoneNumber)!.push({ time: startTime, isMissed, isAfterHours });
     }
+
+    // Count unique callers instead of total calls
+    const missedCalls = uniqueMissedCallers.size;
+    const afterHoursCalls = uniqueAfterHoursCallers.size;
 
     // Calculate average callback time
     let totalCallbackTime = 0;
     let callbackCount = 0;
 
-    for (const [phoneNumber, calls] of callsByNumber.entries()) {
+    for (const [phoneNumber, calls] of Array.from(callsByNumber.entries())) {
       if (calls.length < 2) continue; // Need at least 2 calls to measure callback time
 
       // Sort by time
-      calls.sort((a, b) => a.time.getTime() - b.time.getTime());
+      calls.sort((a: {time: Date, isMissed: boolean, isAfterHours: boolean}, b: {time: Date, isMissed: boolean, isAfterHours: boolean}) => a.time.getTime() - b.time.getTime());
 
       // Find missed calls followed by the NEXT answered call from same number
       for (let i = 0; i < calls.length; i++) {
