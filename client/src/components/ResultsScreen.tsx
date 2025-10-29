@@ -257,9 +257,20 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-      <div className="w-full max-w-6xl">
+      <div className="w-full max-w-6xl space-y-16">
+        {/* Message first */}
+        <div className="text-center">
+          <p 
+            className="font-light text-white/60 tracking-wide max-w-2xl mx-auto"
+            style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
+            data-testid="text-loss-description"
+          >
+            You lost this last month.
+          </p>
+        </div>
+
         {/* The Number - MASSIVE and Centered */}
-        <div className="text-center mb-16">
+        <div className="text-center">
           <h1 
             className="font-bold text-white tracking-tighter leading-none"
             data-testid="text-total-loss"
@@ -269,32 +280,17 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           </h1>
         </div>
 
-        {/* Everything else fades in AFTER the count */}
+        {/* Button fades in AFTER the count */}
         {countComplete && (
-          <div className="space-y-20 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            {/* Emotional Impact */}
-            <div className="text-center">
-              <p 
-                className="font-light text-white/60 tracking-wide max-w-2xl mx-auto"
-                style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
-                data-testid="text-loss-description"
-              >
-                You lost this last month.
-              </p>
-            </div>
-
-            {/* ONE Clear Action */}
-            <div className="text-center">
-              <button
-                onClick={handleBookCall}
-                className="inline-flex items-center justify-center px-16 py-6 font-bold text-white border-2 border-white rounded-xl transition-all duration-300 hover:bg-white hover:text-black"
-                style={{ fontSize: '1.25rem' }}
-                data-testid="button-reclaim"
-              >
-                Fix This
-              </button>
-            </div>
-
+          <div className="text-center pt-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            <button
+              onClick={handleBookCall}
+              className="inline-flex items-center justify-center px-16 py-6 font-bold text-white border-2 border-white rounded-xl transition-all duration-300 hover:bg-white hover:text-black"
+              style={{ fontSize: '1.25rem' }}
+              data-testid="button-reclaim"
+            >
+              Fix This
+            </button>
           </div>
         )}
       </div>
