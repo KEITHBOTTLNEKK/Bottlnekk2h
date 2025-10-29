@@ -50,7 +50,7 @@ export async function generateDiagnosticPDF(
         ? Math.round((accepted / totalInbound) * 100)
         : 0;
       
-      const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.35);
+      const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
       const afterHoursPercentage = diagnostic.missedCalls > 0 
         ? Math.round((diagnostic.afterHoursCalls / diagnostic.missedCalls) * 100)
         : 0;
@@ -71,195 +71,195 @@ export async function generateDiagnosticPDF(
 
       let y = 100;
 
-      // LEAD INFORMATION SECTION - Compact
-      doc.rect(40, y, doc.page.width - 80, 85).fillAndStroke('#f8f9fa', '#e0e0e0');
+      // LEAD INFORMATION SECTION - Ultra compact
+      doc.rect(40, y, doc.page.width - 80, 70).fillAndStroke('#f8f9fa', '#e0e0e0');
       
-      doc.fontSize(11)
+      doc.fontSize(10)
          .fillColor('#0066cc')
          .font('Helvetica-Bold')
-         .text('LEAD INFORMATION', 60, y + 12);
+         .text('LEAD INFORMATION', 60, y + 10);
 
-      y += 35;
+      y += 28;
       const contactWidth = (doc.page.width - 140) / 2;
       
-      // Contact grid - more compact
-      doc.fontSize(8)
+      // Contact grid - ultra compact
+      doc.fontSize(7)
          .fillColor('#666666')
          .font('Helvetica')
          .text('CONTACT', 60, y);
-      doc.fontSize(11)
+      doc.fontSize(10)
          .fillColor('#1a1a1a')
          .font('Helvetica-Bold')
-         .text(booking.name, 60, y + 12);
+         .text(booking.name, 60, y + 10);
 
-      doc.fontSize(8)
+      doc.fontSize(7)
          .fillColor('#666666')
          .font('Helvetica')
          .text('EMAIL', 60 + contactWidth, y);
-      doc.fontSize(11)
+      doc.fontSize(10)
          .fillColor('#1a1a1a')
          .font('Helvetica-Bold')
-         .text(booking.email, 60 + contactWidth, y + 12, { width: contactWidth - 20 });
+         .text(booking.email, 60 + contactWidth, y + 10, { width: contactWidth - 20 });
 
-      y += 32;
+      y += 26;
       
-      doc.fontSize(8)
+      doc.fontSize(7)
          .fillColor('#666666')
          .font('Helvetica')
          .text('PHONE', 60, y);
-      doc.fontSize(11)
+      doc.fontSize(10)
          .fillColor('#1a1a1a')
          .font('Helvetica-Bold')
-         .text(booking.phone, 60, y + 12);
+         .text(booking.phone, 60, y + 10);
 
       if (booking.company) {
-        doc.fontSize(8)
+        doc.fontSize(7)
            .fillColor('#666666')
            .font('Helvetica')
            .text('COMPANY', 60 + contactWidth, y);
-        doc.fontSize(11)
+        doc.fontSize(10)
            .fillColor('#1a1a1a')
            .font('Helvetica-Bold')
-           .text(booking.company, 60 + contactWidth, y + 12);
+           .text(booking.company, 60 + contactWidth, y + 10);
       }
 
-      y += 40;
+      y += 32;
 
-      // HERO METRIC - Potential Recovery (more compact)
-      doc.rect(40, y, doc.page.width - 80, 95)
+      // HERO METRIC - Potential Recovery (ultra compact)
+      doc.rect(40, y, doc.page.width - 80, 75)
          .lineWidth(2)
          .fillAndStroke('#e8f5e9', '#4caf50');
 
-      doc.fontSize(10)
+      doc.fontSize(9)
          .fillColor('#2e7d32')
          .font('Helvetica-Bold')
-         .text('POTENTIAL REVENUE RECOVERY', 50, y + 15, { align: 'center' });
+         .text('POTENTIAL REVENUE RECOVERY', 50, y + 12, { align: 'center' });
 
-      doc.fontSize(42)
+      doc.fontSize(36)
          .fillColor('#1b5e20')
          .font('Helvetica-Bold')
-         .text(`$${potentialRecovery.toLocaleString()}`, 50, y + 35, { align: 'center' });
+         .text(`$${potentialRecovery.toLocaleString()}`, 50, y + 28, { align: 'center' });
 
-      doc.fontSize(10)
+      doc.fontSize(9)
          .fillColor('#2e7d32')
          .font('Helvetica')
-         .text('Based on 35% conversion rate of missed opportunities', 50, y + 80, { align: 'center' });
+         .text('60% conversion rate for hot inbound leads', 50, y + 65, { align: 'center' });
 
-      y += 110;
+      y += 88;
 
-      // CALCULATION BREAKDOWN (compact)
-      doc.rect(40, y, doc.page.width - 80, 55)
+      // CALCULATION BREAKDOWN (ultra compact)
+      doc.rect(40, y, doc.page.width - 80, 42)
          .fillAndStroke('#f0f4f8', '#90a4ae');
 
-      doc.fontSize(10)
+      doc.fontSize(9)
          .fillColor('#37474f')
          .font('Helvetica-Bold')
-         .text('HOW WE CALCULATE RECOVERABLE REVENUE', 60, y + 12);
+         .text('CALCULATION', 60, y + 10);
 
-      doc.fontSize(10)
+      doc.fontSize(9)
          .fillColor('#37474f')
          .font('Courier')
-         .text(`${diagnostic.missedCalls} missed calls x $${diagnostic.avgRevenuePerCall} avg value x 35% conversion = $${potentialRecovery.toLocaleString()}`, 60, y + 28, { width: doc.page.width - 120 });
+         .text(`${diagnostic.missedCalls} calls x $${diagnostic.avgRevenuePerCall} x 60% = $${potentialRecovery.toLocaleString()}`, 60, y + 24, { width: doc.page.width - 120 });
 
-      y += 70;
+      y += 54;
 
-      // 30-DAY ANALYTICS SECTION (compact header)
-      doc.fontSize(14)
+      // 30-DAY ANALYTICS SECTION (ultra compact)
+      doc.fontSize(12)
          .fillColor('#1a1a1a')
          .font('Helvetica-Bold')
          .text('30-Day Call Analytics', 50, y);
       
-      doc.moveTo(50, y + 20)
-         .lineTo(doc.page.width - 50, y + 20)
+      doc.moveTo(50, y + 16)
+         .lineTo(doc.page.width - 50, y + 16)
          .lineWidth(1)
          .stroke('#e0e0e0');
 
-      doc.fontSize(9)
+      doc.fontSize(8)
          .fillColor('#666666')
          .font('Helvetica')
-         .text(`${diagnostic.provider} • ${diagnostic.month}`, 50, y + 24);
+         .text(`${diagnostic.provider} • ${diagnostic.month}`, 50, y + 20);
 
-      y += 45;
+      y += 36;
 
-      // Metrics Grid (3 columns, more compact)
+      // Metrics Grid (3 columns, ultra compact)
       const metricWidth = (doc.page.width - 140) / 3;
       const metrics = [
-        { label: 'TOTAL REVENUE LOSS', value: `$${(diagnostic.totalLoss / 1000).toFixed(1)}k`, unit: 'unanswered calls' },
-        { label: 'MISSED CALLS', value: `${diagnostic.missedCalls}`, unit: `of ${totalInbound} total` },
-        { label: 'AFTER-HOURS', value: `${diagnostic.afterHoursCalls}`, unit: 'after 6pm ET' },
+        { label: 'REVENUE LOSS', value: `$${(diagnostic.totalLoss / 1000).toFixed(1)}k`, unit: 'unanswered' },
+        { label: 'MISSED CALLS', value: `${diagnostic.missedCalls}`, unit: `of ${totalInbound}` },
+        { label: 'AFTER-HOURS', value: `${diagnostic.afterHoursCalls}`, unit: 'late calls' },
         { label: 'ANSWER RATE', value: `${answerRate}%`, unit: `${accepted} answered` },
         { label: 'AVG VALUE', value: `$${diagnostic.avgRevenuePerCall}`, unit: 'per call' },
-        { label: 'CALLBACK TIME', value: callbackTime === 'Insufficient data' ? 'N/A' : callbackTime, unit: 'avg response' },
+        { label: 'CALLBACK', value: callbackTime === 'Insufficient data' ? 'N/A' : callbackTime, unit: 'response' },
       ];
 
       for (let i = 0; i < metrics.length; i++) {
         const row = Math.floor(i / 3);
         const col = i % 3;
         const x = 50 + (col * metricWidth) + (col * 20);
-        const currentY = y + (row * 70);
+        const currentY = y + (row * 55);
 
-        doc.rect(x, currentY, metricWidth, 60)
+        doc.rect(x, currentY, metricWidth, 48)
            .lineWidth(1)
            .fillAndStroke('#ffffff', '#e0e0e0');
 
-        doc.fontSize(8)
+        doc.fontSize(7)
            .fillColor('#666666')
            .font('Helvetica-Bold')
-           .text(metrics[i].label, x + 8, currentY + 10, { width: metricWidth - 16, align: 'center' });
+           .text(metrics[i].label, x + 6, currentY + 8, { width: metricWidth - 12, align: 'center' });
 
-        doc.fontSize(22)
+        doc.fontSize(19)
            .fillColor('#1a1a1a')
            .font('Helvetica-Bold')
-           .text(metrics[i].value, x + 8, currentY + 22, { width: metricWidth - 16, align: 'center' });
+           .text(metrics[i].value, x + 6, currentY + 18, { width: metricWidth - 12, align: 'center' });
 
-        doc.fontSize(8)
+        doc.fontSize(7)
            .fillColor('#666666')
            .font('Helvetica')
-           .text(metrics[i].unit, x + 8, currentY + 47, { width: metricWidth - 16, align: 'center' });
+           .text(metrics[i].unit, x + 6, currentY + 38, { width: metricWidth - 12, align: 'center' });
       }
 
-      y += 155;
+      y += 120;
 
-      // KEY INSIGHT BOX (more compact)
+      // KEY INSIGHT BOX (ultra compact)
       if (diagnostic.afterHoursCalls > 0 && diagnostic.missedCalls > 0) {
-        doc.rect(40, y, doc.page.width - 80, 60)
+        doc.rect(40, y, doc.page.width - 80, 48)
            .fillAndStroke('#fff9e6', '#ff9800');
 
-        doc.fontSize(10)
+        doc.fontSize(9)
            .fillColor('#e65100')
            .font('Helvetica-Bold')
-           .text('CRITICAL INSIGHT', 60, y + 12);
+           .text('AFTER-HOURS INSIGHT', 60, y + 10);
 
-        doc.fontSize(9)
+        doc.fontSize(8)
            .fillColor('#3e2723')
            .font('Helvetica-Bold')
-           .text(`${diagnostic.afterHoursCalls} calls (${afterHoursPercentage}% of missed calls)`, 60, y + 28, { continued: true })
+           .text(`${diagnostic.afterHoursCalls} calls (${afterHoursPercentage}%)`, 60, y + 24, { continued: true })
            .font('Helvetica')
-           .text(` came in after hours. This is a `, { continued: true })
+           .text(` after hours = `, { continued: true })
            .font('Helvetica-Bold')
-           .text(`$${afterHoursRevenue.toLocaleString()} opportunity`, { continued: true })
+           .text(`$${afterHoursRevenue.toLocaleString()}`, { continued: true })
            .font('Helvetica')
-           .text(` for extended coverage or answering service.`, { width: doc.page.width - 120 });
+           .text(` opportunity for extended coverage.`, { width: doc.page.width - 120 });
 
-        y += 75;
+        y += 58;
       }
 
-      // FOOTER (compact, at bottom of page)
-      const footerY = doc.page.height - 60;
+      // FOOTER (ultra compact, at bottom of page)
+      const footerY = doc.page.height - 50;
       
-      doc.fontSize(10)
+      doc.fontSize(9)
          .fillColor('#000000')
          .font('Helvetica-Bold')
          .text('Revenue Leak Diagnostic Tool', 50, footerY, { align: 'center' });
 
-      doc.fontSize(9)
+      doc.fontSize(8)
          .fillColor('#666666')
          .font('Helvetica')
-         .text(`Powered by Real ${diagnostic.provider} Call Data`, 50, footerY + 16, { align: 'center' });
+         .text(`${diagnostic.provider} • 30-day analysis`, 50, footerY + 14, { align: 'center' });
 
-      doc.fontSize(8)
+      doc.fontSize(7)
          .fillColor('#999999')
-         .text('30-day call pattern analysis to identify revenue recovery opportunities', 50, footerY + 32, { align: 'center' });
+         .text('Revenue recovery opportunity analysis', 50, footerY + 28, { align: 'center' });
 
       doc.end();
     } catch (error) {

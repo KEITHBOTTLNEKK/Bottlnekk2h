@@ -68,7 +68,7 @@ function formatCallbackTime(minutes: number | null): string {
 }
 
 function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult): string {
-  const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.35);
+  const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
 
   return `
 <!DOCTYPE html>
@@ -252,7 +252,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
 }
 
 function createSalesEmailText(booking: BookingData, diagnostic: DiagnosticResult): string {
-  const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.35);
+  const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
 
   return `
 NEW LEAD NOTIFICATION
@@ -304,7 +304,7 @@ export async function sendSalesIntelligenceEmail(
     
     console.log('📧 Sending sales intelligence email to:', salesEmail);
     
-    const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.35);
+    const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
     const fileName = `Revenue-Recovery-Report-${booking.name.replace(/\s+/g, '-')}.pdf`;
     
     const { data, error } = await client.emails.send({
