@@ -16,6 +16,8 @@ A premium, Apple-inspired web application designed for home service businesses (
 - **Improved Hero Spacing**: Generous space-y-16 between headline and subheadline, with extra pt-8 padding above CTA button for clean vertical rhythm
 - **Larger Headline**: Hero headline increased to text-6xl/7xl/8xl (was text-5xl/6xl/7xl) with updated amount to $10,000+ for stronger impact
 - **Case Studies Reduced**: Only 2 impactful stories shown (Tire Boss: 97% reduction + 30% sales increase, Call Centre: 81% reduction + 3X efficiency) for focused credibility
+- **Revenue Numbers Visible**: Both testimonials show clear revenue growth ($50K→$65K, $120K→$180K monthly) for financial proof
+- **Tighter Section Spacing**: Reduced vertical padding on "Proven Results" and "How It Works" sections (py-12 instead of py-20, mb-10 instead of mb-16)
 - **Radical Simplification**: Applied Steve Jobs principles - generous whitespace, minimal clutter, maximum impact
 - **Page Flow**: Tagline → Hero Problem → Case Study Proof → How It Works → Final CTA
 

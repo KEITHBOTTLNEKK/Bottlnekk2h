@@ -97,10 +97,10 @@ export function LandingPage() {
       </section>
 
       {/* Social Proof Section */}
-      <section className="py-20 px-4 border-t border-white/10">
+      <section className="py-12 px-4 border-t border-white/10">
         <div className="max-w-7xl mx-auto">
           <h2 
-            className="text-3xl sm:text-4xl font-thin text-center mb-16 tracking-tight"
+            className="text-3xl sm:text-4xl font-thin text-center mb-10 tracking-tight"
             data-testid="text-social-proof-heading"
           >
             Proven Results Across Industries
@@ -166,10 +166,10 @@ export function LandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 px-4 border-t border-white/10">
+      <section className="py-12 px-4 border-t border-white/10">
         <div className="max-w-5xl mx-auto">
           <h2 
-            className="text-3xl sm:text-4xl font-thin text-center mb-16 tracking-tight"
+            className="text-3xl sm:text-4xl font-thin text-center mb-10 tracking-tight"
             data-testid="text-how-it-works-heading"
           >
             How It Works
