@@ -24,6 +24,22 @@ function formatCurrency(amount: number): string {
 
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup Replit Auth - reference: blueprint:javascript_log_in_with_replit
+  const { setupAuth, isAuthenticated } = await import("./replitAuth");
+  await setupAuth(app);
+
+  // Auth endpoint
+  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
   // Register OAuth routes
   registerRingCentralOAuth(app);
   registerZoomOAuth(app);
@@ -102,8 +118,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // GET /api/diagnostics - Get all diagnostics (for admin/history)
-  app.get("/api/diagnostics", async (req, res) => {
+  // GET /api/diagnostics - Get all diagnostics (protected - admin only)
+  app.get("/api/diagnostics", isAuthenticated, async (req, res) => {
     try {
       const diagnostics = await storage.getAllDiagnostics();
       res.json(diagnostics);

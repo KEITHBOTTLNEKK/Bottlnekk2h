@@ -6,6 +6,15 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
+### Replit Auth Integration for Admin Dashboard
+- **Protected Admin Route**: `/admin/diagnostics` now requires authentication via Replit Auth
+- **Login Options**: Sales team can log in with Google, GitHub, X, Apple, or email/password
+- **Session Management**: 7-day sessions stored in PostgreSQL for security and persistence
+- **Auth Tables**: Added `users` and `sessions` tables to database schema
+- **User Experience**: Public diagnostic tool remains completely open - no login required for customers
+- **Security Architecture**: Only admin dashboard protected; OAuth phone integrations and diagnostic flow unchanged
+- **Automatic Redirect**: Unauthenticated admin dashboard access redirects to `/api/login`
+
 ### Conversion Rate & PDF Optimization Update
 - **60% Conversion Rate**: Updated from 35% to 60% to accurately reflect hot inbound lead conversion (leads who missed call + ran diagnostic + booked consultation)
 - **Ultra-Compact PDF Layout**: Compressed all sections by 20-40% to fit everything on single page while maintaining readability

@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -36,11 +38,29 @@ interface Diagnostic {
 }
 
 export default function AdminDashboard() {
+  const { toast } = useToast();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [industryFilter, setIndustryFilter] = useState<string>("all");
   const [selectedDiagnostic, setSelectedDiagnostic] = useState<Diagnostic | null>(null);
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      toast({
+        title: "Authentication Required",
+        description: "Logging in...",
+        variant: "destructive",
+      });
+      setTimeout(() => {
+        window.location.href = "/api/login";
+      }, 500);
+      return;
+    }
+  }, [isAuthenticated, authLoading, toast]);
+
   const { data: diagnostics = [], isLoading } = useQuery<Diagnostic[]>({
     queryKey: ["/api/diagnostics"],
+    enabled: isAuthenticated, // Only fetch if authenticated
   });
 
   const industries = Array.from(new Set(diagnostics.map(d => d.industry).filter(Boolean)));
@@ -51,12 +71,17 @@ export default function AdminDashboard() {
 
   const sortedDiagnostics = [...filteredDiagnostics].sort((a, b) => b.totalLoss - a.totalLoss);
 
-  if (isLoading) {
+  if (authLoading || isLoading) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <p className="text-xl">Loading diagnostics...</p>
+        <p className="text-xl">Loading...</p>
       </div>
     );
+  }
+
+  // Don't render until authenticated
+  if (!isAuthenticated) {
+    return null;
   }
 
   if (selectedDiagnostic) {
