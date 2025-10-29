@@ -51,12 +51,13 @@ export default function DiagnosticTool() {
 
   return (
     <div className="min-h-screen bg-black">
-      {currentStep === "welcome" && <WelcomeScreen onStart={handleStart} />}
-      {currentStep === "connect" && <ConnectScreen onProviderSelect={handleProviderSelect} />}
+      {currentStep === "welcome" && <WelcomeScreen onStart={handleStart} onRestart={handleRestart} />}
+      {currentStep === "connect" && <ConnectScreen onProviderSelect={handleProviderSelect} onRestart={handleRestart} />}
       {currentStep === "analysis" && selectedProvider && (
         <AnalysisScreen 
           provider={selectedProvider}
-          onAnalysisComplete={handleAnalysisComplete} 
+          onAnalysisComplete={handleAnalysisComplete}
+          onRestart={handleRestart}
         />
       )}
       {currentStep === "results" && diagnosticResult && (

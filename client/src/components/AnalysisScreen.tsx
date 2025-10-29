@@ -7,9 +7,10 @@ import { Branding } from "./Branding";
 interface AnalysisScreenProps {
   provider: PhoneProvider;
   onAnalysisComplete: (result: DiagnosticResult) => void;
+  onRestart?: () => void;
 }
 
-export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenProps) {
+export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: AnalysisScreenProps) {
   const [dots, setDots] = useState("");
   const [dealSize, setDealSize] = useState("");
   const [showConnected, setShowConnected] = useState(false);
@@ -81,7 +82,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
   if (analyzeMutation.isError) {
     return (
       <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
-        <Branding />
+        <Branding onRestart={onRestart} />
         <div className="text-center space-y-8 max-w-2xl">
           <div className="space-y-4">
             <h1 
@@ -137,7 +138,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
-      <Branding />
+      <Branding onRestart={onRestart} />
       <div className="text-center space-y-8">
         {showConnected ? (
           // Success moment after OAuth

@@ -2,12 +2,13 @@ import { Branding } from "./Branding";
 
 interface WelcomeScreenProps {
   onStart: () => void;
+  onRestart?: () => void;
 }
 
-export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
+export function WelcomeScreen({ onStart, onRestart }: WelcomeScreenProps) {
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-8 sm:px-12 lg:px-16">
-      <Branding />
+      <Branding onRestart={onRestart} />
       <div className="w-full text-center space-y-12">
         <div className="space-y-6">
           <h1 

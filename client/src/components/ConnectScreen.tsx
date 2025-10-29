@@ -6,6 +6,7 @@ import { Branding } from "./Branding";
 
 interface ConnectScreenProps {
   onProviderSelect: (provider: "RingCentral" | "Zoom Phone") => void;
+  onRestart?: () => void;
 }
 
 interface ConnectionStatus {
@@ -14,7 +15,7 @@ interface ConnectionStatus {
   accountId?: string;
 }
 
-export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
+export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Check connection status for both providers
@@ -69,7 +70,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8">
-      <Branding />
+      <Branding onRestart={onRestart} />
       <div className="max-w-5xl w-full space-y-16">
         {/* Error Banner */}
         {errorMessage && (
