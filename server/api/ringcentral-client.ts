@@ -97,8 +97,13 @@ export async function fetchRingCentralAnalytics(avgRevenuePerCall: number = 350)
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Failed to fetch call log:", errorText);
-      throw new Error("Failed to fetch call log");
+      console.error("❌ RingCentral API error:", {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorText,
+        url: callLogUrl.toString(),
+      });
+      throw new Error(`RingCentral API failed (${response.status}): ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -145,6 +150,10 @@ export async function fetchRingCentralAnalytics(avgRevenuePerCall: number = 350)
       }
 
       const isMissed = call.result === "Missed" || call.result === "Voicemail" || call.result === "Abandoned";
+      
+      // Accepted = actually connected (not missed, not voicemail, not abandoned)
+      // RingCentral uses "Call connected" or duration > 0 for successful calls
+      const isAccepted = !isMissed && call.result === "Call connected";
 
       // Simple: Any unanswered inbound call is a missed opportunity
       if (isMissed) {
@@ -154,8 +163,8 @@ export async function fetchRingCentralAnalytics(avgRevenuePerCall: number = 350)
         if (isAfterHours) {
           afterHoursCalls++;
         }
-      } else {
-        // Call was accepted/answered
+      } else if (isAccepted) {
+        // Call was genuinely accepted/answered (not busy, not declined)
         acceptedCalls++;
       }
 
@@ -176,13 +185,19 @@ export async function fetchRingCentralAnalytics(avgRevenuePerCall: number = 350)
       // Sort by time
       calls.sort((a, b) => a.time.getTime() - b.time.getTime());
 
-      // Find missed calls followed by answered calls from same number
-      for (let i = 0; i < calls.length - 1; i++) {
-        if (calls[i].isMissed && !calls[i + 1].isMissed) {
-          // Found a callback! Measure time between missed call and answered call
-          const callbackMinutes = (calls[i + 1].time.getTime() - calls[i].time.getTime()) / (1000 * 60);
-          totalCallbackTime += callbackMinutes;
-          callbackCount++;
+      // Find missed calls followed by the NEXT answered call from same number
+      for (let i = 0; i < calls.length; i++) {
+        if (calls[i].isMissed) {
+          // Look for next answered call (not just next call)
+          for (let j = i + 1; j < calls.length; j++) {
+            if (!calls[j].isMissed) {
+              // Found a callback! Measure time between missed call and answered call
+              const callbackMinutes = (calls[j].time.getTime() - calls[i].time.getTime()) / (1000 * 60);
+              totalCallbackTime += callbackMinutes;
+              callbackCount++;
+              break; // Only count first callback for this missed call
+            }
+          }
         }
       }
     }

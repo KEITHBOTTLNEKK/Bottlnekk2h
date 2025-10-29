@@ -148,7 +148,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
     </div>
   </div>
 
-  ${diagnostic.afterHoursCalls > 0 ? `
+  ${diagnostic.afterHoursCalls > 0 && diagnostic.missedCalls > 0 ? `
   <div class="insight">
     <strong>💡 Key Insight:</strong> ${diagnostic.afterHoursCalls} calls (${Math.round((diagnostic.afterHoursCalls / diagnostic.missedCalls) * 100)}% of missed calls) came in after hours. This represents a <strong>$${(diagnostic.afterHoursCalls * diagnostic.avgRevenuePerCall).toLocaleString()}</strong> opportunity for an answering service or extended hours.
   </div>
@@ -201,7 +201,7 @@ Per call
 AVG CALLBACK TIME: ${callbackTime}
 When customers call back after missing them
 
-${diagnostic.afterHoursCalls > 0 ? `
+${diagnostic.afterHoursCalls > 0 && diagnostic.missedCalls > 0 ? `
 KEY INSIGHT
 -----------
 ${diagnostic.afterHoursCalls} calls (${Math.round((diagnostic.afterHoursCalls / diagnostic.missedCalls) * 100)}% of missed calls) came in after hours. 
