@@ -268,13 +268,15 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           >
             {formatCurrency(animatedTotal)}
           </h1>
-          <p 
-            className="font-light text-white/60 tracking-wide"
-            style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
-            data-testid="text-loss-description"
-          >
-            In unanswered calls
-          </p>
+          {countComplete && (
+            <p 
+              className="font-light text-white/60 tracking-wide animate-in fade-in slide-in-from-bottom-2 duration-700"
+              style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
+              data-testid="text-loss-description"
+            >
+              In unanswered calls
+            </p>
+          )}
         </div>
 
         {/* Button fades in AFTER the count */}
