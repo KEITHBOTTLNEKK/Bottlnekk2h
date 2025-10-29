@@ -112,7 +112,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
     }
     .badge {
       display: inline-block;
-      background: #4caf50;
+      background: #00C97B;
       color: white;
       padding: 8px 16px;
       border-radius: 20px;
@@ -123,16 +123,16 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
       margin-bottom: 30px;
     }
     .hero-metric { 
-      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      background: linear-gradient(135deg, #e6f9f2 0%, #ccf2e5 100%);
       padding: 40px; 
       margin: 30px 0; 
       text-align: center;
       border-radius: 10px;
-      border: 2px solid #4caf50;
+      border: 2px solid #00C97B;
     }
     .hero-label { 
       font-size: 14px; 
-      color: #2e7d32; 
+      color: #00A565; 
       font-weight: 700; 
       text-transform: uppercase; 
       letter-spacing: 2px; 
@@ -141,13 +141,13 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
     .hero-value { 
       font-size: 58px; 
       font-weight: 700; 
-      color: #1b5e20; 
+      color: #008558; 
       line-height: 1;
       margin: 15px 0;
     }
     .hero-subtext { 
       font-size: 15px; 
-      color: #2e7d32; 
+      color: #00A565; 
       margin-top: 12px;
     }
     .contact-grid {
