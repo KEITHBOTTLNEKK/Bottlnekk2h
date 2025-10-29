@@ -271,7 +271,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
         {/* Everything else fades in AFTER the count */}
         {countComplete && (
-          <div className="space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div className="space-y-20 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             {/* Emotional Impact */}
             <div className="text-center">
               <p 
@@ -283,38 +283,20 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
               </p>
             </div>
 
-            {/* Simple Insight - Conversational */}
-            <div className="text-center space-y-3 max-w-xl mx-auto">
-              <p className="font-light text-white/80 tracking-wide" style={{ fontSize: '1.75rem' }} data-testid="metric-missed-calls">
-                {formatNumber(result.missedCalls)} missed {result.missedCalls === 1 ? 'call' : 'calls'}.
-                {result.afterHoursCalls > 0 && (
-                  <span className="text-white/50"> {formatNumber(result.afterHoursCalls)} {result.afterHoursCalls === 1 ? 'was' : 'were'} after hours.</span>
-                )}
-              </p>
-              <p className="text-base font-extralight text-white/40 tracking-wide">
-                At {formatCurrency(result.avgRevenuePerCall)} per customer
-              </p>
-            </div>
-
             {/* ONE Clear Action */}
-            <div className="text-center space-y-6">
+            <div className="text-center">
               <button
                 onClick={handleBookCall}
-                className="group relative inline-flex items-center justify-center px-16 py-6 font-semibold text-black bg-white rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+                className="inline-flex items-center justify-center px-16 py-6 font-bold text-white border-2 border-white rounded-xl transition-all duration-300 hover:bg-white hover:text-black"
                 style={{ fontSize: '1.25rem' }}
                 data-testid="button-reclaim"
               >
-                <span className="relative z-10 tracking-wide">Fix This</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                Fix This
               </button>
-              
-              <p className="text-sm font-light text-white/30 tracking-wide">
-                Book a 15-minute call with our team
-              </p>
             </div>
 
             {/* Minimal footer */}
-            <div className="text-center space-y-4 pt-8">
+            <div className="text-center space-y-4 pt-12">
               <p className="font-light text-white/20 tracking-wide" style={{ fontSize: '0.875rem' }}>
                 {result.provider} • {result.month}
               </p>
