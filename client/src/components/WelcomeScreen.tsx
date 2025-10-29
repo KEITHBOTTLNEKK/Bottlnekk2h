@@ -16,7 +16,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           </h1>
           <p 
             className="font-light text-[#9CA3AF]"
-            style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', letterSpacing: '0.05em' }}
+            style={{ fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)', letterSpacing: '0.05em' }}
             data-testid="text-subheading"
           >
             It's more than you think.
@@ -26,8 +26,8 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         <div className="pt-8">
           <button
             onClick={onStart}
-            className="group relative inline-flex items-center justify-center px-12 py-5 font-semibold text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
-            style={{ fontSize: '1.125rem' }}
+            className="group relative inline-flex items-center justify-center px-16 py-6 font-semibold text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20"
+            style={{ fontSize: '1.5rem' }}
             data-testid="button-start"
           >
             <span className="relative z-10 tracking-wide">Show Me The Number</span>
