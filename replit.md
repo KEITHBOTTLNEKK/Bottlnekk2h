@@ -6,6 +6,11 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
+### Sales Intelligence Enhancements
+- **Potential Budget Metric**: Added internal sales metric (answered calls × deal size × 30%) with prominent "(Internal Use Only - Never Mention to Client)" warning in both PDF and email
+- **Formula Protection**: Removed all calculation formulas from sales intelligence reports - competitive moat protected by showing only final numbers and their meaning
+- **Clean Presentation**: Sales team receives polished metrics without seeing proprietary conversion rates or calculation methods
+
 ### Caller Deduplication (30-Day Window)
 - **Unique Caller Tracking**: System now counts unique phone numbers instead of total calls within 30-day analysis period
 - **Accurate Metrics**: If same customer calls 5 times, counts as 1 missed opportunity (not 5) - reflects real customer loss, not call volume
@@ -28,22 +33,13 @@ A premium, Apple-inspired web application designed for home service businesses (
 - **Security Architecture**: Only admin dashboard protected; OAuth phone integrations and diagnostic flow unchanged
 - **Automatic Redirect**: Unauthenticated admin dashboard access redirects to `/api/login`
 
-### Conversion Rate & PDF Optimization Update
-- **60% Conversion Rate**: Updated from 35% to 60% to accurately reflect hot inbound lead conversion (leads who missed call + ran diagnostic + booked consultation)
-- **Ultra-Compact PDF Layout**: Compressed all sections by 20-40% to fit everything on single page while maintaining readability
-  - Reduced font sizes (9pt → 7pt labels, 22pt → 19pt metrics)
-  - Tightened spacing (contact: 85px → 70px, hero: 95px → 75px, metrics: 60px → 48px)
-  - Abbreviated labels for space efficiency ("REVENUE LOSS", "answered" instead of verbose text)
-- **Accurate Recovery Math**: Example: 17 calls × $1,000 avg × 60% = $10,200 recoverable revenue
-- **Security Maintained**: Email body still contains only contact info + recovery amount; all detailed analytics secured in PDF attachment
-
-### Professional PDF Reports & Email Redesign
+### Professional PDF Reports & Email System
 - **PDF Generation**: Implemented PDFKit-based PDF report generator (pure JavaScript, no browser dependencies)
-- **Professional PDF Design**: Multi-page report with branded header, lead info grid, hero recovery metric, calculation breakdown, 6-metric analytics dashboard, after-hours insight box, and professional footer
-- **Email Format Improvements**: Redesigned HTML email with modern card layout, gradient headers, 3-column stats grid, and prominent PDF attachment callout
-- **Revenue Clarity**: Displays calculation formula clearly in both email and PDF
+- **Professional PDF Design**: Single-page report with branded header, lead info grid, hero recovery metric, potential budget (internal use), after-hours insight box, 6-metric analytics dashboard, and professional footer
+- **Email Format**: Modern HTML design with contact grid, hero recovery metric, potential budget warning box, and prominent PDF attachment callout
 - **Smart Attachments**: PDFs automatically attached to sales intelligence emails with descriptive filenames (Revenue-Recovery-Report-{Name}.pdf)
-- **Subject Line**: Changed from total loss to actionable recovery opportunity ($X,XXX Recovery Opportunity)
+- **Subject Line**: Recovery opportunity focused ($X,XXX Recovery Opportunity)
+- **Ultra-Compact Layout**: All sections compressed to fit on single page while maintaining readability
 
 ### Diagnostic Matching System
 - **Unique Diagnostic Tracking**: Each analysis returns a unique `diagnosticId` that tracks through the entire booking flow

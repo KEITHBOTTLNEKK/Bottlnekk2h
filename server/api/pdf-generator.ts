@@ -88,30 +88,32 @@ export async function generateDiagnosticPDF(
       doc.fontSize(40).fillColor('#1b5e20').font('Helvetica-Bold');
       doc.text(`$${potentialRecovery.toLocaleString()}`, 50, 215, { width: 512, align: 'center' });
       doc.fontSize(11).fillColor('#2e7d32').font('Helvetica');
-      doc.text('60% conversion rate for hot inbound leads', 50, 253, { width: 512, align: 'center' });
+      doc.text('Estimated from missed inbound opportunities', 50, 253, { width: 512, align: 'center' });
 
-      // CALCULATION
-      doc.rect(40, 285, 532, 45).fillAndStroke('#f0f4f8', '#90a4ae');
-      doc.fontSize(11).fillColor('#37474f').font('Helvetica-Bold');
-      doc.text('CALCULATION', 50, 295, { width: 512 });
-      doc.fontSize(11).fillColor('#37474f').font('Courier');
-      doc.text(`${diagnostic.missedCalls} calls x $${diagnostic.avgRevenuePerCall} x 60% = $${potentialRecovery.toLocaleString()}`, 50, 311, { width: 512 });
+      // POTENTIAL BUDGET (Internal Use Only)
+      doc.rect(40, 285, 532, 60).fillAndStroke('#fff3e0', '#ff9800');
+      doc.fontSize(11).fillColor('#e65100').font('Helvetica-Bold');
+      doc.text('POTENTIAL BUDGET', 50, 295, { width: 512, align: 'center' });
+      doc.fontSize(9).fillColor('#bf360c').font('Helvetica-Bold');
+      doc.text('(Internal Use Only - Never Mention to Client)', 50, 310, { width: 512, align: 'center' });
+      doc.fontSize(32).fillColor('#e65100').font('Helvetica-Bold');
+      doc.text(`$${potentialBudget.toLocaleString()}`, 50, 325, { width: 512, align: 'center' });
 
       // AFTER-HOURS OPPORTUNITY (if applicable)
       let afterHoursBoxHeight = 0;
       if (diagnostic.afterHoursCalls > 0) {
         afterHoursBoxHeight = 62;
-        doc.rect(40, 345, 532, afterHoursBoxHeight).fillAndStroke('#fff9e6', '#ff9800');
+        doc.rect(40, 360, 532, afterHoursBoxHeight).fillAndStroke('#fff9e6', '#ffa726');
         doc.fontSize(11).fillColor('#e65100').font('Helvetica-Bold');
-        doc.text('AFTER-HOURS OPPORTUNITY', 50, 354, { width: 512 });
+        doc.text('AFTER-HOURS OPPORTUNITY', 50, 369, { width: 512 });
         doc.fontSize(10).fillColor('#3e2723').font('Helvetica');
-        doc.text(`${diagnostic.afterHoursCalls} of the ${diagnostic.missedCalls} missed calls came after business hours (nights/weekends) = $${afterHoursRevenue.toLocaleString()} opportunity.`, 50, 370, { width: 512 });
+        doc.text(`${diagnostic.afterHoursCalls} of the ${diagnostic.missedCalls} missed calls came after business hours (nights/weekends) = $${afterHoursRevenue.toLocaleString()} in lost revenue.`, 50, 385, { width: 512 });
         doc.fontSize(10).fillColor('#e65100').font('Helvetica-Bold');
-        doc.text(`AI answering service works 24/7 and books appointments regardless of time or day.`, 50, 387, { width: 512 });
+        doc.text(`AI answering service works 24/7 and books appointments regardless of time or day.`, 50, 402, { width: 512 });
       }
 
       // ANALYTICS HEADER
-      const analyticsY = 345 + afterHoursBoxHeight + 15;
+      const analyticsY = 360 + afterHoursBoxHeight + 15;
       doc.fontSize(14).fillColor('#1a1a1a').font('Helvetica-Bold');
       doc.text('30-Day Call Analytics', 50, analyticsY, { width: 512 });
       doc.moveTo(50, analyticsY + 18).lineTo(562, analyticsY + 18).lineWidth(1).stroke('#e0e0e0');

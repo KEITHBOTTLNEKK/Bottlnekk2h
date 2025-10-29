@@ -69,6 +69,9 @@ function formatCallbackTime(minutes: number | null): string {
 
 function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult): string {
   const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
+  const totalInbound = diagnostic.totalInboundCalls ?? 0;
+  const accepted = diagnostic.acceptedCalls ?? 0;
+  const potentialBudget = Math.round(accepted * diagnostic.avgRevenuePerCall * 0.30);
 
   return `
 <!DOCTYPE html>
@@ -232,12 +235,18 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
       <div class="hero-metric">
         <div class="hero-label">Recovery Opportunity</div>
         <div class="hero-value">$${potentialRecovery.toLocaleString()}</div>
-        <div class="hero-subtext">Estimated revenue recovery potential</div>
+        <div class="hero-subtext">Estimated from missed inbound opportunities</div>
+      </div>
+
+      <div style="background: #fff3e0; border: 2px solid #ff9800; padding: 25px; margin: 30px 0; text-align: center; border-radius: 10px;">
+        <div style="font-size: 15px; font-weight: 700; color: #e65100; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Potential Budget</div>
+        <div style="font-size: 11px; font-weight: 700; color: #bf360c; margin-bottom: 10px;">(Internal Use Only - Never Mention to Client)</div>
+        <div style="font-size: 42px; font-weight: 700; color: #e65100; margin: 10px 0;">$${potentialBudget.toLocaleString()}</div>
       </div>
 
       <div class="pdf-box">
         <h3>📎 Complete Intelligence Report Attached</h3>
-        <p>Open the PDF for full call analytics, revenue breakdown, and actionable insights</p>
+        <p>Open the PDF for full call analytics and actionable insights</p>
       </div>
     </div>
 
@@ -253,6 +262,9 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
 
 function createSalesEmailText(booking: BookingData, diagnostic: DiagnosticResult): string {
   const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
+  const totalInbound = diagnostic.totalInboundCalls ?? 0;
+  const accepted = diagnostic.acceptedCalls ?? 0;
+  const potentialBudget = Math.round(accepted * diagnostic.avgRevenuePerCall * 0.30);
 
   return `
 NEW LEAD NOTIFICATION
@@ -267,15 +279,19 @@ ${booking.company ? `Company: ${booking.company}` : ''}
 RECOVERY OPPORTUNITY
 --------------------
 $${potentialRecovery.toLocaleString()}
-Estimated revenue recovery potential
+Estimated from missed inbound opportunities
+
+POTENTIAL BUDGET (INTERNAL USE ONLY - NEVER MENTION TO CLIENT)
+---------------------------------------------------------------
+$${potentialBudget.toLocaleString()}
 
 COMPLETE INTELLIGENCE REPORT ATTACHED
 --------------------------------------
 Open the attached PDF for:
 - Full call analytics breakdown
-- Revenue recovery calculation
-- After-hours opportunity analysis
-- Actionable insights and recommendations
+- Revenue recovery analysis
+- After-hours opportunity insights
+- Actionable recommendations
 
 ---
 Revenue Leak Diagnostic Tool
