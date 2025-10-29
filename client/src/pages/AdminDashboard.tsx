@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const BOTTLNEKK_GREEN = "#00C97B";
 import {
   Table,
   TableBody,
@@ -116,11 +118,11 @@ export default function AdminDashboard() {
             </CardHeader>
           </Card>
 
-          <Card className="bg-green-900/30 border-green-800 mb-6">
+          <Card className="bg-zinc-900 mb-6" style={{ borderColor: BOTTLNEKK_GREEN, borderWidth: '2px' }}>
             <CardContent className="pt-6">
-              <p className="text-green-400 text-sm font-semibold mb-2">POTENTIAL REVENUE RECOVERY</p>
-              <p className="text-5xl font-bold text-green-500">${potentialRecovery.toLocaleString()}</p>
-              <p className="text-green-400 text-sm mt-2">60% conversion rate for hot inbound leads</p>
+              <p className="text-sm font-semibold mb-2" style={{ color: BOTTLNEKK_GREEN }}>POTENTIAL REVENUE RECOVERY</p>
+              <p className="text-5xl font-bold" style={{ color: BOTTLNEKK_GREEN }}>${potentialRecovery.toLocaleString()}</p>
+              <p className="text-sm mt-2" style={{ color: BOTTLNEKK_GREEN, opacity: 0.8 }}>60% conversion rate for hot inbound leads</p>
             </CardContent>
           </Card>
 
