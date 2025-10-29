@@ -25,6 +25,7 @@ export function LandingPage() {
       metric1Label: "Reduction in Response Time",
       metric2: "3X",
       metric2Label: "Team Efficiency Gain",
+      revenue: "$120K → $180K monthly",
       quote: "Automated scheduling and follow-up freed up our team to focus on high-value conversations."
     }
   ];
