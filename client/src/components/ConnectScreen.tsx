@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ringCentralLogo from "@assets/image_1761697572364.png";
-import zoomPhoneLogo from "@assets/image_1761697811170.png";
+import zoomPhoneLogo from "@assets/image_1761697916093.png";
 
 interface ConnectScreenProps {
   onProviderSelect: (provider: "RingCentral" | "Zoom Phone") => void;
