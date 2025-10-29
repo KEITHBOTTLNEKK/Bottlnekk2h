@@ -258,19 +258,9 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
   return (
     <div className="min-h-screen bg-black dark:bg-black flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
       <div className="w-full max-w-6xl space-y-16">
-        {/* Message first */}
-        <div className="text-center">
-          <p 
-            className="font-light text-white/60 tracking-wide max-w-2xl mx-auto"
-            style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
-            data-testid="text-loss-description"
-          >
-            You lost this last month.
-          </p>
-        </div>
 
         {/* The Number - MASSIVE and Centered */}
-        <div className="text-center">
+        <div className="text-center space-y-6">
           <h1 
             className="font-bold text-white tracking-tighter leading-none"
             data-testid="text-total-loss"
@@ -278,6 +268,13 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           >
             {formatCurrency(animatedTotal)}
           </h1>
+          <p 
+            className="font-light text-white/60 tracking-wide"
+            style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
+            data-testid="text-loss-description"
+          >
+            In unanswered calls
+          </p>
         </div>
 
         {/* Button fades in AFTER the count */}
