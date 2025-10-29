@@ -4,6 +4,13 @@
 
 A premium, Apple-inspired web application designed for home service businesses (plumbing, HVAC, electrical) to identify and quantify revenue losses from missed phone calls, after-hours opportunities, and abandoned calls. The tool features a dramatic, high-contrast black minimalist design with a multi-step diagnostic flow that analyzes phone system data and delivers impactful financial insights.
 
+## Recent Changes (October 29, 2025)
+
+- Updated GoHighLevel calendar URL to `fix-your-phone-leak`
+- Made sales intelligence metrics optional in database to protect user experience from backend failures
+- Configured SALES_EMAIL environment variable for sales team notifications
+- Fixed database schema compatibility issues with existing data
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
@@ -34,7 +41,9 @@ The application boasts a dramatic, high-contrast black minimalist design inspire
 - **Other Providers**: Vonage, Nextiva, 8x8 (currently use mock data, OAuth pending).
 
 **Email Service**
-- Resend: Configured for transactional emails, currently used for booking confirmation notifications.
+- Resend: Configured for transactional emails via Replit connector integration.
+- Sales Intelligence Emails: Automatically sent to SALES_EMAIL when users book calls, includes contact info, revenue recovery metrics (35% conversion rate), answer rate, callback time, and after-hours insights.
+- User Experience Protection: All sales fields are optional - backend email failures never break the user diagnostic flow.
 
 **UI Libraries**
 - Radix UI: Primitives for accessible components.
@@ -51,3 +60,7 @@ The application boasts a dramatic, high-contrast black minimalist design inspire
 - TypeScript: Full-stack type safety.
 - Replit-specific plugins.
 - ESBuild: Fast server-side bundling.
+
+**Environment Configuration**
+- SALES_EMAIL: Required secret for sales team notification emails (configured via Replit Secrets).
+- GoHighLevel Calendar: Embedded booking widget at `https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak`.
