@@ -116,7 +116,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
   if (showBookingForm) {
     return (
       <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-2xl w-full space-y-12">
+        <div className="max-w-4xl w-full space-y-12">
           <div className="text-center space-y-4">
             <h2 
               className="font-bold text-white tracking-tight"
@@ -130,111 +130,27 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             </p>
           </div>
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white/80 font-light text-lg tracking-wide">Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="bg-transparent border-white/20 text-white text-xl py-6 focus:border-white transition-colors"
-                        placeholder="John Smith"
-                        data-testid="input-name"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
+          <div className="w-full">
+            <iframe 
+              src="https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak"
+              className="w-full border-0"
+              style={{ height: '800px', minHeight: '800px' }}
+              id="ghl-booking-widget"
+              data-testid="booking-calendar"
+              title="Schedule Appointment"
+            />
+          </div>
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white/80 font-light text-lg tracking-wide">Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="email"
-                        className="bg-transparent border-white/20 text-white text-xl py-6 focus:border-white transition-colors"
-                        placeholder="john@company.com"
-                        data-testid="input-email"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white/80 font-light text-lg tracking-wide">Phone</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="tel"
-                        className="bg-transparent border-white/20 text-white text-xl py-6 focus:border-white transition-colors"
-                        placeholder="(555) 123-4567"
-                        data-testid="input-phone"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="company"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white/80 font-light text-lg tracking-wide">Company (optional)</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="bg-transparent border-white/20 text-white text-xl py-6 focus:border-white transition-colors"
-                        placeholder="ABC Plumbing"
-                        data-testid="input-company"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400" />
-                  </FormItem>
-                )}
-              />
-
-              <div className="pt-8 space-y-4">
-                <button
-                  type="submit"
-                  disabled={bookingMutation.isPending}
-                  className="w-full inline-flex items-center justify-center px-12 py-6 font-bold text-white border-2 border-white rounded-xl transition-all duration-300 hover:bg-white hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{ fontSize: '1.5rem' }}
-                  data-testid="button-submit-booking"
-                >
-                  {bookingMutation.isPending ? "Scheduling..." : "Schedule Call"}
-                </button>
-
-                <div className="text-center">
-                  <button
-                    type="button"
-                    onClick={() => setShowBookingForm(false)}
-                    className="font-light text-white/40 hover:text-white tracking-wide transition-colors duration-300"
-                    style={{ fontSize: '0.875rem' }}
-                    data-testid="button-cancel"
-                  >
-                    ← Back to results
-                  </button>
-                </div>
-              </div>
-            </form>
-          </Form>
+          <div className="text-center pt-8">
+            <button
+              onClick={() => setShowBookingForm(false)}
+              className="font-light text-white/40 hover:text-white tracking-wide transition-colors duration-300"
+              style={{ fontSize: '0.875rem' }}
+              data-testid="button-cancel"
+            >
+              ← Back to results
+            </button>
+          </div>
         </div>
       </div>
     );

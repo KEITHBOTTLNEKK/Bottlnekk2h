@@ -6,9 +6,12 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
+- Implemented GoHighLevel webhook integration for automated sales intelligence emails
+- Restored GHL calendar iframe in booking flow (removed custom form)
+- Created webhook endpoint at POST /api/webhooks/gohighlevel with secret validation
 - Updated GoHighLevel calendar URL to `fix-your-phone-leak`
 - Made sales intelligence metrics optional in database to protect user experience from backend failures
-- Configured SALES_EMAIL environment variable for sales team notifications
+- Configured SALES_EMAIL and GOHIGHLEVEL_WEBHOOK_SECRET environment variables
 - Fixed database schema compatibility issues with existing data
 
 ## User Preferences
@@ -63,4 +66,6 @@ The application boasts a dramatic, high-contrast black minimalist design inspire
 
 **Environment Configuration**
 - SALES_EMAIL: Required secret for sales team notification emails (configured via Replit Secrets).
+- GOHIGHLEVEL_WEBHOOK_SECRET: Webhook security secret for validating GHL booking notifications.
 - GoHighLevel Calendar: Embedded booking widget at `https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak`.
+- GoHighLevel Webhook: POST /api/webhooks/gohighlevel receives booking notifications and triggers sales emails.
