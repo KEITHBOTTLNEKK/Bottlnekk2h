@@ -18,11 +18,22 @@ export function registerRingCentralOAuth(app: Express) {
   // Initiate OAuth flow
   app.get("/auth/ringcentral/login", (req, res) => {
     if (!CLIENT_ID) {
+      console.error("❌ RingCentral CLIENT_ID not configured");
       return res.status(500).json({ error: "RingCentral OAuth not configured" });
     }
 
     const baseUrl = getBaseUrl(req);
     const redirectUri = `${baseUrl}/auth/ringcentral/callback`;
+    
+    console.log("🔐 RingCentral OAuth Login:", {
+      baseUrl,
+      redirectUri,
+      headers: {
+        host: req.headers.host,
+        'x-forwarded-host': req.headers['x-forwarded-host'],
+        'x-forwarded-proto': req.headers['x-forwarded-proto'],
+      }
+    });
     
     const authUrl = new URL(`${RINGCENTRAL_SERVER}/restapi/oauth/authorize`);
     authUrl.searchParams.append("response_type", "code");
@@ -31,7 +42,7 @@ export function registerRingCentralOAuth(app: Express) {
     authUrl.searchParams.append("state", Math.random().toString(36).substring(7));
     // Omit scope parameter - RingCentral will use all scopes configured in app settings
 
-    console.log("RingCentral OAuth URL:", authUrl.toString());
+    console.log("➡️  Redirecting to RingCentral:", authUrl.toString());
     res.redirect(authUrl.toString());
   });
 
@@ -39,18 +50,28 @@ export function registerRingCentralOAuth(app: Express) {
   app.get("/auth/ringcentral/callback", async (req, res) => {
     const { code, error, error_description } = req.query;
 
+    console.log("⬅️  RingCentral callback received:", {
+      hasCode: !!code,
+      error,
+      error_description,
+      query: req.query,
+    });
+
     if (error) {
-      console.error("RingCentral OAuth error:", error_description);
+      console.error("❌ RingCentral OAuth error:", error_description);
       return res.redirect(`/diagnostic?error=${encodeURIComponent(error_description as string || 'Authentication failed')}`);
     }
 
     if (!code || !CLIENT_ID || !CLIENT_SECRET) {
+      console.error("❌ Missing required parameters:", { hasCode: !!code, hasClientId: !!CLIENT_ID, hasClientSecret: !!CLIENT_SECRET });
       return res.redirect("/diagnostic?error=Invalid callback parameters");
     }
 
     try {
       const baseUrl = getBaseUrl(req);
       const redirectUri = `${baseUrl}/auth/ringcentral/callback`;
+      
+      console.log("🔄 Exchanging code for token:", { baseUrl, redirectUri });
 
       // Exchange code for tokens
       const tokenResponse = await fetch(`${RINGCENTRAL_SERVER}/restapi/oauth/token`, {
@@ -68,11 +89,17 @@ export function registerRingCentralOAuth(app: Express) {
 
       if (!tokenResponse.ok) {
         const errorText = await tokenResponse.text();
-        console.error("Token exchange failed:", errorText);
-        throw new Error("Failed to exchange authorization code");
+        console.error("❌ Token exchange failed:", {
+          status: tokenResponse.status,
+          statusText: tokenResponse.statusText,
+          error: errorText,
+          redirectUri,
+        });
+        throw new Error(`Failed to exchange authorization code: ${tokenResponse.status} ${errorText}`);
       }
 
       const tokenData = await tokenResponse.json();
+      console.log("✅ Token received successfully");
       
       // Calculate token expiry
       const expiresIn = tokenData.expires_in || 3600;
@@ -87,7 +114,10 @@ export function registerRingCentralOAuth(app: Express) {
 
       if (!accountResponse.ok) {
         const errorText = await accountResponse.text();
-        console.error("Failed to fetch account info:", errorText);
+        console.error("❌ Failed to fetch account info:", {
+          status: accountResponse.status,
+          error: errorText,
+        });
         throw new Error("Failed to fetch account information");
       }
 
@@ -95,7 +125,7 @@ export function registerRingCentralOAuth(app: Express) {
       const accountId = accountData.id || "default";
       const companyName = accountData.name || accountData.mainCompanyName || null;
 
-      console.log("RingCentral account data:", { accountId, companyName });
+      console.log("✅ RingCentral account data:", { accountId, companyName });
 
       // Save OAuth connection to database (use upsert to update if exists)
       const existingConnection = await db.query.oauthConnections.findFirst({
@@ -108,6 +138,7 @@ export function registerRingCentralOAuth(app: Express) {
 
       if (existingConnection) {
         // Update existing connection
+        console.log("🔄 Updating existing connection for account:", accountId);
         await db.update(oauthConnections)
           .set({
             accessToken: tokenData.access_token,
@@ -119,6 +150,7 @@ export function registerRingCentralOAuth(app: Express) {
           .where(eq(oauthConnections.id, existingConnection.id));
       } else {
         // Create new connection
+        console.log("➕ Creating new connection for account:", accountId);
         await db.insert(oauthConnections).values({
           provider: "RingCentral",
           accessToken: tokenData.access_token,
@@ -130,11 +162,13 @@ export function registerRingCentralOAuth(app: Express) {
         });
       }
 
+      console.log("✅ RingCentral OAuth complete! Redirecting to /diagnostic?connected=ringcentral");
       // Redirect back to app with success
       res.redirect("/diagnostic?connected=ringcentral");
     } catch (error) {
-      console.error("Error in RingCentral callback:", error);
-      res.redirect(`/diagnostic?error=${encodeURIComponent('Failed to connect to RingCentral')}`);
+      console.error("❌ Error in RingCentral callback:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to connect to RingCentral';
+      res.redirect(`/diagnostic?error=${encodeURIComponent(errorMessage)}`);
     }
   });
 
