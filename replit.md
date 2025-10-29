@@ -6,11 +6,20 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
+### Conversion Rate & PDF Optimization Update
+- **60% Conversion Rate**: Updated from 35% to 60% to accurately reflect hot inbound lead conversion (leads who missed call + ran diagnostic + booked consultation)
+- **Ultra-Compact PDF Layout**: Compressed all sections by 20-40% to fit everything on single page while maintaining readability
+  - Reduced font sizes (9pt → 7pt labels, 22pt → 19pt metrics)
+  - Tightened spacing (contact: 85px → 70px, hero: 95px → 75px, metrics: 60px → 48px)
+  - Abbreviated labels for space efficiency ("REVENUE LOSS", "answered" instead of verbose text)
+- **Accurate Recovery Math**: Example: 17 calls × $1,000 avg × 60% = $10,200 recoverable revenue
+- **Security Maintained**: Email body still contains only contact info + recovery amount; all detailed analytics secured in PDF attachment
+
 ### Professional PDF Reports & Email Redesign
 - **PDF Generation**: Implemented PDFKit-based PDF report generator (pure JavaScript, no browser dependencies)
 - **Professional PDF Design**: Multi-page report with branded header, lead info grid, hero recovery metric, calculation breakdown, 6-metric analytics dashboard, after-hours insight box, and professional footer
 - **Email Format Improvements**: Redesigned HTML email with modern card layout, gradient headers, 3-column stats grid, and prominent PDF attachment callout
-- **Revenue Clarity**: Updated calculation display to clearly show "35% conversion rate" formula in both email and PDF
+- **Revenue Clarity**: Displays calculation formula clearly in both email and PDF
 - **Smart Attachments**: PDFs automatically attached to sales intelligence emails with descriptive filenames (Revenue-Recovery-Report-{Name}.pdf)
 - **Subject Line**: Changed from total loss to actionable recovery opportunity ($X,XXX Recovery Opportunity)
 
@@ -67,7 +76,7 @@ The application boasts a dramatic, high-contrast black minimalist design inspire
 - Sales Intelligence Emails: Automatically sent to SALES_EMAIL when users book calls with professional PDF report attached
 - Email Format: Modern HTML design with contact grid, hero recovery metric, quick stats overview, and after-hours insights
 - PDF Reports: Professional multi-page reports generated with PDFKit including branded header, complete analytics dashboard, calculation breakdowns, and actionable insights
-- Revenue Recovery Calculation: Clearly displays "missed_calls × avg_revenue_per_call × 35% conversion = recoverable_revenue" in both email and PDF
+- Revenue Recovery Calculation: Clearly displays "missed_calls × avg_revenue_per_call × 60% conversion = recoverable_revenue" in both email and PDF
 - Diagnostic Matching: Each booking matched to exact diagnostic via unique `diagnosticId` passed through GHL calendar URL
 - User Experience Protection: All sales fields are optional - backend email failures never break the user diagnostic flow
 - Observability: Webhook returns `emailSent` and `emailError` fields; all failures logged as CRITICAL with full context
