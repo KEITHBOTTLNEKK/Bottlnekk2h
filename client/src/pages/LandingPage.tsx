@@ -82,12 +82,12 @@ export function LandingPage() {
         <div className="max-w-5xl w-full text-center space-y-16">
           {/* Main Headline */}
           <h1 
-            className="text-5xl sm:text-6xl lg:text-7xl font-thin tracking-tight leading-tight"
+            className="text-6xl sm:text-7xl lg:text-8xl font-thin tracking-tight leading-tight"
             data-testid="text-hero-headline"
           >
             Stop Losing{" "}
             <span style={{ color: BOTTLNEKK_GREEN }} className="font-normal">
-              $15,000+
+              $10,000+
             </span>
             <br />
             Every Month to Missed Calls

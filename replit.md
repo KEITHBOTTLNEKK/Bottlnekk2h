@@ -14,6 +14,7 @@ A premium, Apple-inspired web application designed for home service businesses (
 - **Bold Typography**: Tagline uses font-semibold for overall weight, with "Bottlnekk" in font-bold for maximum impact
 - **Hero Decluttered**: Removed three trust badges (Free Analysis, 60 Second Setup, No Credit Card) - hero now shows only headline + CTA
 - **Improved Hero Spacing**: Generous space-y-16 between headline and subheadline, with extra pt-8 padding above CTA button for clean vertical rhythm
+- **Larger Headline**: Hero headline increased to text-6xl/7xl/8xl (was text-5xl/6xl/7xl) with updated amount to $10,000+ for stronger impact
 - **Case Studies - Impact Focus**: Removed all monthly pricing ($499, $800, $999) and replaced with outcome metrics:
   - MedSpa: "15% Booking Rate Increase" + "2X ROAS" (was $499/month)
   - Real Estate: "< 2 min Speed to Lead" + "100% Follow-Up Rate" (was $800/month)
