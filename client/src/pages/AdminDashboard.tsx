@@ -247,7 +247,7 @@ export default function AdminDashboard() {
           <Card className="bg-zinc-900 border-zinc-800">
             <CardContent className="pt-6">
               <p className="text-zinc-400 text-xs font-semibold mb-1">AVG RECOVERY</p>
-              <p className="text-3xl font-bold text-green-500">
+              <p className="text-3xl font-bold" style={{ color: BOTTLNEKK_GREEN }}>
                 ${sortedDiagnostics.length > 0 
                   ? Math.round(sortedDiagnostics.reduce((sum, d) => sum + (d.missedCalls * d.avgRevenuePerCall * 0.60), 0) / sortedDiagnostics.length).toLocaleString()
                   : 0
