@@ -53,10 +53,13 @@ There are two ways to set up the webhook in GoHighLevel:
      "email": "{{contact.email}}",
      "phone": "{{contact.phone}}",
      "company": "{{contact.company_name}}",
+     "diagnosticId": "{{contact.diagnosticId}}",
      "webhookSecret": "YOUR_WEBHOOK_SECRET"
    }
    ```
    Replace `YOUR_WEBHOOK_SECRET` with the actual secret you configured.
+   
+   **Note**: The `diagnosticId` is passed from the booking calendar URL and should be captured in a custom field or contact field.
 
 7. **Save and Publish**
    - Click **Save**
@@ -99,6 +102,7 @@ The webhook endpoint expects this data structure:
   "email": "john@example.com",
   "phone": "+1234567890",
   "company": "ABC Plumbing",
+  "diagnosticId": "abc123xyz",
   "webhookSecret": "your-webhook-secret"
 }
 ```
@@ -108,6 +112,9 @@ The webhook endpoint expects this data structure:
 - `contactEmail` instead of `email`
 - `contactPhone` instead of `phone`
 - `companyName` instead of `company`
+- `diagnostic_id` instead of `diagnosticId`
+
+**Important**: The `diagnosticId` field ensures each booking gets matched to their specific diagnostic data. This is passed as a URL parameter to the booking calendar and should be captured in GoHighLevel.
 
 ## Security
 
@@ -142,9 +149,10 @@ The webhook is protected by a secret key:
 - ✅ Check spam folder
 
 ### Wrong Diagnostic Data
-- ⚠️ Webhook uses most recent diagnostic
-- ✅ Ensure user books shortly after running analysis
-- ℹ️ System matches most recently created diagnostic to booking
+- ⚠️ If diagnosticId is missing, webhook falls back to most recent diagnostic
+- ✅ Make sure diagnosticId is captured from URL parameter and passed to webhook
+- ✅ The booking calendar URL includes: `?diagnosticId=XYZ` - capture this value
+- ℹ️ Set up a custom field in GHL to capture diagnosticId from URL parameter
 
 ## How It Works
 

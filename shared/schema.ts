@@ -52,6 +52,7 @@ export const diagnosticResultSchema = z.object({
   totalInboundCalls: z.number().optional().default(0),
   acceptedCalls: z.number().optional().default(0),
   avgCallbackTimeMinutes: z.number().nullable().optional(),
+  diagnosticId: z.string().optional(), // ID for session tracking
 });
 
 export type DiagnosticResult = z.infer<typeof diagnosticResultSchema>;

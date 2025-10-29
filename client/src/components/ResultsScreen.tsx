@@ -132,7 +132,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
           <div className="w-full">
             <iframe 
-              src="https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak"
+              src={`https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak${result.diagnosticId ? `?diagnosticId=${result.diagnosticId}` : ''}`}
               className="w-full border-0"
               style={{ height: '800px', minHeight: '800px' }}
               id="ghl-booking-widget"

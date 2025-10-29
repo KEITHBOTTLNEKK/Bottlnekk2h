@@ -56,8 +56,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // Save to database with user's email from session or request
-      // Note: We'll update this to capture email when we have user authentication
+      // Save to database
       const saved = await storage.saveDiagnostic({
         provider: diagnosticResult.provider,
         totalLoss: diagnosticResult.totalLoss,
@@ -69,10 +68,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         totalInboundCalls: diagnosticResult.totalInboundCalls,
         acceptedCalls: diagnosticResult.acceptedCalls,
         avgCallbackTimeMinutes: diagnosticResult.avgCallbackTimeMinutes,
-        businessEmail: req.body.email || null, // Capture email if provided
+        businessEmail: null,
       });
       
-      res.json(diagnosticResult);
+      // Return diagnostic with ID for session tracking
+      res.json({
+        ...diagnosticResult,
+        diagnosticId: saved.id, // Include ID for booking flow
+      });
     } catch (error) {
       console.error("Error analyzing diagnostic:", error);
       res.status(400).json({ 
@@ -166,40 +169,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log("📅 GoHighLevel webhook received:", JSON.stringify(req.body, null, 2));
 
       // Extract booking data from GHL webhook
-      // GHL sends different formats, try to extract contact info
       const name = req.body.name || `${req.body.firstName || ''} ${req.body.lastName || ''}`.trim();
       const email = req.body.email || req.body.contactEmail;
       const phone = req.body.phone || req.body.contactPhone;
       const company = req.body.company || req.body.companyName;
+      const diagnosticId = req.body.diagnosticId || req.body.diagnostic_id;
 
       if (!name || !email) {
         console.error("⚠️ Missing required fields from webhook:", { name, email });
         return res.status(400).json({ error: "Missing required booking data" });
       }
 
-      // Get the most recent diagnostic
-      // Since we don't currently capture email during analysis, we use the most recent diagnostic
-      // This assumes users book shortly after running their analysis
-      const allDiagnostics = await storage.getAllDiagnostics();
-      
-      if (!allDiagnostics || allDiagnostics.length === 0) {
-        console.error("⚠️ No diagnostic data found for booking");
-        return res.status(400).json({ error: "No diagnostic data found" });
+      let diagnostic;
+
+      // Try to get diagnostic by ID first (most accurate)
+      if (diagnosticId) {
+        console.log("🔍 Looking up diagnostic by ID:", diagnosticId);
+        diagnostic = await storage.getDiagnostic(diagnosticId);
+        
+        if (diagnostic) {
+          console.log("✅ Found exact diagnostic match for booking");
+        } else {
+          console.warn("⚠️ Diagnostic ID not found:", diagnosticId);
+        }
       }
 
-      // Use the most recently created diagnostic
-      // Sort by createdAt descending to get newest first
-      const sortedDiagnostics = allDiagnostics.sort((a, b) => {
-        const dateA = new Date(a.createdAt).getTime();
-        const dateB = new Date(b.createdAt).getTime();
-        return dateB - dateA; // Descending order (newest first)
-      });
+      // Fallback to most recent diagnostic if ID not provided or not found
+      if (!diagnostic) {
+        console.log("📊 Falling back to most recent diagnostic");
+        const allDiagnostics = await storage.getAllDiagnostics();
+        
+        if (!allDiagnostics || allDiagnostics.length === 0) {
+          console.error("⚠️ No diagnostic data found for booking by:", email);
+          // Return 200 to prevent GHL retries, but log the issue
+          return res.status(200).json({ 
+            success: false, 
+            message: "No diagnostic data available - email not sent" 
+          });
+        }
 
-      const diagnostic = sortedDiagnostics[0];
-
-      console.log("📊 Using diagnostic from:", diagnostic.createdAt, "for booking by:", email);
+        // getAllDiagnostics already returns sorted by createdAt desc
+        diagnostic = allDiagnostics[0];
+        console.log("📊 Using fallback diagnostic from:", diagnostic.createdAt, "for booking by:", email);
+      }
 
       // Send sales intelligence email
+      let emailSent = false;
+      let emailError = null;
+      
       try {
         await sendSalesIntelligenceEmail(
           {
@@ -222,11 +239,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
         );
         console.log("✅ Sales intelligence email sent for GHL booking");
-      } catch (emailError) {
-        console.error("⚠️ Failed to send sales email from webhook:", emailError);
+        emailSent = true;
+      } catch (error) {
+        emailError = error instanceof Error ? error.message : String(error);
+        console.error("❌ CRITICAL: Failed to send sales email from webhook:", {
+          error: emailError,
+          booking: { name, email },
+          diagnosticId: diagnostic.id,
+        });
       }
 
-      res.json({ success: true, message: "Webhook processed successfully" });
+      res.json({ 
+        success: true, 
+        message: "Webhook processed successfully",
+        emailSent,
+        emailError: emailError || undefined,
+      });
     } catch (error) {
       console.error("❌ Error processing GHL webhook:", error);
       res.status(500).json({ 

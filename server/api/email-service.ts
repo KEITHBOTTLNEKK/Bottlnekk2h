@@ -246,11 +246,18 @@ export async function sendSalesIntelligenceEmail(
   try {
     const { client, fromEmail } = await getUncachableResendClient();
     
-    // Email to sales team (could be configured via environment variable)
-    const salesEmail = process.env.SALES_EMAIL || 'sales@example.com';
+    // Email to sales team
+    const salesEmail = process.env.SALES_EMAIL;
+    
+    if (!salesEmail) {
+      console.error('❌ CRITICAL: SALES_EMAIL environment variable not configured - email cannot be sent');
+      throw new Error('SALES_EMAIL environment variable not configured');
+    }
+    
+    console.log('📧 Sending sales intelligence email to:', salesEmail);
     
     const { data, error } = await client.emails.send({
-      from: fromEmail,
+      from: fromEmail || 'onboarding@resend.dev', // Use Resend's default if no verified domain
       to: salesEmail,
       subject: `🔔 New Lead: ${booking.name} - $${diagnostic.totalLoss.toLocaleString()} Revenue Opportunity`,
       html: createSalesEmailHTML(booking, diagnostic),
