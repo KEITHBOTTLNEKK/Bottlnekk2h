@@ -3,17 +3,12 @@ import logoIcon from "@assets/hourglass-cracked_1761720845280.png";
 export function Branding() {
   return (
     <div className="fixed top-8 left-8 z-50 flex items-center gap-4" data-testid="branding-logo">
-      <div 
-        className="h-10 w-10 bg-white"
+      <img 
+        src={logoIcon}
+        alt="Bottlnekk Icon" 
+        className="h-10 w-10"
         style={{ 
-          maskImage: `url(${logoIcon})`,
-          maskSize: 'contain',
-          maskRepeat: 'no-repeat',
-          maskPosition: 'center',
-          WebkitMaskImage: `url(${logoIcon})`,
-          WebkitMaskSize: 'contain',
-          WebkitMaskRepeat: 'no-repeat',
-          WebkitMaskPosition: 'center'
+          filter: 'brightness(0) invert(1)',
         }}
         data-testid="logo-icon"
       />
