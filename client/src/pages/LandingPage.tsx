@@ -102,12 +102,14 @@ export function LandingPage() {
           </p>
 
           {/* CTA Button */}
-          <Link href="/diagnostic">
-            <CTAButton data-testid="button-hero-cta">
-              Show Me My Revenue Leak
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </CTAButton>
-          </Link>
+          <div className="pt-8">
+            <Link href="/diagnostic">
+              <CTAButton data-testid="button-hero-cta">
+                Show Me My Revenue Leak
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </CTAButton>
+            </Link>
+          </div>
         </div>
       </section>
 
