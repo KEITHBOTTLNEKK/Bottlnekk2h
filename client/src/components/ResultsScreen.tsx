@@ -284,8 +284,8 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           <div className="text-center pt-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <button
               onClick={handleBookCall}
-              className="inline-flex items-center justify-center px-16 py-6 font-bold text-white border-2 border-white rounded-xl transition-all duration-300 hover:bg-white hover:text-black"
-              style={{ fontSize: '1.25rem' }}
+              className="inline-flex items-center justify-center px-16 py-8 font-bold text-white border-2 border-white rounded-xl transition-all duration-300 hover:bg-white hover:text-black"
+              style={{ fontSize: '1.75rem' }}
               data-testid="button-reclaim"
             >
               Fix This
