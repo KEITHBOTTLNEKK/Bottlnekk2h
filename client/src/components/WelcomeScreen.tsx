@@ -23,7 +23,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           </p>
         </div>
 
-        <div className="pt-8">
+        <div className="pt-16">
           <button
             onClick={onStart}
             className="inline-flex items-center justify-center px-16 py-6 font-bold text-white border-2 border-white rounded-xl transition-all duration-300 hover:bg-white hover:text-black"
