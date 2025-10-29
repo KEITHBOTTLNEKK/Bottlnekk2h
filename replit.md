@@ -12,6 +12,23 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+**October 29, 2025** - GoHighLevel Calendar Integration & Final Polish
+- **Booking Calendar Integration**: Replaced custom form with embedded GoHighLevel/LeadConnector calendar widget (https://api.leadconnectorhq.com/widget/bookings/reclaim-your-revenue)
+- **Results Screen Refinements**: 
+  - Number changed from ultra-thin to bold for maximum impact
+  - Reordered text: "$17,000" → "In unanswered calls" (fades in after count stops)
+  - Removed "Run another diagnostic" footer link
+  - Removed "RingCentral • October 2025" footer metadata
+- **Button Consistency**: All buttons across app now use Apple-style white outline design (border-2, fills white on hover)
+  - "Show Me The Number" button updated to match
+  - "Fix This" button enlarged (1.75rem font, py-8 padding) for commanding presence
+- **Spacing Improvements**: Welcome screen button spacing increased to pt-16 for better breathing room
+- **Booking Modal Updates**:
+  - Heading changed to bold to match app aesthetic
+  - Calendar iframe embedded (700px height) for direct scheduling
+  - "Back to results" link updated to match minimal footer styling
+- **Loading State Cleanup**: Removed fallback "Loading..." text from Analysis screen
+
 **October 29, 2025** - Typography & Branding Enhancements
 - **Inline Font Sizing**: Switched from Tailwind classes to inline styles for reliable font size control across all screens
 - **Dramatic Scaling**: Welcome headline now 96px-160px (responsive), Results number 192px-320px for maximum visual impact
