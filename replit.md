@@ -6,21 +6,6 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
-### Animated Hourglass Transformation (October 29, 2025 - Late Evening)
-- **Visual Storytelling**: Replaced "Analyzing Call Data..." text with animated Bottlnekk logo (hourglass) during analysis phase
-- **Logo Recreation**: User's actual logo recreated as inline SVG with all design elements: top/bottom stands, hourglass bulbs, horizontal stripe pattern in sand areas, and crack at bottom
-- **Symbolic Narrative**: Logo animation shows transformation from leak to controlled flow - directly representing the product's value proposition
-- **Three-Phase Animation**: 
-  1. Initial leak (0-30%): Narrow neck with sand dripping through bottom crack
-  2. Bottleneck opening (30-50%): Neck widens to release the constraint
-  3. Controlled flow (50-100%): Crack transforms into stable channel, state maintained with green glow
-- **Crack Design**: Visible crack at bottom remains throughout - represents turning a flaw into a feature (leak → flow)
-- **Status Text**: "Turning leaks into flow" provides context below animation
-- **Performance**: 6-second transformation with `animation-fill-mode: forwards` (holds final state, no loop regression)
-- **Sand Animation**: ClipPath-based animations for sand levels (top empties, bottom fills) while preserving horizontal stripe pattern
-- **Accessibility**: prefers-reduced-motion support shows final controlled state (no animation)
-- **Branding**: Bottlnekk green (#00C97B) for sand, flow, particles, and glow effects; dark stands with white strokes match logo design
-
 ### Brand Color Finalization (October 29, 2025 - Evening)
 - **Bottlnekk Green (#00C97B)**: Finalized signature accent color for brand recall and visual distinction
 - **Strategic Choice**: Green = growth/revenue/recovery symbolism without generic finance associations
