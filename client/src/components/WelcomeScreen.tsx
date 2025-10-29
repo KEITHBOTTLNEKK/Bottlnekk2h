@@ -5,11 +5,11 @@ interface WelcomeScreenProps {
 export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl w-full text-center space-y-12">
+      <div className="max-w-7xl w-full text-center space-y-12">
         <div className="space-y-6">
           <h1 
             className="font-thin text-white tracking-tight leading-none"
-            style={{ fontSize: 'clamp(6rem, 12vw, 10rem)' }}
+            style={{ fontSize: 'clamp(6rem, 12vw, 10rem)', letterSpacing: '0.05em' }}
             data-testid="heading-welcome"
           >
             How much are you losing?
