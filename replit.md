@@ -6,13 +6,24 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
+### Diagnostic Matching System
+- **Unique Diagnostic Tracking**: Each analysis now returns a unique `diagnosticId` that tracks through the entire booking flow
+- **Efficient Lookup**: Webhook uses `storage.getDiagnostic(id)` for O(1) database lookup instead of linear scanning
+- **URL Parameter Passing**: Diagnostic ID appended to GHL calendar URL (`?diagnosticId=XYZ`) and captured via webhook
+- **Graceful Fallback**: System falls back to most recent diagnostic if ID missing/invalid, with comprehensive logging
+
+### Email & Observability
+- **Resend Default Sender**: Uses `onboarding@resend.dev` as fallback when domain not verified
+- **Critical Error Logging**: Email failures logged with CRITICAL prefix and full context (diagnosticId, booking data)
+- **Webhook Response Fields**: Returns `emailSent` and `emailError` for monitoring and debugging
+- **SALES_EMAIL Enforcement**: Missing configuration logged as CRITICAL with clear error messages
+
+### Earlier Updates
 - Implemented GoHighLevel webhook integration for automated sales intelligence emails
-- Restored GHL calendar iframe in booking flow (removed custom form)
 - Created webhook endpoint at POST /api/webhooks/gohighlevel with secret validation
 - Updated GoHighLevel calendar URL to `fix-your-phone-leak`
 - Made sales intelligence metrics optional in database to protect user experience from backend failures
 - Configured SALES_EMAIL and GOHIGHLEVEL_WEBHOOK_SECRET environment variables
-- Fixed database schema compatibility issues with existing data
 
 ## User Preferences
 
@@ -44,9 +55,11 @@ The application boasts a dramatic, high-contrast black minimalist design inspire
 - **Other Providers**: Vonage, Nextiva, 8x8 (currently use mock data, OAuth pending).
 
 **Email Service**
-- Resend: Configured for transactional emails via Replit connector integration.
+- Resend: Configured for transactional emails via Replit connector integration. Uses default sender (`onboarding@resend.dev`) when domain not verified.
 - Sales Intelligence Emails: Automatically sent to SALES_EMAIL when users book calls, includes contact info, revenue recovery metrics (35% conversion rate), answer rate, callback time, and after-hours insights.
+- Diagnostic Matching: Each booking matched to exact diagnostic via unique `diagnosticId` passed through GHL calendar URL
 - User Experience Protection: All sales fields are optional - backend email failures never break the user diagnostic flow.
+- Observability: Webhook returns `emailSent` and `emailError` fields; all failures logged as CRITICAL with full context.
 
 **UI Libraries**
 - Radix UI: Primitives for accessible components.
@@ -68,4 +81,6 @@ The application boasts a dramatic, high-contrast black minimalist design inspire
 - SALES_EMAIL: Required secret for sales team notification emails (configured via Replit Secrets).
 - GOHIGHLEVEL_WEBHOOK_SECRET: Webhook security secret for validating GHL booking notifications.
 - GoHighLevel Calendar: Embedded booking widget at `https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak`.
-- GoHighLevel Webhook: POST /api/webhooks/gohighlevel receives booking notifications and triggers sales emails.
+  - Diagnostic ID appended as URL parameter: `?diagnosticId=XYZ`
+  - GHL custom field setup required to capture diagnosticId and pass back via webhook
+- GoHighLevel Webhook: POST /api/webhooks/gohighlevel receives booking notifications, matches exact diagnostic by ID, and triggers sales emails.
