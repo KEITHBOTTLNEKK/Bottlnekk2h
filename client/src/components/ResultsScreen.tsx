@@ -83,11 +83,11 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
       <div className="w-full max-w-6xl space-y-16">
 
         {/* The Number - MASSIVE and Centered */}
-        <div className="text-center space-y-10">
+        <div className="text-center space-y-10 px-2">
           <h1 
-            className="font-bold text-white tracking-tighter leading-none"
+            className="font-bold text-white tracking-tighter leading-none break-all"
             data-testid="text-total-loss"
-            style={{ fontSize: 'clamp(12rem, 20vw, 20rem)', lineHeight: '0.85' }}
+            style={{ fontSize: 'clamp(6rem, 15vw, 16rem)', lineHeight: '0.85', wordBreak: 'keep-all' }}
           >
             {formatCurrency(animatedTotal)}
           </h1>
