@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ringCentralLogo from "@assets/image_1761697572364.png";
-import zoomPhoneLogo from "@assets/image_1761697916093.png";
+import zoomLogo from "@assets/image_1761697991725.png";
 
 interface ConnectScreenProps {
   onProviderSelect: (provider: "RingCentral" | "Zoom Phone") => void;
@@ -168,7 +168,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
               {/* Zoom Logo */}
               <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300 p-3 bg-white/5">
                 <img 
-                  src={zoomPhoneLogo} 
+                  src={zoomLogo} 
                   alt="Zoom Phone" 
                   className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-300"
                 />
