@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { ArrowRight, Phone, TrendingUp, Users, CheckCircle2 } from "lucide-react";
 import { Branding } from "@/components/Branding";
 import { CTAButton } from "@/components/CTAButton";
+import logoIcon from "@assets/hourglass-cracked_transparent_1761722440145.png";
 
 const BOTTLNEKK_GREEN = "#00C97B";
 
@@ -55,18 +56,22 @@ export function LandingPage() {
         <div className="max-w-5xl mx-auto text-center">
           <div 
             className="text-2xl sm:text-3xl lg:text-4xl font-light tracking-wider inline-flex items-center justify-center gap-3 opacity-90"
-            style={{ color: BOTTLNEKK_GREEN }}
             data-testid="text-tagline"
           >
             <span className="text-white/80">Behind Every</span>
-            <svg width="32" height="48" viewBox="0 0 140 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="inline-block">
-              <rect x="5" y="5" width="130" height="12" rx="6" fill="#1a1a1a" stroke="white" strokeWidth="3"/>
-              <path d="M 25 25 L 25 70 Q 25 85 40 95 L 65 105 L 75 105 L 100 95 Q 115 85 115 70 L 115 25 Z" fill="none" stroke="white" strokeWidth="4"/>
-              <rect x="67" y="105" width="6" height="18" fill={BOTTLNEKK_GREEN}/>
-              <path d="M 25 175 L 25 130 Q 25 115 40 105 L 65 95 L 75 95 L 100 105 Q 115 115 115 130 L 115 175 Z" fill="none" stroke="white" strokeWidth="4"/>
-              <rect x="5" y="183" width="130" height="12" rx="6" fill="#1a1a1a" stroke="white" strokeWidth="3"/>
-            </svg>
-            <span className="font-normal">Bottlnekk</span>
+            <div className="relative inline-block">
+              <div 
+                className="absolute inset-0 rounded-full blur-md opacity-30"
+                style={{ backgroundColor: BOTTLNEKK_GREEN }}
+              />
+              <img 
+                src={logoIcon}
+                alt="Bottlnekk Icon" 
+                className="h-10 w-10 sm:h-12 sm:w-12 relative z-10 inline-block"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
+            </div>
+            <span className="font-normal" style={{ color: BOTTLNEKK_GREEN }}>Bottlnekk</span>
             <span className="text-white/80">Lives Freedom</span>
           </div>
         </div>

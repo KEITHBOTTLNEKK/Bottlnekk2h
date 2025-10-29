@@ -6,9 +6,22 @@ A premium, Apple-inspired web application designed for home service businesses (
 
 ## Recent Changes (October 29, 2025)
 
+### Steve Jobs Minimalist Refinements (October 29, 2025 - Final)
+- **Tagline Repositioned**: "Behind Every [logo] Bottlnekk Lives Freedom" moved to top of page with generous vertical spacing (pt-32)
+- **Actual Logo Integration**: Uses real hourglass logo asset inline within tagline text (same logo from top-left branding)
+- **Logo Styling**: White hourglass icon with green glow effect (#00C97B), integrated seamlessly into sentence flow
+- **Hero Decluttered**: Removed three trust badges (Free Analysis, 60 Second Setup, No Credit Card) - hero now shows only headline + CTA
+- **Case Studies - Impact Focus**: Removed all monthly pricing ($499, $800, $999) and replaced with outcome metrics:
+  - MedSpa: "15% Booking Rate Increase" + "2X ROAS" (was $499/month)
+  - Real Estate: "< 2 min Speed to Lead" + "100% Follow-Up Rate" (was $800/month)
+  - Call Centre: "81% Reduction" + "3X Efficiency Gain" (was $999/month)
+  - Tire Boss: Unchanged (already had killer metrics: 97% reduction, 30% sales increase)
+- **Radical Simplification**: Applied Steve Jobs principles - generous whitespace, minimal clutter, maximum impact
+- **Page Flow**: Tagline → Hero Problem → Case Study Proof → How It Works → Final CTA
+
 ### Marketing Landing Page (October 29, 2025 - Late Evening)
 - **Public Landing Page**: New marketing page at `/` for VCs, prospects, and visitors
-- **Tagline**: "Behind Every Bottlnekk Is Freedom" - reframes bottleneck problems as pathway to freedom
+- **Tagline**: "Behind Every Bottlnekk Lives Freedom" - reframes bottleneck problems as pathway to freedom
 - **Hero Section**: Revenue loss headline ("Stop Losing $15,000+ Every Month") with 60-second diagnostic promise and prominent CTA to `/diagnostic`
 - **Social Proof**: Featured case studies with metrics from Tire Boss (97% response improvement, 30% sales increase), MedSpa, Real Estate, and Call Centre clients
 - **How It Works**: 3-step visualization (Connect → Analyze → Fix) explaining diagnostic flow
