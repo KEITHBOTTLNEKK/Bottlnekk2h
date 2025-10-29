@@ -4,22 +4,22 @@ interface WelcomeScreenProps {
 
 export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
   return (
-    <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl w-full text-center space-y-12">
+    <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-8 sm:px-12 lg:px-16">
+      <div className="w-full text-center space-y-12">
         <div className="space-y-6">
           <h1 
-            className="font-thin text-white tracking-tight leading-none"
-            style={{ fontSize: 'clamp(6rem, 12vw, 10rem)', letterSpacing: '0.05em' }}
+            className="font-thin text-white leading-none"
+            style={{ fontSize: 'clamp(4rem, 8vw, 8rem)', letterSpacing: '0.02em', fontWeight: '200' }}
             data-testid="heading-welcome"
           >
             How much are you losing?
           </h1>
           <p 
-            className="font-light text-[#9CA3AF] tracking-wide"
-            style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}
+            className="font-light text-[#9CA3AF]"
+            style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', letterSpacing: '0.05em' }}
             data-testid="text-subheading"
           >
-            Every missed call is lost revenue.
+            It's more than you think.
           </p>
         </div>
 
