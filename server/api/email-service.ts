@@ -71,6 +71,9 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
   const answerRate = diagnostic.totalInboundCalls > 0 
     ? Math.round((diagnostic.acceptedCalls / diagnostic.totalInboundCalls) * 100)
     : 0;
+  
+  // Potential revenue recovery: 35% of missed calls could be recovered
+  const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.35);
 
   return `
 <!DOCTYPE html>
@@ -81,6 +84,10 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
     .header { background: #000; color: #fff; padding: 30px 20px; text-align: center; margin: -20px -20px 30px -20px; }
     .header h1 { margin: 0; font-size: 24px; font-weight: 300; }
+    .opportunity { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 25px; margin: 30px 0; text-align: center; }
+    .opportunity-label { font-size: 14px; color: #2e7d32; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .opportunity-value { font-size: 48px; font-weight: 700; color: #1b5e20; margin: 10px 0; }
+    .opportunity-subtext { font-size: 16px; color: #2e7d32; }
     .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
     .metric { background: #f8f8f8; padding: 20px; border-radius: 8px; }
     .metric-label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
@@ -105,6 +112,12 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
     <div class="contact-detail"><span class="contact-label">Email:</span> ${booking.email}</div>
     <div class="contact-detail"><span class="contact-label">Phone:</span> ${booking.phone}</div>
     ${booking.company ? `<div class="contact-detail"><span class="contact-label">Company:</span> ${booking.company}</div>` : ''}
+  </div>
+
+  <div class="opportunity">
+    <div class="opportunity-label">💰 Potential Revenue Recovery</div>
+    <div class="opportunity-value">$${potentialRecovery.toLocaleString()}</div>
+    <div class="opportunity-subtext">Estimated recoverable revenue from missed calls (35% conversion)</div>
   </div>
 
   <h2 style="font-size: 20px; margin-top: 40px;">30-Day Call Intelligence Report</h2>
@@ -168,6 +181,9 @@ function createSalesEmailText(booking: BookingData, diagnostic: DiagnosticResult
   const answerRate = diagnostic.totalInboundCalls > 0 
     ? Math.round((diagnostic.acceptedCalls / diagnostic.totalInboundCalls) * 100)
     : 0;
+  
+  // Potential revenue recovery: 35% of missed calls could be recovered
+  const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.35);
 
   return `
 🔔 NEW LEAD: Revenue Recovery Opportunity
@@ -178,6 +194,11 @@ Name: ${booking.name}
 Email: ${booking.email}
 Phone: ${booking.phone}
 ${booking.company ? `Company: ${booking.company}` : ''}
+
+💰 POTENTIAL REVENUE RECOVERY
+-----------------------------
+$${potentialRecovery.toLocaleString()}
+Estimated recoverable revenue from missed calls (35% conversion)
 
 30-DAY CALL INTELLIGENCE REPORT
 --------------------------------
