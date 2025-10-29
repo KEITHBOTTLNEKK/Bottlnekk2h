@@ -295,17 +295,6 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
               </button>
             </div>
 
-            {/* Minimal footer */}
-            <div className="text-center pt-12">
-              <button
-                onClick={onRestart}
-                className="font-light text-white/20 hover:text-white/60 tracking-wide transition-colors duration-300"
-                style={{ fontSize: '0.875rem' }}
-                data-testid="button-restart"
-              >
-                Run another diagnostic
-              </button>
-            </div>
           </div>
         )}
       </div>
