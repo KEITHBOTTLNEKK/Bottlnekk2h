@@ -143,7 +143,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
         ) : showQuestion ? (
           // Phase 1: Ask the question (Steve Jobs verbiage)
           <div className="animate-in fade-in duration-700 space-y-8" data-testid="panel-deal-size">
-            <p className="text-lg font-semibold text-[#9CA3AF] tracking-wide mb-4">
+            <p className="font-bold text-[#9CA3AF] tracking-wide mb-4" style={{ fontSize: '1.75rem' }}>
               One more thing...
             </p>
             <h1 
