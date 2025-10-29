@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import type { PhoneProvider, DiagnosticResult, AnalyzeDiagnosticRequest } from "@shared/schema";
+import { Branding } from "./Branding";
 
 interface AnalysisScreenProps {
   provider: PhoneProvider;
@@ -80,6 +81,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
   if (analyzeMutation.isError) {
     return (
       <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
+        <Branding />
         <div className="text-center space-y-8 max-w-2xl">
           <div className="space-y-4">
             <h1 
@@ -135,6 +137,7 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4">
+      <Branding />
       <div className="text-center space-y-8">
         {showConnected ? (
           // Success moment after OAuth

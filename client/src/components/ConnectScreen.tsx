@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ringCentralLogo from "@assets/image_1761697572364.png";
 import zoomLogo from "@assets/image_1761697991725.png";
+import { Branding } from "./Branding";
 
 interface ConnectScreenProps {
   onProviderSelect: (provider: "RingCentral" | "Zoom Phone") => void;
@@ -68,6 +69,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <Branding />
       <div className="max-w-5xl w-full space-y-16">
         {/* Error Banner */}
         {errorMessage && (

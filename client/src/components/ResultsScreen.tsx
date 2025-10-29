@@ -9,6 +9,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { Branding } from "./Branding";
 
 interface ResultsScreenProps {
   result: DiagnosticResult;
@@ -158,6 +159,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+      <Branding />
       <div className="w-full max-w-6xl space-y-16">
 
         {/* The Number - MASSIVE and Centered */}
