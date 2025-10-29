@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import type { PhoneProvider, DiagnosticResult, AnalyzeDiagnosticRequest } from "@shared/schema";
 import { Branding } from "./Branding";
+import { SVGHourglass } from "./SVGHourglass";
 
 const BOTTLNEKK_GREEN = "#00C97B";
 
@@ -215,15 +216,9 @@ export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: Anal
           </div>
         ) : analyzeMutation.isPending ? (
           // Phase 2: Actually analyzing with their number
-          <>
-            <h1 
-              className="font-light text-white tracking-tight"
-              style={{ fontSize: '1.5rem' }}
-              data-testid="text-analyzing"
-            >
-              Analyzing Call Data{dots}
-            </h1>
-          </>
+          <div data-testid="text-analyzing">
+            <SVGHourglass />
+          </div>
         ) : null}
       </div>
     </div>
