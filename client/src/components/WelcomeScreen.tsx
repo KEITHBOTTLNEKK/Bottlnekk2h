@@ -9,14 +9,14 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         <div className="space-y-6">
           <h1 
             className="font-thin text-white tracking-tight leading-none"
-            style={{ fontSize: 'clamp(3.75rem, 8vw, 6rem)' }}
+            style={{ fontSize: 'clamp(6rem, 12vw, 10rem)' }}
             data-testid="heading-welcome"
           >
             How much are you losing?
           </h1>
           <p 
             className="font-light text-[#9CA3AF] tracking-wide"
-            style={{ fontSize: 'clamp(1.25rem, 2.5vw, 1.5rem)' }}
+            style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}
             data-testid="text-subheading"
           >
             Every missed call is lost revenue.

@@ -148,20 +148,20 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
             </p>
             <h1 
               className="font-thin text-white tracking-tight"
-              style={{ fontSize: '3rem' }}
+              style={{ fontSize: '4.5rem' }}
               data-testid="text-question"
             >
               What's a customer worth to you?
             </h1>
 
             <div className="flex items-center justify-center space-x-2">
-              <span className="font-light text-white/60" style={{ fontSize: '2.25rem' }}>$</span>
+              <span className="font-light text-white/60" style={{ fontSize: '3rem' }}>$</span>
               <input
                 type="text"
                 value={dealSize}
                 onChange={handleDealSizeChange}
-                className="w-32 px-4 py-3 bg-transparent border-b-2 border-white/30 font-light text-white text-center focus:outline-none focus:border-white transition-colors duration-300 placeholder:font-normal placeholder:text-white/30"
-                style={{ fontSize: '2.25rem' }}
+                className="w-48 px-4 py-3 bg-transparent border-b-2 border-white/30 font-light text-white text-center focus:outline-none focus:border-white transition-colors duration-300 placeholder:font-normal placeholder:text-white/30"
+                style={{ fontSize: '3rem' }}
                 placeholder="1000"
                 data-testid="input-deal-size"
                 autoFocus

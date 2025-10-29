@@ -99,7 +99,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
         <div className="text-center space-y-6">
           <h1 
             className="font-thin text-white tracking-tight"
-            style={{ fontSize: '3rem' }}
+            style={{ fontSize: '4.5rem' }}
             data-testid="heading-connect"
           >
             Which phone system do you use?

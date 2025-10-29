@@ -263,7 +263,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           <h1 
             className="font-thin text-white tracking-tighter leading-none"
             data-testid="text-total-loss"
-            style={{ fontSize: 'clamp(8rem, 15vw, 10rem)', lineHeight: '0.85' }}
+            style={{ fontSize: 'clamp(12rem, 20vw, 20rem)', lineHeight: '0.85' }}
           >
             {formatCurrency(animatedTotal)}
           </h1>
@@ -276,7 +276,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             <div className="text-center">
               <p 
                 className="font-light text-white/60 tracking-wide max-w-2xl mx-auto"
-                style={{ fontSize: 'clamp(1.25rem, 2vw, 1.5rem)' }}
+                style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
                 data-testid="text-loss-description"
               >
                 You lost this last month.
@@ -285,7 +285,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
             {/* Simple Insight - Conversational */}
             <div className="text-center space-y-3 max-w-xl mx-auto">
-              <p className="font-light text-white/80 tracking-wide" style={{ fontSize: '1.25rem' }} data-testid="metric-missed-calls">
+              <p className="font-light text-white/80 tracking-wide" style={{ fontSize: '1.75rem' }} data-testid="metric-missed-calls">
                 {formatNumber(result.missedCalls)} missed {result.missedCalls === 1 ? 'call' : 'calls'}.
                 {result.afterHoursCalls > 0 && (
                   <span className="text-white/50"> {formatNumber(result.afterHoursCalls)} {result.afterHoursCalls === 1 ? 'was' : 'were'} after hours.</span>
