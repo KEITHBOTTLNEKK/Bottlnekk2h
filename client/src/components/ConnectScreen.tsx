@@ -98,7 +98,7 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
         {/* Header */}
         <div className="text-center space-y-6">
           <h1 
-            className="font-bold text-white tracking-tight"
+            className="font-bold text-white tracking-tight whitespace-nowrap"
             style={{ fontSize: '4.5rem' }}
             data-testid="heading-connect"
           >
@@ -123,10 +123,12 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
           >
             <div className="flex flex-col items-center justify-center space-y-6">
               {/* RingCentral Logo */}
-              <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300">
-                <span className="text-white/85 group-hover:text-white transition-colors duration-300" style={{ fontSize: '1.75rem', fontWeight: '300', letterSpacing: '-0.05em' }}>
-                  RC
-                </span>
+              <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300 overflow-hidden">
+                <svg viewBox="0 0 100 100" className="w-12 h-12 opacity-85 group-hover:opacity-100 transition-opacity duration-300">
+                  <rect x="10" y="10" width="80" height="80" rx="15" fill="none" stroke="white" strokeWidth="4"/>
+                  <path d="M30 35 L30 65 M30 35 L45 35 Q50 35 50 40 Q50 45 45 45 L35 45 M45 45 L55 65" 
+                    stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                </svg>
               </div>
               
               {/* Name */}
@@ -162,10 +164,12 @@ export function ConnectScreen({ onProviderSelect }: ConnectScreenProps) {
           >
             <div className="flex flex-col items-center justify-center space-y-6">
               {/* Zoom Logo */}
-              <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300">
-                <span className="text-white/85 group-hover:text-white transition-colors duration-300" style={{ fontSize: '1.75rem', fontWeight: '300', letterSpacing: '-0.05em' }}>
-                  Z
-                </span>
+              <div className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center group-hover:border-white transition-colors duration-300 overflow-hidden">
+                <svg viewBox="0 0 100 100" className="w-12 h-12 opacity-85 group-hover:opacity-100 transition-opacity duration-300">
+                  <rect x="15" y="15" width="70" height="70" rx="12" fill="none" stroke="white" strokeWidth="4"/>
+                  <path d="M30 40 L60 40 L30 60 L60 60" 
+                    stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                </svg>
               </div>
               
               {/* Name */}
