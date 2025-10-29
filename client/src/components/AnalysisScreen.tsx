@@ -20,10 +20,10 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
       const response = await apiRequest("POST", "/api/diagnostic/analyze", data);
       const result = await response.json() as DiagnosticResult;
       
-      // Ensure minimum 2 seconds of analysis time
+      // Ensure minimum 3 seconds of analysis time
       const elapsed = Date.now() - startTime;
-      if (elapsed < 2000) {
-        await new Promise(resolve => setTimeout(resolve, 2000 - elapsed));
+      if (elapsed < 3000) {
+        await new Promise(resolve => setTimeout(resolve, 3000 - elapsed));
       }
       
       return result;
@@ -194,14 +194,8 @@ export function AnalysisScreen({ provider, onAnalysisComplete }: AnalysisScreenP
               style={{ fontSize: '1.5rem' }}
               data-testid="text-analyzing"
             >
-              Analyzing Call Data
+              Analyzing Call Data{dots}
             </h1>
-            
-            <div className="flex justify-center space-x-2">
-              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
-              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-              <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
-            </div>
           </>
         ) : (
           // Fallback loading state (prevents black screen)
