@@ -52,14 +52,14 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             </p>
           </div>
 
-          <div className="w-full bg-black rounded-xl overflow-hidden" style={{ minHeight: '700px' }}>
+          <div className="w-full bg-white/5 rounded-xl overflow-hidden" style={{ minHeight: '800px' }}>
             <iframe 
               src="https://api.leadconnectorhq.com/widget/bookings/reclaim-your-revenue"
               className="w-full border-0"
-              style={{ height: '700px' }}
-              scrolling="no"
+              style={{ height: '800px', minHeight: '800px' }}
               id="ghl-booking-widget"
               data-testid="booking-calendar"
+              title="Schedule Appointment"
             />
           </div>
 
