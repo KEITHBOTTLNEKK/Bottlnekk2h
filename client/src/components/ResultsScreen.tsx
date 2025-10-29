@@ -261,7 +261,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
         {/* The Number - MASSIVE and Centered */}
         <div className="text-center mb-16">
           <h1 
-            className="font-thin text-white tracking-tighter leading-none"
+            className="font-bold text-white tracking-tighter leading-none"
             data-testid="text-total-loss"
             style={{ fontSize: 'clamp(12rem, 20vw, 20rem)', lineHeight: '0.85' }}
           >
@@ -296,10 +296,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             </div>
 
             {/* Minimal footer */}
-            <div className="text-center space-y-4 pt-12">
-              <p className="font-light text-white/20 tracking-wide" style={{ fontSize: '0.875rem' }}>
-                {result.provider} • {result.month}
-              </p>
+            <div className="text-center pt-12">
               <button
                 onClick={onRestart}
                 className="font-light text-white/20 hover:text-white/60 tracking-wide transition-colors duration-300"
