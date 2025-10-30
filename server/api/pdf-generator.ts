@@ -62,24 +62,24 @@ export async function generateDiagnosticPDF(
       doc.text('LEAD INFORMATION', 50, 103, { width: 512 });
       
       doc.fontSize(8).fillColor('#666666').font('Helvetica');
-      doc.text('CONTACT', 50, 122, { width: 250 });
-      doc.fontSize(12).fillColor('#1a1a1a').font('Helvetica-Bold');
-      doc.text(booking.name, 50, 133, { width: 250 });
+      doc.text('CONTACT', 50, 122, { width: 240 });
+      doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica-Bold');
+      doc.text(booking.name, 50, 133, { width: 240 });
       
       doc.fontSize(8).fillColor('#666666').font('Helvetica');
-      doc.text('EMAIL', 310, 122, { width: 250 });
-      doc.fontSize(12).fillColor('#1a1a1a').font('Helvetica-Bold');
-      doc.text(booking.email, 310, 133, { width: 250 });
+      doc.text('EMAIL', 310, 122, { width: 252 });
+      doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica-Bold');
+      doc.text(booking.email, 310, 133, { width: 252 });
       
       doc.fontSize(8).fillColor('#666666').font('Helvetica');
-      doc.text('PHONE', 50, 150, { width: 250 });
-      doc.fontSize(12).fillColor('#1a1a1a').font('Helvetica-Bold');
-      doc.text(booking.phone, 50, 161, { width: 250 });
+      doc.text('PHONE', 50, 150, { width: 240 });
+      doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica-Bold');
+      doc.text(booking.phone, 50, 161, { width: 240 });
       
       doc.fontSize(8).fillColor('#666666').font('Helvetica');
-      doc.text('COMPANY / INDUSTRY', 310, 150, { width: 250 });
-      doc.fontSize(12).fillColor('#1a1a1a').font('Helvetica-Bold');
-      doc.text(`${companyName} • ${industry}`, 310, 161, { width: 250 });
+      doc.text('COMPANY / INDUSTRY', 310, 150, { width: 252 });
+      doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica-Bold');
+      doc.text(`${companyName} • ${industry}`, 310, 161, { width: 252 });
 
       // HERO RECOVERY (Bottlnekk Green)
       doc.rect(40, 185, 532, 85).lineWidth(2).fillAndStroke('#e6f9f2', '#00C97B');
@@ -106,10 +106,10 @@ export async function generateDiagnosticPDF(
         doc.rect(40, 360, 532, afterHoursBoxHeight).fillAndStroke('#fff9e6', '#ffa726');
         doc.fontSize(11).fillColor('#e65100').font('Helvetica-Bold');
         doc.text('AFTER-HOURS OPPORTUNITY', 50, 369, { width: 512 });
-        doc.fontSize(10).fillColor('#3e2723').font('Helvetica');
-        doc.text(`${diagnostic.afterHoursCalls} of the ${diagnostic.missedCalls} missed calls came after business hours (nights/weekends) = $${afterHoursRevenue.toLocaleString()} in lost revenue.`, 50, 385, { width: 512 });
-        doc.fontSize(10).fillColor('#e65100').font('Helvetica-Bold');
-        doc.text(`AI answering service works 24/7 and books appointments regardless of time or day.`, 50, 402, { width: 512 });
+        doc.fontSize(9).fillColor('#3e2723').font('Helvetica');
+        doc.text(`${diagnostic.afterHoursCalls} of the ${diagnostic.missedCalls} missed calls came after business hours (nights/weekends) = $${afterHoursRevenue.toLocaleString()} in lost revenue.`, 50, 385, { width: 512, lineGap: 1 });
+        doc.fontSize(9).fillColor('#e65100').font('Helvetica-Bold');
+        doc.text(`AI answering service works 24/7 and books appointments regardless of time or day.`, 50, 402, { width: 512, lineGap: 1 });
       }
 
       // ANALYTICS HEADER
@@ -138,12 +138,12 @@ export async function generateDiagnosticPDF(
         const y = startY + (row * 65);
         
         doc.rect(x, y, 164, 58).lineWidth(1).fillAndStroke('#ffffff', '#e0e0e0');
-        doc.fontSize(9).fillColor('#666666').font('Helvetica-Bold');
-        doc.text(metrics[i].label, x + 5, y + 10, { width: 154, align: 'center' });
-        doc.fontSize(22).fillColor('#1a1a1a').font('Helvetica-Bold');
-        doc.text(metrics[i].value, x + 5, y + 22, { width: 154, align: 'center' });
-        doc.fontSize(9).fillColor('#666666').font('Helvetica');
-        doc.text(metrics[i].unit, x + 5, y + 45, { width: 154, align: 'center' });
+        doc.fontSize(8).fillColor('#666666').font('Helvetica-Bold');
+        doc.text(metrics[i].label, x + 8, y + 10, { width: 148, align: 'center' });
+        doc.fontSize(20).fillColor('#1a1a1a').font('Helvetica-Bold');
+        doc.text(metrics[i].value, x + 8, y + 23, { width: 148, align: 'center' });
+        doc.fontSize(8).fillColor('#666666').font('Helvetica');
+        doc.text(metrics[i].unit, x + 8, y + 45, { width: 148, align: 'center' });
       }
 
       // FOOTER
