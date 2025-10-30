@@ -11,7 +11,7 @@ export function Branding({ onRestart, accentColor = BOTTLNEKK_GREEN }: BrandingP
   return (
     <button
       onClick={onRestart}
-      className="fixed top-8 left-8 z-50 flex items-center gap-4 cursor-pointer hover:opacity-80 transition-all"
+      className="fixed top-3 left-3 z-50 flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all"
       data-testid="branding-logo"
     >
       <div className="relative">
@@ -25,7 +25,7 @@ export function Branding({ onRestart, accentColor = BOTTLNEKK_GREEN }: BrandingP
         <img 
           src={logoIcon}
           alt="Bottlnekk Icon" 
-          className="h-10 w-10 relative z-10"
+          className="h-8 w-8 relative z-10"
           style={{ 
             filter: 'brightness(0) invert(1)',
           }}
@@ -33,7 +33,7 @@ export function Branding({ onRestart, accentColor = BOTTLNEKK_GREEN }: BrandingP
         />
       </div>
       <div 
-        className="text-white text-3xl font-black tracking-tight"
+        className="text-white text-2xl font-black tracking-tight"
         style={{ fontFamily: 'Inter, sans-serif' }}
         data-testid="logo-wordmark"
       >

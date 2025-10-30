@@ -507,12 +507,6 @@ function createCustomerEmailHTML(booking: BookingData, diagnostic: EmailDiagnost
         </div>
       </div>
 
-      <div class="closing">
-        <p>Here's the hard truth: you can't fix what you can't see.</p>
-        <p>But now you see it. The question is—what are you going to do about it?</p>
-        <p>Your competitors aren't sleeping on this. Neither should you.</p>
-      </div>
-
       <div class="signature">
         <strong>The Bottlnekk Team</strong><br>
         <span style="color: rgba(255, 255, 255, 0.5); font-size: 13px;">Revealing the leaks that quietly drain revenue</span>

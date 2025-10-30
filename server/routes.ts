@@ -252,8 +252,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log("📊 Using fallback diagnostic from:", diagnostic.createdAt, "for booking by:", email);
       }
 
-      // Send sales intelligence email only
+      // Send sales intelligence email and customer pain email
       let salesEmailSent = false;
+      let customerEmailSent = false;
       let emailError = null;
       
       const bookingData = {
@@ -278,6 +279,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         companyName: diagnostic.companyName || undefined,
         industry: diagnostic.industry || undefined,
       };
+
+      // For customer email: lighter data (no PDF needed)
+      const lightDiagnosticData = {
+        totalLoss: diagnostic.totalLoss,
+        missedCalls: diagnostic.missedCalls,
+        afterHoursCalls: diagnostic.afterHoursCalls,
+        avgRevenuePerCall: diagnostic.avgRevenuePerCall,
+        totalMissedOpportunities: diagnostic.totalMissedOpportunities,
+      };
       
       try {
         await sendSalesIntelligenceEmail(bookingData, fullDiagnosticResult);
@@ -292,10 +302,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      try {
+        await sendCustomerPainEmail(bookingData, lightDiagnosticData);
+        console.log("✅ Customer pain email sent for GHL booking");
+        customerEmailSent = true;
+      } catch (error) {
+        const custEmailError = error instanceof Error ? error.message : String(error);
+        console.error("⚠️ Failed to send customer email from webhook:", {
+          error: custEmailError,
+          booking: { name, email },
+          diagnosticId: diagnostic.id,
+        });
+      }
+
       res.json({ 
         success: true, 
         message: "Webhook processed successfully",
         salesEmailSent,
+        customerEmailSent,
         emailError: emailError || undefined,
       });
     } catch (error) {
