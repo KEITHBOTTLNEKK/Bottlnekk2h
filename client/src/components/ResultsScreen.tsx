@@ -129,33 +129,29 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
   if (showBookingForm) {
     return (
-      <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-4xl w-full space-y-12">
+      <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-5xl w-full space-y-6">
           <div className="text-center space-y-4">
             <h2 
               className="font-bold text-white tracking-tight"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}
+              style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
               data-testid="heading-book-call"
             >
               Let's fix this
             </h2>
-            <p className="font-light text-white/60 tracking-wide" style={{ fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)' }}>
-              Stop losing {formatCurrency(result.totalLoss)} every month
-            </p>
           </div>
 
-          <div className="w-full">
+          <div className="w-full bg-white rounded-lg overflow-hidden" style={{ height: 'calc(100vh - 200px)', minHeight: '600px' }}>
             <iframe 
               src={`https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak${result.diagnosticId ? `?diagnosticId=${result.diagnosticId}` : ''}`}
-              className="w-full border-0"
-              style={{ height: '800px', minHeight: '800px' }}
+              className="w-full h-full border-0"
               id="ghl-booking-widget"
               data-testid="booking-calendar"
               title="Schedule Appointment"
             />
           </div>
 
-          <div className="text-center pt-8">
+          <div className="text-center pt-4">
             <button
               onClick={() => setShowBookingForm(false)}
               className="font-light text-white/40 hover:text-white tracking-wide transition-colors duration-300"
