@@ -327,83 +327,26 @@ function createCustomerEmailHTML(booking: BookingData, diagnostic: EmailDiagnost
 <html>
 <head>
   <meta charset="utf-8">
-  <style>
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-      line-height: 1.6; 
-      color: #333; 
-      max-width: 600px; 
-      margin: 0 auto; 
-      padding: 20px;
-      background: #f5f5f5;
-    }
-    .container {
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .header { 
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid #00C97B;
-    }
-    .header h1 { 
-      margin: 0; 
-      font-size: 20px; 
-      font-weight: 600;
-      color: #1a1a1a;
-    }
-    p {
-      margin: 16px 0;
-      color: #555;
-    }
-    .highlight-box {
-      background: #f8f9fa;
-      border-left: 4px solid #00C97B;
-      padding: 16px;
-      margin: 20px 0;
-    }
-    .stat {
-      margin: 12px 0;
-      font-size: 15px;
-    }
-    .stat strong {
-      color: #1a1a1a;
-    }
-    .footer { 
-      margin-top: 32px;
-      padding-top: 16px;
-      border-top: 1px solid #e0e0e0;
-      font-size: 13px; 
-      color: #999;
-    }
-  </style>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>Upcoming Appointment Reminder</h1>
-    </div>
-
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px;">
+  <div style="max-width: 600px; margin: 0 auto;">
     <p>Hi ${booking.name.split(' ')[0]},</p>
 
-    <p>We're looking forward to speaking with you about your phone system analysis.</p>
+    <p>This is a reminder about your upcoming appointment with Bottlnekk.</p>
 
-    <div class="highlight-box">
-      <p style="margin: 0 0 12px 0; font-weight: 600;">Your Diagnostic Summary:</p>
-      <div class="stat"><strong>${diagnostic.missedCalls}</strong> missed calls last month</div>
-      ${diagnostic.afterHoursCalls > 0 ? `<div class="stat"><strong>${diagnostic.afterHoursCalls}</strong> after-hours calls</div>` : ''}
-      <div class="stat">Estimated impact: <strong>$${diagnostic.totalLoss.toLocaleString()}</strong></div>
-    </div>
+    <p>We reviewed your phone system and found ${diagnostic.missedCalls} missed calls from last month${diagnostic.afterHoursCalls > 0 ? ` (including ${diagnostic.afterHoursCalls} outside business hours)` : ''}.</p>
 
-    <p>During our call, we'll review these findings and discuss practical solutions to help you capture more of these opportunities.</p>
+    <p>During our call, we'll discuss these findings and review solutions that could help.</p>
 
-    <p>Talk soon,<br>The Bottlnekk Team</p>
+    <p>Looking forward to speaking with you.</p>
 
-    <div class="footer">
-      <p>© 2025 Bottlnekk</p>
-    </div>
+    <p>Best regards,<br>
+    The Bottlnekk Team</p>
+
+    <p style="font-size: 12px; color: #999; margin-top: 40px;">
+      © 2025 Bottlnekk<br>
+      This email was sent regarding your scheduled appointment.
+    </p>
   </div>
 </body>
 </html>
@@ -414,23 +357,20 @@ function createCustomerEmailText(booking: BookingData, diagnostic: EmailDiagnost
   return `
 Hi ${booking.name.split(' ')[0]},
 
-UPCOMING APPOINTMENT REMINDER
-==============================
+This is a reminder about your upcoming appointment with Bottlnekk.
 
-We're looking forward to speaking with you about your phone system analysis.
+We reviewed your phone system and found ${diagnostic.missedCalls} missed calls from last month${diagnostic.afterHoursCalls > 0 ? ` (including ${diagnostic.afterHoursCalls} outside business hours)` : ''}.
 
-YOUR DIAGNOSTIC SUMMARY
------------------------
-- ${diagnostic.missedCalls} missed calls last month
-${diagnostic.afterHoursCalls > 0 ? `- ${diagnostic.afterHoursCalls} after-hours calls\n` : ''}- Estimated impact: $${diagnostic.totalLoss.toLocaleString()}
+During our call, we'll discuss these findings and review solutions that could help.
 
-During our call, we'll review these findings and discuss practical solutions to help you capture more of these opportunities.
+Looking forward to speaking with you.
 
-Talk soon,
+Best regards,
 The Bottlnekk Team
 
 ---
 © 2025 Bottlnekk
+This email was sent regarding your scheduled appointment.
   `.trim();
 }
 
