@@ -10,8 +10,17 @@ const CLIENT_SECRET = process.env.ZOOM_CLIENT_SECRET;
 
 // Get the base URL for redirects
 function getBaseUrl(req: any): string {
+  // Check for production custom domain in headers first
+  const forwardedHost = req.headers["x-forwarded-host"];
+  
+  // If we detect bottlnekk.com in any header, use it
+  if (forwardedHost?.includes("bottlnekk.com") || req.headers.host?.includes("bottlnekk.com")) {
+    return "https://bottlnekk.com";
+  }
+  
+  // Otherwise use the detected host (for dev/preview environments)
   const protocol = req.headers["x-forwarded-proto"] || "https";
-  const host = req.headers["x-forwarded-host"] || req.headers.host;
+  const host = forwardedHost || req.headers.host;
   return `${protocol}://${host}`;
 }
 
