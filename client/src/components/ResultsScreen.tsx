@@ -20,6 +20,7 @@ interface ResultsScreenProps {
 
 export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
   const [showBookingForm, setShowBookingForm] = useState(false);
+  const [showOffer, setShowOffer] = useState(false);
   const [countComplete, setCountComplete] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const { toast } = useToast();
@@ -42,6 +43,17 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);
+  };
+
+  const handleShowOffer = () => {
+    setShowOffer(true);
+    // Smooth scroll to offer section
+    setTimeout(() => {
+      const offerSection = document.getElementById('offer-section');
+      if (offerSection) {
+        offerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   };
 
   const handleBookCall = () => {
@@ -241,10 +253,10 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
         </div>
 
         {/* Button fades in AFTER the count */}
-        {countComplete && (
+        {countComplete && !showOffer && (
           <div className="text-center pt-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <button
-              onClick={handleBookCall}
+              onClick={handleShowOffer}
               className="inline-flex items-center justify-center px-16 py-8 font-bold text-white border-2 rounded-xl transition-all duration-300"
               style={{ 
                 fontSize: '1.75rem',
@@ -258,10 +270,179 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
                 e.currentTarget.style.backgroundColor = 'transparent';
                 e.currentTarget.style.color = '#FFFFFF';
               }}
-              data-testid="button-reclaim"
+              data-testid="button-see-solution"
             >
-              Fix This
+              See The Solution →
             </button>
+          </div>
+        )}
+
+        {/* The Offer Section - Scrolls into view */}
+        {showOffer && (
+          <div 
+            id="offer-section"
+            className="w-full max-w-4xl mx-auto mt-24 px-4 sm:px-8 animate-in fade-in slide-in-from-bottom-4 duration-1000"
+          >
+            {/* Header */}
+            <div className="text-center space-y-6 mb-16">
+              <h2 
+                className="font-bold text-white tracking-tight leading-tight"
+                style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+                data-testid="heading-offer"
+              >
+                THE PHONE LEAK ELIMINATION SYSTEM
+              </h2>
+              <p 
+                className="font-light text-white/80 tracking-wide leading-relaxed max-w-3xl mx-auto"
+                style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)' }}
+                data-testid="text-offer-subtitle"
+              >
+                In 7 days, we turn your phone system into a 24/7 job-booking machine — 
+                one that captures every missed call and turns silence into sales.
+              </p>
+            </div>
+
+            {/* Your Numbers Section */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 sm:p-12 mb-8">
+              <h3 
+                className="font-bold tracking-tight mb-6"
+                style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: BOTTLNEKK_GREEN }}
+                data-testid="heading-your-numbers"
+              >
+                💰 YOUR NUMBERS
+              </h3>
+              <div className="space-y-4 text-white/90">
+                <p className="font-light leading-relaxed" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
+                  You're losing about <span className="font-bold text-white">{formatCurrency(result.totalLoss)}</span> a month — 
+                  over <span className="font-bold text-white">${Math.round(result.totalLoss / 30)}</span> a day disappearing 
+                  every time the phone rings and no one answers.
+                </p>
+                <p className="font-light leading-relaxed" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
+                  We stop that bleed and turn it into booked jobs on autopilot.
+                </p>
+                <div className="pt-6 border-t border-white/20 mt-6">
+                  <p className="font-bold text-white mb-3" style={{ fontSize: 'clamp(1.125rem, 2vw, 1.375rem)' }}>
+                    The Math:
+                  </p>
+                  <ul className="space-y-2 font-light" style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
+                    <li>You invest <span className="font-bold text-white">$5,000 once</span>.</li>
+                    <li>You recover <span className="font-bold text-white">${formatCurrency(result.totalLoss * 12 * 0.7).replace('$', '')}–${formatCurrency(result.totalLoss * 12 * 0.85).replace('$', '')}+ a year</span>.</li>
+                    <li>That's at least a <span className="font-bold" style={{ color: BOTTLNEKK_GREEN }}>20x return</span> — every single year the system runs.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* What's Included */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 sm:p-12 mb-8">
+              <h3 
+                className="font-bold tracking-tight mb-6"
+                style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: BOTTLNEKK_GREEN }}
+                data-testid="heading-whats-included"
+              >
+                ⚙️ WHAT'S INCLUDED
+              </h3>
+              <div className="space-y-6 text-white/90 font-light" style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
+                <div className="flex gap-4">
+                  <span className="text-white flex-shrink-0">✓</span>
+                  <div>
+                    <span className="font-bold text-white">Leak Scan & Fix System</span> – Find every leak and rebuild your call flows the right way
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <span className="text-white flex-shrink-0">✓</span>
+                  <div>
+                    <span className="font-bold text-white">AI Receptionist</span> – Answers, books, and confirms jobs 24/7
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <span className="text-white flex-shrink-0">✓</span>
+                  <div>
+                    <span className="font-bold text-white">Recovery Dashboard</span> – See live revenue you're getting back
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <span className="text-white flex-shrink-0">✓</span>
+                  <div>
+                    <span className="font-bold text-white">Ongoing Optimization</span> – Continuous tuning so performance never drops
+                  </div>
+                </div>
+              </div>
+              <div className="mt-8 pt-6 border-t border-white/20">
+                <p className="text-white/60 font-light italic" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }}>
+                  Setup: $5,000 one-time | Monthly service: $500–$1,500 (based on call volume)
+                </p>
+              </div>
+            </div>
+
+            {/* The Guarantee */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 sm:p-12 mb-8">
+              <h3 
+                className="font-bold tracking-tight mb-6"
+                style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: BOTTLNEKK_GREEN }}
+                data-testid="heading-guarantee"
+              >
+                🧠 THE GUARANTEE
+              </h3>
+              <p className="text-white font-bold leading-relaxed mb-4" style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)' }}>
+                "If you don't recover at least $10K in 60 days,
+                you don't pay another dime until you do."
+              </p>
+              <p className="text-white/90 font-light" style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
+                No risk. No fluff. Just recovered money.
+              </p>
+            </div>
+
+            {/* The Outcome */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 sm:p-12 mb-12">
+              <h3 
+                className="font-bold tracking-tight mb-6"
+                style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: BOTTLNEKK_GREEN }}
+                data-testid="heading-outcome"
+              >
+                🚀 THE OUTCOME
+              </h3>
+              <div className="space-y-4 text-white/90 font-light mb-6" style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
+                <div className="flex gap-4">
+                  <span className="text-white flex-shrink-0">✅</span>
+                  <span>No more missed calls</span>
+                </div>
+                <div className="flex gap-4">
+                  <span className="text-white flex-shrink-0">✅</span>
+                  <span>Jobs booked automatically</span>
+                </div>
+                <div className="flex gap-4">
+                  <span className="text-white flex-shrink-0">✅</span>
+                  <span>Proof of every dollar recovered</span>
+                </div>
+              </div>
+              <p className="text-white font-light leading-relaxed" style={{ fontSize: 'clamp(1.125rem, 2vw, 1.375rem)' }}>
+                Your phone stops being an expense — and becomes your most profitable employee.
+              </p>
+            </div>
+
+            {/* CTA Button */}
+            <div className="text-center pb-16">
+              <button
+                onClick={handleBookCall}
+                className="inline-flex items-center justify-center px-16 py-8 font-bold text-white border-2 rounded-xl transition-all duration-300"
+                style={{ 
+                  fontSize: '1.75rem',
+                  borderColor: BOTTLNEKK_GREEN,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
+                  e.currentTarget.style.color = '#000000';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+                data-testid="button-fix-system"
+              >
+                Fix My System →
+              </button>
+            </div>
           </div>
         )}
       </div>
