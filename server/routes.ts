@@ -302,30 +302,108 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      try {
-        await sendCustomerPainEmail(bookingData, lightDiagnosticData);
-        console.log("✅ Customer pain email sent for GHL booking");
-        customerEmailSent = true;
-      } catch (error) {
-        const custEmailError = error instanceof Error ? error.message : String(error);
-        console.error("⚠️ Failed to send customer email from webhook:", {
-          error: custEmailError,
-          booking: { name, email },
-          diagnosticId: diagnostic.id,
-        });
-      }
+      // Skip customer pain email - it will be sent 1 day before appointment via separate endpoint
+      console.log("ℹ️ Customer pain email will be sent via delayed workflow (1 day before meeting)");
 
       res.json({ 
         success: true, 
-        message: "Webhook processed successfully",
+        message: "Webhook processed - sales email sent immediately",
         salesEmailSent,
-        customerEmailSent,
+        customerEmailSent: false,
         emailError: emailError || undefined,
       });
     } catch (error) {
       console.error("❌ Error processing GHL webhook:", error);
       res.status(500).json({ 
         error: error instanceof Error ? error.message : "Webhook processing failed" 
+      });
+    }
+  });
+
+  // POST /api/webhooks/send-pain-email - Send customer pain email (delayed trigger)
+  app.post("/api/webhooks/send-pain-email", async (req, res) => {
+    console.log("\n📧 ============ PAIN EMAIL TRIGGER ============");
+    console.log("📥 Headers:", JSON.stringify(req.headers, null, 2));
+    console.log("📦 Body:", JSON.stringify(req.body, null, 2));
+    console.log("============================================\n");
+    
+    try {
+      // Verify webhook secret
+      const webhookSecret = req.headers['x-webhook-secret'] || req.body.webhookSecret;
+      const expectedSecret = process.env.GOHIGHLEVEL_WEBHOOK_SECRET;
+      
+      if (!expectedSecret) {
+        console.error("⚠️ GOHIGHLEVEL_WEBHOOK_SECRET not configured");
+        return res.status(500).json({ error: "Webhook not configured" });
+      }
+
+      if (webhookSecret !== expectedSecret) {
+        console.error("🚫 Invalid webhook secret");
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      // Extract data from request
+      const name = req.body.name || req.body.contact_name || `${req.body.firstName || ''} ${req.body.lastName || ''}`.trim();
+      const email = req.body.email || req.body.contactEmail || req.body.contact_email;
+      const phone = req.body.phone || req.body.contactPhone;
+      const company = req.body.company || req.body.companyName;
+      const diagnosticId = req.body.diagnosticId || req.body.diagnostic_id;
+
+      if (!email) {
+        console.error("⚠️ Missing email in pain email request");
+        return res.status(400).json({ error: "Email is required" });
+      }
+
+      let diagnostic;
+
+      // Try to get diagnostic by ID first
+      if (diagnosticId) {
+        console.log("🔍 Looking up diagnostic by ID:", diagnosticId);
+        diagnostic = await storage.getDiagnostic(diagnosticId);
+      }
+
+      // Fallback to most recent diagnostic
+      if (!diagnostic) {
+        console.log("📊 Falling back to most recent diagnostic");
+        const allDiagnostics = await storage.getAllDiagnostics();
+        
+        if (!allDiagnostics || allDiagnostics.length === 0) {
+          console.error("⚠️ No diagnostic data found");
+          return res.status(404).json({ 
+            error: "No diagnostic data available - cannot send pain email" 
+          });
+        }
+
+        diagnostic = allDiagnostics[0];
+      }
+
+      const bookingData = {
+        name: name || "Valued Customer",
+        email,
+        phone: phone || "Not provided",
+        company,
+      };
+
+      const lightDiagnosticData = {
+        totalLoss: diagnostic.totalLoss,
+        missedCalls: diagnostic.missedCalls,
+        afterHoursCalls: diagnostic.afterHoursCalls,
+        avgRevenuePerCall: diagnostic.avgRevenuePerCall,
+        totalMissedOpportunities: diagnostic.totalMissedOpportunities,
+      };
+      
+      await sendCustomerPainEmail(bookingData, lightDiagnosticData);
+      console.log("✅ Customer pain email sent successfully to:", email);
+
+      res.json({ 
+        success: true, 
+        message: "Pain email sent successfully",
+        email,
+      });
+    } catch (error) {
+      console.error("❌ Error sending pain email:", error);
+      res.status(500).json({ 
+        error: error instanceof Error ? error.message : "Failed to send pain email" 
       });
     }
   });
