@@ -57,17 +57,22 @@ export function LandingPage() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
-            <CTAButton data-testid="button-request-access">
+            <CTAButton 
+              href="mailto:keith@bottlnekk.com?subject=Early%20Access%20Request"
+              data-testid="button-request-access"
+            >
               Request Early Access
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </CTAButton>
-            <button 
-              className="px-8 py-4 text-lg font-light border-2 rounded-full transition-all hover:bg-white/5"
-              style={{ borderColor: BOTTLNEKK_GREEN, color: BOTTLNEKK_GREEN }}
-              data-testid="button-partner"
-            >
-              Partner With Us
-            </button>
+            <a href="mailto:keith@bottlnekk.com?subject=Partnership%20Inquiry">
+              <button 
+                className="px-8 py-4 text-lg font-light border-2 rounded-full transition-all hover:bg-white/5"
+                style={{ borderColor: BOTTLNEKK_GREEN, color: BOTTLNEKK_GREEN }}
+                data-testid="button-partner"
+              >
+                Partner With Us
+              </button>
+            </a>
           </div>
         </div>
       </section>
@@ -356,17 +361,22 @@ export function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <CTAButton data-testid="button-footer-request-access">
+            <CTAButton 
+              href="mailto:keith@bottlnekk.com?subject=Early%20Access%20Request"
+              data-testid="button-footer-request-access"
+            >
               Request Access
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </CTAButton>
-            <button 
-              className="px-8 py-4 text-lg font-light border-2 rounded-full transition-all hover:bg-white/5"
-              style={{ borderColor: BOTTLNEKK_GREEN, color: BOTTLNEKK_GREEN }}
-              data-testid="button-footer-partner"
-            >
-              Partner With Bottlnekk
-            </button>
+            <a href="mailto:keith@bottlnekk.com?subject=Partnership%20Inquiry">
+              <button 
+                className="px-8 py-4 text-lg font-light border-2 rounded-full transition-all hover:bg-white/5"
+                style={{ borderColor: BOTTLNEKK_GREEN, color: BOTTLNEKK_GREEN }}
+                data-testid="button-footer-partner"
+              >
+                Partner With Bottlnekk
+              </button>
+            </a>
           </div>
         </div>
       </section>
