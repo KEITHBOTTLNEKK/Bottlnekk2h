@@ -2,7 +2,7 @@
 
 ## Overview
 
-A premium, Apple-inspired web application for home service businesses (plumbing, HVAC, electrical) to identify and quantify revenue losses from missed phone calls, after-hours opportunities, and abandoned calls. It features a high-contrast black minimalist design and a multi-step diagnostic flow that analyzes phone system data to deliver impactful financial insights. The project aims to provide a diagnostic tool and a marketing landing page to attract and convert prospects, offering a clear path to understanding and recovering lost revenue.
+A premium, Apple-inspired web application for home service businesses (plumbing, HVAC, electrical) to identify and quantify revenue losses from missed phone calls, after-hours opportunities, and abandoned calls. It features a high-contrast black minimalist design and a multi-step diagnostic flow that analyzes phone system data to deliver impactful financial insights. The diagnostic tool serves as the primary user acquisition vehicle, providing a clear path to understanding and recovering lost revenue.
 
 ## User Preferences
 
@@ -12,7 +12,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend
 
-The frontend uses React 18+ with TypeScript, Vite, and Wouter for routing. UI components are built with shadcn/ui (Radix UI) and styled with Tailwind CSS, featuring a pure black background, white text (Inter font), and Bottlnekk green accents. State management leverages TanStack Query for server state and local React state for the multi-step diagnostic wizard. The application is component-based, with distinct screens for Welcome, Connect, Analysis, and Results, incorporating responsive design, smooth animations, and generous whitespace. A custom `useCounter` hook provides dramatic number animations with `easeOutExpo` easing. The marketing landing page resides at the root (`/`), with the diagnostic tool at `/diagnostic`.
+The frontend uses React 18+ with TypeScript, Vite, and Wouter for routing. UI components are built with shadcn/ui (Radix UI) and styled with Tailwind CSS, featuring a pure black background, white text (Inter font), and Bottlnekk green accents. State management leverages TanStack Query for server state and local React state for the multi-step diagnostic wizard. The application is component-based, with distinct screens for Welcome, Connect, Analysis, and Results, incorporating responsive design, smooth animations, and generous whitespace. A custom `useCounter` hook provides dramatic number animations with `easeOutExpo` easing. The diagnostic tool is the main application at the root (`/`).
 
 ### Backend
 
@@ -22,7 +22,7 @@ The backend is an Express.js application built with Node.js and TypeScript (ESM 
 
 The design is a dramatic, high-contrast black minimalist aesthetic inspired by Apple, using ultra-thin Inter typography and Bottlnekk green (#00C97B) as the signature accent. Key elements include large, animated counters, green-accented CTA buttons with hover effects, and a focus on radical simplification, presenting only essential metrics. The user flow is seamless, with a clear success moment after OAuth and an interactive deal size question. The Bottlnekk logo (hourglass icon + wordmark) appears top-left with a subtle green glow, and clicking it restarts the diagnostic flow.
 
-**Landing Page Philosophy (VC Pitch Page):** The homepage (`/`) is a streamlined VC pitch page with six focused sections: The Problem (visibility kills businesses, $30B annual loss), The Solution (AI diagnostic system + Hexona fulfillment), Proof (Tire Boss & WealthIO case studies with metrics), The Opportunity ($30B market across 1.3M businesses), What We're Building (CRM/workflow expansion), and The Vision (revenue leaks → workflow leaks → operating system). The page uses clean, centered typography without section icons, letting the content speak for itself. CTAs use mailto links (keith@bottlnekk.com) for "Request Access" and "Partner With Us". The diagnostic tool at `/diagnostic` remains unlisted and internal, accessible only via direct link. Browser tab displays just "Bottlnekk" with green hourglass favicon.
+**User Acquisition Strategy:** The diagnostic tool serves as the primary entry point and customer acquisition vehicle. There is no separate marketing landing page - users go directly to the diagnostic flow at `/`. Browser tab displays just "Bottlnekk" with green hourglass favicon.
 
 ### Feature Specifications
 
