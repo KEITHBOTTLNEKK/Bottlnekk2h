@@ -163,10 +163,9 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticD
       color: #00A565; 
       margin-top: 8px;
     }
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    .contact-table {
+      width: 100%;
+      border-collapse: collapse;
       margin: 16px 0;
     }
     .contact-item {
@@ -174,6 +173,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticD
       padding: 12px;
       border-radius: 6px;
       border-left: 3px solid #00C97B;
+      vertical-align: top;
     }
     .contact-label {
       font-size: 10px;
@@ -182,11 +182,13 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticD
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 4px;
+      display: block;
     }
     .contact-value {
       font-size: 14px;
       color: #1a1a1a;
       font-weight: 600;
+      display: block;
     }
     .pdf-box {
       background: #e6f9f2;
@@ -224,26 +226,33 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticD
     <div class="content">
       <div class="badge">NEW BOOKING</div>
 
-      <div class="contact-grid">
-        <div class="contact-item">
-          <div class="contact-label">Contact Name</div>
-          <div class="contact-value">${booking.name}</div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-label">Email Address</div>
-          <div class="contact-value">${booking.email}</div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-label">Phone Number</div>
-          <div class="contact-value">${booking.phone}</div>
-        </div>
-        ${booking.company ? `
-        <div class="contact-item">
-          <div class="contact-label">Company Name</div>
-          <div class="contact-value">${booking.company}</div>
-        </div>
-        ` : ''}
-      </div>
+      <table class="contact-table" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="contact-item" style="width: 48%; padding-right: 6px;">
+            <span class="contact-label">Contact Name</span>
+            <span class="contact-value">${booking.name}</span>
+          </td>
+          <td style="width: 4%;"></td>
+          <td class="contact-item" style="width: 48%; padding-left: 6px;">
+            <span class="contact-label">Email Address</span>
+            <span class="contact-value">${booking.email}</span>
+          </td>
+        </tr>
+        <tr><td colspan="3" style="height: 12px;"></td></tr>
+        <tr>
+          <td class="contact-item" style="width: 48%; padding-right: 6px;">
+            <span class="contact-label">Phone Number</span>
+            <span class="contact-value">${booking.phone}</span>
+          </td>
+          ${booking.company ? `
+          <td style="width: 4%;"></td>
+          <td class="contact-item" style="width: 48%; padding-left: 6px;">
+            <span class="contact-label">Company Name</span>
+            <span class="contact-value">${booking.company}</span>
+          </td>
+          ` : '<td colspan="2"></td>'}
+        </tr>
+      </table>
 
       <div class="hero-metric">
         <div class="hero-label">Recovery Opportunity</div>

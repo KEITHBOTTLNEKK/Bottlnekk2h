@@ -10,6 +10,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={DiagnosticTool} />
+      <Route path="/diagnostic" component={DiagnosticTool} />
       <Route path="/admin/diagnostics" component={AdminDashboard} />
     </Switch>
   );
