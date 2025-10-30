@@ -212,12 +212,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log("📅 GoHighLevel webhook received:", JSON.stringify(req.body, null, 2));
 
-      // Extract booking data from GHL webhook
-      const name = req.body.name || `${req.body.firstName || ''} ${req.body.lastName || ''}`.trim();
-      const email = req.body.email || req.body.contactEmail;
-      const phone = req.body.phone || req.body.contactPhone;
-      const company = req.body.company || req.body.companyName;
-      const diagnosticId = req.body.diagnosticId || req.body.diagnostic_id;
+      // Extract booking data from GHL webhook - handle multiple possible field names
+      const name = req.body.name 
+        || req.body.contact?.name 
+        || req.body.contact_name
+        || `${req.body.firstName || req.body.first_name || req.body.contact?.firstName || ''} ${req.body.lastName || req.body.last_name || req.body.contact?.lastName || ''}`.trim()
+        || req.body.full_name
+        || 'Unknown';
+        
+      const email = req.body.email 
+        || req.body.contactEmail 
+        || req.body.contact_email
+        || req.body.contact?.email;
+        
+      const phone = req.body.phone 
+        || req.body.contactPhone 
+        || req.body.contact_phone
+        || req.body.contact?.phone;
+        
+      const company = req.body.company 
+        || req.body.companyName 
+        || req.body.company_name
+        || req.body.contact?.companyName;
+        
+      const diagnosticId = req.body.diagnosticId 
+        || req.body.diagnostic_id 
+        || req.body.custom_data?.diagnostic_id
+        || req.body.customData?.diagnosticId;
 
       if (!name || !email) {
         console.error("⚠️ Missing required fields from webhook:", { name, email });
@@ -352,12 +373,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // return res.status(401).json({ error: "Unauthorized" });
       }
 
-      // Extract data from request
-      const name = req.body.name || req.body.contact_name || `${req.body.firstName || ''} ${req.body.lastName || ''}`.trim();
-      const email = req.body.email || req.body.contactEmail || req.body.contact_email;
-      const phone = req.body.phone || req.body.contactPhone;
-      const company = req.body.company || req.body.companyName;
-      const diagnosticId = req.body.diagnosticId || req.body.diagnostic_id;
+      // Extract data from request - handle multiple possible field names
+      const name = req.body.name 
+        || req.body.contact?.name 
+        || req.body.contact_name
+        || `${req.body.firstName || req.body.first_name || req.body.contact?.firstName || ''} ${req.body.lastName || req.body.last_name || req.body.contact?.lastName || ''}`.trim()
+        || req.body.full_name
+        || 'Unknown';
+        
+      const email = req.body.email 
+        || req.body.contactEmail 
+        || req.body.contact_email
+        || req.body.contact?.email;
+        
+      const phone = req.body.phone 
+        || req.body.contactPhone 
+        || req.body.contact_phone
+        || req.body.contact?.phone;
+        
+      const company = req.body.company 
+        || req.body.companyName 
+        || req.body.company_name
+        || req.body.contact?.companyName;
+        
+      const diagnosticId = req.body.diagnosticId 
+        || req.body.diagnostic_id 
+        || req.body.custom_data?.diagnostic_id
+        || req.body.customData?.diagnosticId;
 
       if (!email) {
         console.error("⚠️ Missing email in pain email request");
