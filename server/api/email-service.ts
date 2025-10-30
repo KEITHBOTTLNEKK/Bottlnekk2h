@@ -4,6 +4,19 @@ import { generateDiagnosticPDF } from './pdf-generator';
 
 let connectionSettings: any;
 
+interface EmailDiagnosticData {
+  totalLoss: number;
+  missedCalls: number;
+  afterHoursCalls: number;
+  avgRevenuePerCall: number;
+  totalMissedOpportunities: number;
+  totalInboundCalls?: number;
+  acceptedCalls?: number;
+  provider?: string;
+  month?: string;
+  avgCallbackTimeMinutes?: number | null;
+}
+
 async function getCredentials() {
   const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME
   const xReplitToken = process.env.REPL_IDENTITY 
@@ -67,7 +80,7 @@ function formatCallbackTime(minutes: number | null): string {
   return `${hours} hour${hours > 1 ? 's' : ''} ${remainingMinutes} minutes`;
 }
 
-function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult): string {
+function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticData): string {
   const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
   const totalInbound = diagnostic.totalInboundCalls ?? 0;
   const accepted = diagnostic.acceptedCalls ?? 0;
@@ -81,7 +94,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
   <style>
     body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-      line-height: 1.6; 
+      line-height: 1.4; 
       color: #1a1a1a; 
       max-width: 600px; 
       margin: 0 auto; 
@@ -90,114 +103,114 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
     }
     .container {
       background: #ffffff;
-      margin: 20px;
-      border-radius: 12px;
+      margin: 12px;
+      border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .header { 
       background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
       color: #ffffff; 
-      padding: 40px 30px; 
+      padding: 20px; 
       text-align: center;
     }
     .header h1 { 
       margin: 0; 
-      font-size: 26px; 
+      font-size: 22px; 
       font-weight: 600;
       letter-spacing: -0.5px;
     }
     .content {
-      padding: 40px;
+      padding: 20px;
     }
     .badge {
       display: inline-block;
       background: #00C97B;
       color: white;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 30px;
+      margin-bottom: 16px;
     }
     .hero-metric { 
       background: linear-gradient(135deg, #e6f9f2 0%, #ccf2e5 100%);
-      padding: 40px; 
-      margin: 30px 0; 
+      padding: 20px; 
+      margin: 16px 0; 
       text-align: center;
-      border-radius: 10px;
+      border-radius: 8px;
       border: 2px solid #00C97B;
     }
     .hero-label { 
-      font-size: 14px; 
+      font-size: 12px; 
       color: #00A565; 
       font-weight: 700; 
       text-transform: uppercase; 
-      letter-spacing: 2px; 
-      margin-bottom: 15px; 
+      letter-spacing: 1px; 
+      margin-bottom: 8px; 
     }
     .hero-value { 
-      font-size: 58px; 
+      font-size: 42px; 
       font-weight: 700; 
       color: #008558; 
       line-height: 1;
-      margin: 15px 0;
+      margin: 8px 0;
     }
     .hero-subtext { 
-      font-size: 15px; 
+      font-size: 13px; 
       color: #00A565; 
-      margin-top: 12px;
+      margin-top: 8px;
     }
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin: 30px 0;
+      gap: 12px;
+      margin: 16px 0;
     }
     .contact-item {
       background: #f8f9fa;
-      padding: 20px;
-      border-radius: 8px;
+      padding: 12px;
+      border-radius: 6px;
       border-left: 3px solid #00C97B;
     }
     .contact-label {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       color: #666;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
     }
     .contact-value {
-      font-size: 16px;
+      font-size: 14px;
       color: #1a1a1a;
       font-weight: 600;
     }
     .pdf-box {
       background: #e6f9f2;
       border: 2px solid #00C97B;
-      padding: 30px;
-      margin: 35px 0;
+      padding: 16px;
+      margin: 16px 0;
       text-align: center;
-      border-radius: 10px;
+      border-radius: 8px;
     }
     .pdf-box h3 {
-      margin: 0 0 10px 0;
-      font-size: 18px;
+      margin: 0 0 6px 0;
+      font-size: 16px;
       color: #00C97B;
     }
     .pdf-box p {
       margin: 0;
-      font-size: 14px;
+      font-size: 12px;
       color: #666;
     }
     .footer { 
       text-align: center; 
       color: #999; 
-      font-size: 12px; 
-      padding: 30px;
+      font-size: 11px; 
+      padding: 16px;
       background: #f8f9fa;
     }
   </style>
@@ -238,10 +251,10 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
         <div class="hero-subtext">Estimated from missed inbound opportunities</div>
       </div>
 
-      <div style="background: #fff3e0; border: 2px solid #ff9800; padding: 25px; margin: 30px 0; text-align: center; border-radius: 10px;">
-        <div style="font-size: 15px; font-weight: 700; color: #e65100; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Potential Budget</div>
-        <div style="font-size: 11px; font-weight: 700; color: #bf360c; margin-bottom: 10px;">(Internal Use Only - Never Mention to Client)</div>
-        <div style="font-size: 42px; font-weight: 700; color: #e65100; margin: 10px 0;">$${potentialBudget.toLocaleString()}</div>
+      <div style="background: #fff3e0; border: 2px solid #ff9800; padding: 16px; margin: 16px 0; text-align: center; border-radius: 8px;">
+        <div style="font-size: 13px; font-weight: 700; color: #e65100; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Potential Budget</div>
+        <div style="font-size: 10px; font-weight: 700; color: #bf360c; margin-bottom: 6px;">(Internal Use Only - Never Mention to Client)</div>
+        <div style="font-size: 36px; font-weight: 700; color: #e65100; margin: 6px 0;">$${potentialBudget.toLocaleString()}</div>
       </div>
 
       <div class="pdf-box">
@@ -260,7 +273,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: DiagnosticResult
   `.trim();
 }
 
-function createSalesEmailText(booking: BookingData, diagnostic: DiagnosticResult): string {
+function createSalesEmailText(booking: BookingData, diagnostic: EmailDiagnosticData): string {
   const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
   const totalInbound = diagnostic.totalInboundCalls ?? 0;
   const accepted = diagnostic.acceptedCalls ?? 0;
@@ -296,6 +309,254 @@ Open the attached PDF for:
 ---
 Revenue Leak Diagnostic Tool
 Automated Lead Intelligence System
+  `.trim();
+}
+
+function createCustomerEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticData): string {
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+      line-height: 1.5; 
+      color: #1a1a1a; 
+      max-width: 600px; 
+      margin: 0 auto; 
+      padding: 0;
+      background: #000000;
+    }
+    .container {
+      background: #000000;
+      margin: 0;
+      border-radius: 0;
+      overflow: hidden;
+    }
+    .header { 
+      background: #000000;
+      color: #ffffff; 
+      padding: 32px 24px; 
+      text-align: center;
+      border-bottom: 1px solid rgba(0, 201, 123, 0.2);
+    }
+    .logo {
+      color: #00C97B;
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+    .header h1 { 
+      margin: 0; 
+      font-size: 20px; 
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 0.5px;
+    }
+    .content {
+      padding: 32px 24px;
+      background: #000000;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    .greeting {
+      font-size: 16px;
+      margin-bottom: 24px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .pain-section {
+      margin: 32px 0;
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid #00C97B;
+      border-radius: 4px;
+    }
+    .pain-intro {
+      font-size: 15px;
+      margin-bottom: 20px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+    }
+    .stat-box {
+      background: rgba(255, 0, 0, 0.05);
+      border: 1px solid rgba(255, 0, 0, 0.2);
+      padding: 20px;
+      margin: 16px 0;
+      text-align: center;
+      border-radius: 6px;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: rgba(255, 100, 100, 0.8);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .stat-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: #ff4444;
+      line-height: 1;
+    }
+    .stat-subtext {
+      font-size: 13px;
+      color: rgba(255, 100, 100, 0.6);
+      margin-top: 8px;
+    }
+    .pain-point {
+      margin: 16px 0;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 2px solid rgba(255, 68, 68, 0.4);
+      border-radius: 4px;
+    }
+    .pain-point-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #ff6666;
+      margin-bottom: 8px;
+    }
+    .pain-point-text {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+    }
+    .closing {
+      margin-top: 32px;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.6;
+    }
+    .signature {
+      margin-top: 24px;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    .footer { 
+      text-align: center; 
+      color: rgba(255, 255, 255, 0.3); 
+      font-size: 11px; 
+      padding: 24px;
+      background: #000000;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">BOTTLNEKK</div>
+      <h1>Your Revenue Leak Diagnostic Results</h1>
+    </div>
+
+    <div class="content">
+      <div class="greeting">
+        Hi ${booking.name.split(' ')[0]},
+      </div>
+
+      <div class="pain-section">
+        <p class="pain-intro">
+          We analyzed your phone system and uncovered something critical: your business is quietly bleeding revenue every single day.
+        </p>
+
+        <div class="stat-box">
+          <div class="stat-label">Lost Revenue (Last 30 Days)</div>
+          <div class="stat-value">$${diagnostic.totalLoss.toLocaleString()}</div>
+          <div class="stat-subtext">From calls that went unanswered</div>
+        </div>
+
+        <div class="pain-point">
+          <div class="pain-point-title">📞 ${diagnostic.missedCalls} Missed Opportunities</div>
+          <div class="pain-point-text">
+            These weren't spam calls. These were potential customers who needed your service, called your business, and got nothing. They've already moved on to your competitors.
+          </div>
+        </div>
+
+        ${diagnostic.afterHoursCalls > 0 ? `
+        <div class="pain-point">
+          <div class="pain-point-title">🌙 ${diagnostic.afterHoursCalls} After-Hours Calls Lost</div>
+          <div class="pain-point-text">
+            Real customers calling outside business hours with urgent needs. Every single one went to voicemail or got no response. That's $${(diagnostic.afterHoursCalls * diagnostic.avgRevenuePerCall).toLocaleString()} walking away while you sleep.
+          </div>
+        </div>
+        ` : ''}
+
+        <div class="pain-point">
+          <div class="pain-point-title">💸 The Worst Part</div>
+          <div class="pain-point-text">
+            You paid for marketing to get these calls. You spent money on ads, SEO, maybe even a website redesign. All of that investment is being flushed down the drain because your phone system can't keep up.
+          </div>
+        </div>
+
+        <div class="pain-point">
+          <div class="pain-point-title">⏰ This Keeps Happening</div>
+          <div class="pain-point-text">
+            This isn't a one-time problem. It's happening right now, today, while you're reading this. Another call is about to come in. Will you catch it? Or will it become another line item in next month's "revenue we'll never see"?
+          </div>
+        </div>
+      </div>
+
+      <div class="closing">
+        <p>Here's the hard truth: you can't fix what you can't see.</p>
+        <p>But now you see it. The question is—what are you going to do about it?</p>
+        <p>Your competitors aren't sleeping on this. Neither should you.</p>
+      </div>
+
+      <div class="signature">
+        <strong>The Bottlnekk Team</strong><br>
+        <span style="color: rgba(255, 255, 255, 0.5); font-size: 13px;">Revealing the leaks that quietly drain revenue</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>© 2025 Bottlnekk • Revenue Leak Diagnostic Tool</p>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim();
+}
+
+function createCustomerEmailText(booking: BookingData, diagnostic: EmailDiagnosticData): string {
+  return `
+Hi ${booking.name.split(' ')[0]},
+
+YOUR REVENUE LEAK DIAGNOSTIC RESULTS
+=====================================
+
+We analyzed your phone system and uncovered something critical: your business is quietly bleeding revenue every single day.
+
+LOST REVENUE (LAST 30 DAYS)
+$${diagnostic.totalLoss.toLocaleString()}
+From calls that went unanswered
+
+📞 ${diagnostic.missedCalls} MISSED OPPORTUNITIES
+These weren't spam calls. These were potential customers who needed your service, called your business, and got nothing. They've already moved on to your competitors.
+
+${diagnostic.afterHoursCalls > 0 ? `🌙 ${diagnostic.afterHoursCalls} AFTER-HOURS CALLS LOST
+Real customers calling outside business hours with urgent needs. Every single one went to voicemail or got no response. That's $${(diagnostic.afterHoursCalls * diagnostic.avgRevenuePerCall).toLocaleString()} walking away while you sleep.
+
+` : ''}💸 THE WORST PART
+You paid for marketing to get these calls. You spent money on ads, SEO, maybe even a website redesign. All of that investment is being flushed down the drain because your phone system can't keep up.
+
+⏰ THIS KEEPS HAPPENING
+This isn't a one-time problem. It's happening right now, today, while you're reading this. Another call is about to come in. Will you catch it? Or will it become another line item in next month's "revenue we'll never see"?
+
+---
+
+Here's the hard truth: you can't fix what you can't see.
+
+But now you see it. The question is—what are you going to do about it?
+
+Your competitors aren't sleeping on this. Neither should you.
+
+The Bottlnekk Team
+Revealing the leaks that quietly drain revenue
+
+---
+© 2025 Bottlnekk • Revenue Leak Diagnostic Tool
   `.trim();
 }
 
@@ -349,6 +610,39 @@ export async function sendSalesIntelligenceEmail(
     console.log('✅ Sales intelligence email sent successfully:', data?.id);
   } catch (error) {
     console.error('Error in sendSalesIntelligenceEmail:', error);
+    throw error;
+  }
+}
+
+export async function sendCustomerPainEmail(
+  booking: BookingData,
+  diagnostic: EmailDiagnosticData | DiagnosticResult
+): Promise<void> {
+  try {
+    const { client, fromEmail } = await getUncachableResendClient();
+    
+    console.log('📧 Sending customer pain email to:', booking.email);
+    
+    const { data, error } = await client.emails.send({
+      from: fromEmail || 'onboarding@resend.dev',
+      to: booking.email,
+      subject: `${booking.name.split(' ')[0]}, you're losing $${diagnostic.totalLoss.toLocaleString()} every month`,
+      html: createCustomerEmailHTML(booking, diagnostic),
+      text: createCustomerEmailText(booking, diagnostic),
+    });
+
+    if (error) {
+      console.error('❌ Resend API error:', {
+        name: error.name,
+        message: error.message,
+        statusCode: (error as any).statusCode,
+      });
+      throw new Error(`Failed to send customer email: ${error.message}`);
+    }
+
+    console.log('✅ Customer pain email sent successfully:', data?.id);
+  } catch (error) {
+    console.error('Error in sendCustomerPainEmail:', error);
     throw error;
   }
 }

@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { analyzeDiagnosticRequestSchema, bookingSchema, type DiagnosticResult, type PhoneProvider } from "@shared/schema";
-import { sendSalesIntelligenceEmail } from "./api/email-service";
+import { sendSalesIntelligenceEmail, sendCustomerPainEmail } from "./api/email-service";
 import { registerRingCentralOAuth } from "./oauth/ringcentral";
 import { fetchRingCentralAnalytics } from "./api/ringcentral-client";
 import { registerZoomOAuth } from "./oauth/zoom";
@@ -247,33 +247,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log("📊 Using fallback diagnostic from:", diagnostic.createdAt, "for booking by:", email);
       }
 
-      // Send sales intelligence email
-      let emailSent = false;
+      // Send sales intelligence email and customer pain email
+      let salesEmailSent = false;
+      let customerEmailSent = false;
       let emailError = null;
       
+      const bookingData = {
+        name,
+        email,
+        phone: phone || "Not provided",
+        company,
+      };
+
+      // For sales email: use full diagnostic (needs PDF generation)
+      const fullDiagnosticResult: DiagnosticResult = {
+        provider: diagnostic.provider as PhoneProvider,
+        totalLoss: diagnostic.totalLoss,
+        missedCalls: diagnostic.missedCalls,
+        afterHoursCalls: diagnostic.afterHoursCalls,
+        avgRevenuePerCall: diagnostic.avgRevenuePerCall,
+        totalMissedOpportunities: diagnostic.totalMissedOpportunities,
+        month: diagnostic.month,
+        totalInboundCalls: diagnostic.totalInboundCalls || 0,
+        acceptedCalls: diagnostic.acceptedCalls || 0,
+        avgCallbackTimeMinutes: diagnostic.avgCallbackTimeMinutes || null,
+        companyName: diagnostic.companyName || undefined,
+        industry: diagnostic.industry || undefined,
+      };
+
+      // For customer email: lighter data (no PDF needed)
+      const lightDiagnosticData = {
+        totalLoss: diagnostic.totalLoss,
+        missedCalls: diagnostic.missedCalls,
+        afterHoursCalls: diagnostic.afterHoursCalls,
+        avgRevenuePerCall: diagnostic.avgRevenuePerCall,
+        totalMissedOpportunities: diagnostic.totalMissedOpportunities,
+      };
+      
       try {
-        await sendSalesIntelligenceEmail(
-          {
-            name,
-            email,
-            phone: phone || "Not provided",
-            company,
-          },
-          {
-            provider: diagnostic.provider as any,
-            totalLoss: diagnostic.totalLoss,
-            missedCalls: diagnostic.missedCalls,
-            afterHoursCalls: diagnostic.afterHoursCalls,
-            avgRevenuePerCall: diagnostic.avgRevenuePerCall,
-            totalMissedOpportunities: diagnostic.totalMissedOpportunities,
-            month: diagnostic.month,
-            totalInboundCalls: diagnostic.totalInboundCalls || 0,
-            acceptedCalls: diagnostic.acceptedCalls || 0,
-            avgCallbackTimeMinutes: diagnostic.avgCallbackTimeMinutes || null,
-          }
-        );
+        await sendSalesIntelligenceEmail(bookingData, fullDiagnosticResult);
         console.log("✅ Sales intelligence email sent for GHL booking");
-        emailSent = true;
+        salesEmailSent = true;
       } catch (error) {
         emailError = error instanceof Error ? error.message : String(error);
         console.error("❌ CRITICAL: Failed to send sales email from webhook:", {
@@ -283,10 +297,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      try {
+        await sendCustomerPainEmail(bookingData, lightDiagnosticData);
+        console.log("✅ Customer pain email sent for GHL booking");
+        customerEmailSent = true;
+      } catch (error) {
+        const custEmailError = error instanceof Error ? error.message : String(error);
+        console.error("⚠️ Failed to send customer email from webhook:", {
+          error: custEmailError,
+          booking: { name, email },
+          diagnosticId: diagnostic.id,
+        });
+      }
+
       res.json({ 
         success: true, 
         message: "Webhook processed successfully",
-        emailSent,
+        salesEmailSent,
+        customerEmailSent,
         emailError: emailError || undefined,
       });
     } catch (error) {
