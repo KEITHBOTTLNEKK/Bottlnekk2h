@@ -29,7 +29,8 @@ The design is a dramatic, high-contrast black minimalist aesthetic inspired by A
 - **Revenue Leak Diagnostic**: Analyzes phone system data to identify and quantify revenue loss.
 - **Caller Deduplication**: Counts unique callers over a 30-day period to prevent inflated loss numbers.
 - **Sales Intelligence**: Generates internal "Potential Budget" metrics for sales, with formulas protected from external view.
-- **Professional Reports**: Generates single-page PDF reports and HTML emails for sales intelligence, with a branded design and key recovery metrics.
+- **Professional Reports**: Generates single-page PDF reports and HTML emails for sales intelligence, with a branded design and key recovery metrics. Sales intelligence emails have tightened spacing for single-screen viewing.
+- **Customer Pain Emails**: Sends automated pain-focused emails to customers after booking, emphasizing revenue leaks with dramatic messaging, red-highlighted stats, and urgent tone to drive action. Features black background with Bottlnekk branding.
 - **Diagnostic Matching**: Each analysis generates a unique `diagnosticId` for efficient tracking and lookup, passed via URL parameters to external booking systems.
 - **OAuth Integration**: Connects to phone systems (RingCentral, Zoom Phone) via OAuth for data ingestion.
 - **Clickable Logo**: Logo in the top-left corner restarts the diagnostic flow.
