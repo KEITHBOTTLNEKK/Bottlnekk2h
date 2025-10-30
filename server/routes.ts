@@ -185,6 +185,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // POST /api/webhooks/gohighlevel - GoHighLevel calendar booking webhook
   app.post("/api/webhooks/gohighlevel", async (req, res) => {
+    console.log("\n🔔 ============ WEBHOOK RECEIVED ============");
+    console.log("📥 Headers:", JSON.stringify(req.headers, null, 2));
+    console.log("📦 Body:", JSON.stringify(req.body, null, 2));
+    console.log("==========================================\n");
+    
     try {
       // Verify webhook secret for security
       const webhookSecret = req.headers['x-webhook-secret'] || req.body.webhookSecret;
