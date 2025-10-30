@@ -81,7 +81,10 @@ function formatCallbackTime(minutes: number | null): string {
 }
 
 function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticData): string {
-  const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
+  const monthlyLoss = diagnostic.totalLoss;
+  const annualRecoveryLow = Math.round(monthlyLoss * 12 * 0.7);
+  const annualRecoveryHigh = Math.round(monthlyLoss * 12 * 0.85);
+  const potentialRecovery = Math.round((annualRecoveryLow + annualRecoveryHigh) / 2);
   const totalInbound = diagnostic.totalInboundCalls ?? 0;
   const accepted = diagnostic.acceptedCalls ?? 0;
   const potentialBudget = Math.round(accepted * diagnostic.avgRevenuePerCall * 0.30);
@@ -255,9 +258,17 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticD
       </table>
 
       <div class="hero-metric">
-        <div class="hero-label">Recovery Opportunity</div>
+        <div class="hero-label">Annual Recovery Opportunity</div>
         <div class="hero-value">$${potentialRecovery.toLocaleString()}</div>
-        <div class="hero-subtext">Estimated from missed inbound opportunities</div>
+        <div class="hero-subtext">Estimated annual recovery from ${diagnostic.missedCalls} missed calls/month</div>
+      </div>
+      
+      <div style="background: #f8f9fa; padding: 16px; margin: 16px 0; text-align: center; border-radius: 8px; border: 1px solid #dee2e6;">
+        <div style="font-size: 12px; font-weight: 600; color: #666; margin-bottom: 8px;">Monthly Loss Details</div>
+        <div style="font-size: 13px; color: #1a1a1a;">
+          <strong>$${monthlyLoss.toLocaleString()}/month</strong> bleeding<br>
+          <span style="color: #666;">≈ $${Math.round(monthlyLoss / 30)}/day disappearing</span>
+        </div>
       </div>
 
       <div style="background: #fff3e0; border: 2px solid #ff9800; padding: 16px; margin: 16px 0; text-align: center; border-radius: 8px;">
@@ -283,7 +294,10 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticD
 }
 
 function createSalesEmailText(booking: BookingData, diagnostic: EmailDiagnosticData): string {
-  const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
+  const monthlyLoss = diagnostic.totalLoss;
+  const annualRecoveryLow = Math.round(monthlyLoss * 12 * 0.7);
+  const annualRecoveryHigh = Math.round(monthlyLoss * 12 * 0.85);
+  const potentialRecovery = Math.round((annualRecoveryLow + annualRecoveryHigh) / 2);
   const totalInbound = diagnostic.totalInboundCalls ?? 0;
   const accepted = diagnostic.acceptedCalls ?? 0;
   const potentialBudget = Math.round(accepted * diagnostic.avgRevenuePerCall * 0.30);
@@ -298,10 +312,15 @@ Email: ${booking.email}
 Phone: ${booking.phone}
 ${booking.company ? `Company: ${booking.company}` : ''}
 
-RECOVERY OPPORTUNITY
---------------------
+ANNUAL RECOVERY OPPORTUNITY
+---------------------------
 $${potentialRecovery.toLocaleString()}
-Estimated from missed inbound opportunities
+Estimated annual recovery from ${diagnostic.missedCalls} missed calls/month
+
+MONTHLY LOSS DETAILS
+--------------------
+$${monthlyLoss.toLocaleString()}/month bleeding
+≈ $${Math.round(monthlyLoss / 30)}/day disappearing
 
 POTENTIAL BUDGET (INTERNAL USE ONLY - NEVER MENTION TO CLIENT)
 ---------------------------------------------------------------
@@ -322,6 +341,10 @@ Automated Lead Intelligence System
 }
 
 function createCustomerEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticData): string {
+  const dailyLoss = Math.round(diagnostic.totalLoss / 30);
+  const annualRecoveryLow = Math.round(diagnostic.totalLoss * 12 * 0.7);
+  const annualRecoveryHigh = Math.round(diagnostic.totalLoss * 12 * 0.85);
+  
   return `
 <!DOCTYPE html>
 <html>
@@ -334,9 +357,11 @@ function createCustomerEmailHTML(booking: BookingData, diagnostic: EmailDiagnost
 
     <p>This is a reminder about your upcoming appointment with Bottlnekk.</p>
 
-    <p>We reviewed your phone system and found ${diagnostic.missedCalls} missed calls from last month${diagnostic.afterHoursCalls > 0 ? ` (including ${diagnostic.afterHoursCalls} outside business hours)` : ''}.</p>
+    <p><strong>You're losing about $${diagnostic.totalLoss.toLocaleString()} a month — that's over $${dailyLoss} a day disappearing every time the phone rings and no one answers.</strong></p>
 
-    <p>During our call, we'll discuss these findings and review solutions that could help.</p>
+    <p>We stop that bleed and turn it into booked jobs on autopilot.</p>
+
+    <p>During our call, we'll show you how to recover $${annualRecoveryLow.toLocaleString()}–$${annualRecoveryHigh.toLocaleString()}+ this year.</p>
 
     <p>Looking forward to speaking with you.</p>
 
@@ -354,14 +379,20 @@ function createCustomerEmailHTML(booking: BookingData, diagnostic: EmailDiagnost
 }
 
 function createCustomerEmailText(booking: BookingData, diagnostic: EmailDiagnosticData): string {
+  const dailyLoss = Math.round(diagnostic.totalLoss / 30);
+  const annualRecoveryLow = Math.round(diagnostic.totalLoss * 12 * 0.7);
+  const annualRecoveryHigh = Math.round(diagnostic.totalLoss * 12 * 0.85);
+  
   return `
 Hi ${booking.name.split(' ')[0]},
 
 This is a reminder about your upcoming appointment with Bottlnekk.
 
-We reviewed your phone system and found ${diagnostic.missedCalls} missed calls from last month${diagnostic.afterHoursCalls > 0 ? ` (including ${diagnostic.afterHoursCalls} outside business hours)` : ''}.
+You're losing about $${diagnostic.totalLoss.toLocaleString()} a month — that's over $${dailyLoss} a day disappearing every time the phone rings and no one answers.
 
-During our call, we'll discuss these findings and review solutions that could help.
+We stop that bleed and turn it into booked jobs on autopilot.
+
+During our call, we'll show you how to recover $${annualRecoveryLow.toLocaleString()}–$${annualRecoveryHigh.toLocaleString()}+ this year.
 
 Looking forward to speaking with you.
 
@@ -395,13 +426,15 @@ export async function sendSalesIntelligenceEmail(
     
     console.log('📧 Sending sales intelligence email to:', salesEmail);
     
-    const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
+    const annualRecoveryLow = Math.round(diagnostic.totalLoss * 12 * 0.7);
+    const annualRecoveryHigh = Math.round(diagnostic.totalLoss * 12 * 0.85);
+    const potentialRecovery = Math.round((annualRecoveryLow + annualRecoveryHigh) / 2);
     const fileName = `Revenue-Recovery-Report-${booking.name.replace(/\s+/g, '-')}.pdf`;
     
     const { data, error } = await client.emails.send({
       from: fromEmail || 'onboarding@resend.dev',
       to: salesEmail,
-      subject: `🔔 New Lead: ${booking.name} - $${potentialRecovery.toLocaleString()} Recovery Opportunity`,
+      subject: `🔔 New Lead: ${booking.name} - $${potentialRecovery.toLocaleString()}/yr Recovery Opportunity`,
       html: createSalesEmailHTML(booking, diagnostic),
       text: createSalesEmailText(booking, diagnostic),
       attachments: [
