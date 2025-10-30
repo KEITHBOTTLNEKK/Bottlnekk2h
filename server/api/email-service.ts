@@ -330,191 +330,79 @@ function createCustomerEmailHTML(booking: BookingData, diagnostic: EmailDiagnost
   <style>
     body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-      line-height: 1.5; 
-      color: #1a1a1a; 
+      line-height: 1.6; 
+      color: #333; 
       max-width: 600px; 
       margin: 0 auto; 
-      padding: 0;
-      background: #000000;
+      padding: 20px;
+      background: #f5f5f5;
     }
     .container {
-      background: #000000;
-      margin: 0;
-      border-radius: 0;
-      overflow: hidden;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     .header { 
-      background: #000000;
-      color: #ffffff; 
-      padding: 32px 24px; 
-      text-align: center;
-      border-bottom: 1px solid rgba(0, 201, 123, 0.2);
-    }
-    .logo {
-      color: #00C97B;
-      font-size: 24px;
-      font-weight: 300;
-      letter-spacing: 2px;
       margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #00C97B;
     }
     .header h1 { 
       margin: 0; 
       font-size: 20px; 
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.9);
-      letter-spacing: 0.5px;
-    }
-    .content {
-      padding: 32px 24px;
-      background: #000000;
-      color: rgba(255, 255, 255, 0.85);
-    }
-    .greeting {
-      font-size: 16px;
-      margin-bottom: 24px;
-      color: rgba(255, 255, 255, 0.9);
-    }
-    .pain-section {
-      margin: 32px 0;
-      padding: 24px;
-      background: rgba(255, 255, 255, 0.02);
-      border-left: 3px solid #00C97B;
-      border-radius: 4px;
-    }
-    .pain-intro {
-      font-size: 15px;
-      margin-bottom: 20px;
-      color: rgba(255, 255, 255, 0.7);
-      line-height: 1.6;
-    }
-    .stat-box {
-      background: rgba(255, 0, 0, 0.05);
-      border: 1px solid rgba(255, 0, 0, 0.2);
-      padding: 20px;
-      margin: 16px 0;
-      text-align: center;
-      border-radius: 6px;
-    }
-    .stat-label {
-      font-size: 11px;
-      color: rgba(255, 100, 100, 0.8);
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
+      color: #1a1a1a;
     }
-    .stat-value {
-      font-size: 36px;
-      font-weight: 700;
-      color: #ff4444;
-      line-height: 1;
-    }
-    .stat-subtext {
-      font-size: 13px;
-      color: rgba(255, 100, 100, 0.6);
-      margin-top: 8px;
-    }
-    .pain-point {
+    p {
       margin: 16px 0;
+      color: #555;
+    }
+    .highlight-box {
+      background: #f8f9fa;
+      border-left: 4px solid #00C97B;
       padding: 16px;
-      background: rgba(255, 255, 255, 0.03);
-      border-left: 2px solid rgba(255, 68, 68, 0.4);
-      border-radius: 4px;
+      margin: 20px 0;
     }
-    .pain-point-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #ff6666;
-      margin-bottom: 8px;
-    }
-    .pain-point-text {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
-      line-height: 1.5;
-    }
-    .closing {
-      margin-top: 32px;
+    .stat {
+      margin: 12px 0;
       font-size: 15px;
-      color: rgba(255, 255, 255, 0.75);
-      line-height: 1.6;
     }
-    .signature {
-      margin-top: 24px;
-      font-size: 15px;
-      color: rgba(255, 255, 255, 0.85);
+    .stat strong {
+      color: #1a1a1a;
     }
     .footer { 
-      text-align: center; 
-      color: rgba(255, 255, 255, 0.3); 
-      font-size: 11px; 
-      padding: 24px;
-      background: #000000;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 13px; 
+      color: #999;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="logo">BOTTLNEKK</div>
-      <h1>Your Revenue Leak Diagnostic Results</h1>
+      <h1>Upcoming Appointment Reminder</h1>
     </div>
 
-    <div class="content">
-      <div class="greeting">
-        Hi ${booking.name.split(' ')[0]},
-      </div>
+    <p>Hi ${booking.name.split(' ')[0]},</p>
 
-      <div class="pain-section">
-        <p class="pain-intro">
-          We analyzed your phone system and uncovered something critical: your business is quietly bleeding revenue every single day.
-        </p>
+    <p>We're looking forward to speaking with you about your phone system analysis.</p>
 
-        <div class="stat-box">
-          <div class="stat-label">Lost Revenue (Last 30 Days)</div>
-          <div class="stat-value">$${diagnostic.totalLoss.toLocaleString()}</div>
-          <div class="stat-subtext">From calls that went unanswered</div>
-        </div>
-
-        <div class="pain-point">
-          <div class="pain-point-title">📞 ${diagnostic.missedCalls} Missed Opportunities</div>
-          <div class="pain-point-text">
-            These weren't spam calls. These were potential customers who needed your service, called your business, and got nothing. They've already moved on to your competitors.
-          </div>
-        </div>
-
-        ${diagnostic.afterHoursCalls > 0 ? `
-        <div class="pain-point">
-          <div class="pain-point-title">🌙 ${diagnostic.afterHoursCalls} After-Hours Calls Lost</div>
-          <div class="pain-point-text">
-            Real customers calling outside business hours with urgent needs. Every single one went to voicemail or got no response. That's $${(diagnostic.afterHoursCalls * diagnostic.avgRevenuePerCall).toLocaleString()} walking away while you sleep.
-          </div>
-        </div>
-        ` : ''}
-
-        <div class="pain-point">
-          <div class="pain-point-title">💸 The Worst Part</div>
-          <div class="pain-point-text">
-            You paid for marketing to get these calls. You spent money on ads, SEO, maybe even a website redesign. All of that investment is being flushed down the drain because your phone system can't keep up.
-          </div>
-        </div>
-
-        <div class="pain-point">
-          <div class="pain-point-title">⏰ This Keeps Happening</div>
-          <div class="pain-point-text">
-            This isn't a one-time problem. It's happening right now, today, while you're reading this. Another call is about to come in. Will you catch it? Or will it become another line item in next month's "revenue we'll never see"?
-          </div>
-        </div>
-      </div>
-
-      <div class="signature">
-        <strong>The Bottlnekk Team</strong><br>
-        <span style="color: rgba(255, 255, 255, 0.5); font-size: 13px;">Revealing the leaks that quietly drain revenue</span>
-      </div>
+    <div class="highlight-box">
+      <p style="margin: 0 0 12px 0; font-weight: 600;">Your Diagnostic Summary:</p>
+      <div class="stat"><strong>${diagnostic.missedCalls}</strong> missed calls last month</div>
+      ${diagnostic.afterHoursCalls > 0 ? `<div class="stat"><strong>${diagnostic.afterHoursCalls}</strong> after-hours calls</div>` : ''}
+      <div class="stat">Estimated impact: <strong>$${diagnostic.totalLoss.toLocaleString()}</strong></div>
     </div>
+
+    <p>During our call, we'll review these findings and discuss practical solutions to help you capture more of these opportunities.</p>
+
+    <p>Talk soon,<br>The Bottlnekk Team</p>
 
     <div class="footer">
-      <p>© 2025 Bottlnekk • Revenue Leak Diagnostic Tool</p>
+      <p>© 2025 Bottlnekk</p>
     </div>
   </div>
 </body>
@@ -526,40 +414,23 @@ function createCustomerEmailText(booking: BookingData, diagnostic: EmailDiagnost
   return `
 Hi ${booking.name.split(' ')[0]},
 
-YOUR REVENUE LEAK DIAGNOSTIC RESULTS
-=====================================
+UPCOMING APPOINTMENT REMINDER
+==============================
 
-We analyzed your phone system and uncovered something critical: your business is quietly bleeding revenue every single day.
+We're looking forward to speaking with you about your phone system analysis.
 
-LOST REVENUE (LAST 30 DAYS)
-$${diagnostic.totalLoss.toLocaleString()}
-From calls that went unanswered
+YOUR DIAGNOSTIC SUMMARY
+-----------------------
+- ${diagnostic.missedCalls} missed calls last month
+${diagnostic.afterHoursCalls > 0 ? `- ${diagnostic.afterHoursCalls} after-hours calls\n` : ''}- Estimated impact: $${diagnostic.totalLoss.toLocaleString()}
 
-📞 ${diagnostic.missedCalls} MISSED OPPORTUNITIES
-These weren't spam calls. These were potential customers who needed your service, called your business, and got nothing. They've already moved on to your competitors.
+During our call, we'll review these findings and discuss practical solutions to help you capture more of these opportunities.
 
-${diagnostic.afterHoursCalls > 0 ? `🌙 ${diagnostic.afterHoursCalls} AFTER-HOURS CALLS LOST
-Real customers calling outside business hours with urgent needs. Every single one went to voicemail or got no response. That's $${(diagnostic.afterHoursCalls * diagnostic.avgRevenuePerCall).toLocaleString()} walking away while you sleep.
-
-` : ''}💸 THE WORST PART
-You paid for marketing to get these calls. You spent money on ads, SEO, maybe even a website redesign. All of that investment is being flushed down the drain because your phone system can't keep up.
-
-⏰ THIS KEEPS HAPPENING
-This isn't a one-time problem. It's happening right now, today, while you're reading this. Another call is about to come in. Will you catch it? Or will it become another line item in next month's "revenue we'll never see"?
-
----
-
-Here's the hard truth: you can't fix what you can't see.
-
-But now you see it. The question is—what are you going to do about it?
-
-Your competitors aren't sleeping on this. Neither should you.
-
+Talk soon,
 The Bottlnekk Team
-Revealing the leaks that quietly drain revenue
 
 ---
-© 2025 Bottlnekk • Revenue Leak Diagnostic Tool
+© 2025 Bottlnekk
   `.trim();
 }
 
@@ -629,7 +500,7 @@ export async function sendCustomerPainEmail(
     const { data, error } = await client.emails.send({
       from: fromEmail || 'onboarding@resend.dev',
       to: booking.email,
-      subject: `${booking.name.split(' ')[0]}, you're losing $${diagnostic.totalLoss.toLocaleString()} every month`,
+      subject: `Appointment Reminder - Bottlnekk Phone System Analysis`,
       html: createCustomerEmailHTML(booking, diagnostic),
       text: createCustomerEmailText(booking, diagnostic),
     });
