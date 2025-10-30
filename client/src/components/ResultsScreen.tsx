@@ -186,13 +186,57 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             {formatCurrency(animatedTotal)}
           </h1>
           {countComplete && (
-            <p 
-              className="font-light text-white/60 tracking-wide animate-in fade-in slide-in-from-bottom-2 duration-700"
-              style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
-              data-testid="text-loss-description"
-            >
-              In unanswered calls
-            </p>
+            <>
+              <p 
+                className="font-light text-white/60 tracking-wide animate-in fade-in slide-in-from-bottom-2 duration-700"
+                style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
+                data-testid="text-loss-description"
+              >
+                In unanswered calls
+              </p>
+              
+              {/* Call Breakdown - Emotional Impact */}
+              <div 
+                className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-12 pt-6 animate-in fade-in slide-in-from-bottom-3 duration-1000"
+                style={{ animationDelay: '300ms' }}
+              >
+                <div className="text-center">
+                  <p 
+                    className="font-bold text-white tracking-tight"
+                    style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+                    data-testid="text-missed-calls-count"
+                  >
+                    {result.missedCalls}
+                  </p>
+                  <p 
+                    className="font-light text-white/40 tracking-wide"
+                    style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1.125rem)' }}
+                    data-testid="text-missed-calls-label"
+                  >
+                    missed calls
+                  </p>
+                </div>
+                
+                <div className="hidden sm:block text-white/20" style={{ fontSize: '2rem' }}>•</div>
+                
+                <div className="text-center">
+                  <p 
+                    className="font-bold text-white tracking-tight"
+                    style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+                    data-testid="text-afterhours-calls-count"
+                  >
+                    {result.afterHoursCalls}
+                  </p>
+                  <p 
+                    className="font-light text-white/40 tracking-wide"
+                    style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1.125rem)' }}
+                    data-testid="text-afterhours-calls-label"
+                  >
+                    after-hours calls
+                  </p>
+                </div>
+              </div>
+            </>
           )}
         </div>
 
