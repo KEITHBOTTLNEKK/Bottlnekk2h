@@ -1,4 +1,4 @@
-import { ArrowRight, Target, Zap, TrendingUp, Users, Rocket } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Branding } from "@/components/Branding";
 import { CTAButton } from "@/components/CTAButton";
 import logoIcon from "@assets/hourglass-cracked_transparent_1761722440145.png";
@@ -52,7 +52,9 @@ export function LandingPage() {
             className="text-xl sm:text-2xl font-light text-white/70 tracking-wide max-w-4xl mx-auto leading-relaxed"
             data-testid="text-hero-subhead"
           >
-            We're rebuilding how small businesses diagnose and fix revenue leaks — starting with the phone systems that quietly drain billions every year.
+            Bottlnekk helps small businesses see what's holding them back.
+            <br />
+            We reveal the leaks that quietly drain time, energy, and revenue.
           </p>
 
           {/* CTAs */}
@@ -77,275 +79,178 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* The Hook - The Invisible Drain */}
+      {/* 1. The Problem */}
       <section className="py-20 px-4 border-t border-white/10">
-        <div className="max-w-4xl mx-auto space-y-10">
-          <div className="flex items-center gap-4 mb-8">
-            <Target className="w-10 h-10" style={{ color: BOTTLNEKK_GREEN }} />
-            <h2 className="text-3xl sm:text-4xl font-thin tracking-tight" data-testid="text-hook-heading">
-              The Invisible Drain
-            </h2>
-          </div>
-          
+        <div className="max-w-4xl mx-auto space-y-8">
+          <h2 className="sr-only">The Problem</h2>
           <div className="space-y-6 text-lg sm:text-xl font-light text-white/80 leading-relaxed">
-            <p>
-              Every home-service business thinks they have a sales problem.
+            <p className="text-2xl sm:text-3xl font-thin text-white text-center">
+              Small businesses don't fail because they can't sell.
               <br />
-              <span className="text-white font-normal">In reality, they have a visibility problem.</span>
+              <span className="font-normal" style={{ color: BOTTLNEKK_GREEN }}>
+                They fail because they can't see.
+              </span>
             </p>
             
-            <p>
-              Every missed call. Every stalled lead. Every untracked voicemail.
-              <br />
-              <span className="text-white font-normal">That's revenue slipping through the cracks — silently, every single day.</span>
-            </p>
-            
-            <div className="pt-6 text-center">
-              <div className="inline-block p-8 border-2 rounded-2xl" style={{ borderColor: BOTTLNEKK_GREEN }}>
-                <p className="text-2xl sm:text-3xl font-thin mb-2">Across <span style={{ color: BOTTLNEKK_GREEN }} className="font-normal">1.3 million</span> home-service businesses in the U.S.,</p>
-                <p className="text-2xl sm:text-3xl font-thin">those cracks add up to over <span style={{ color: BOTTLNEKK_GREEN }} className="font-bold text-4xl sm:text-5xl">$30 billion</span> a year</p>
-                <p className="text-lg text-white/60 mt-4">in lost opportunity.</p>
-              </div>
+            <div className="pt-6 space-y-4 text-center">
+              <p>
+                Every missed call. Every stalled lead. Every untracked voicemail.
+                <br />
+                <span className="text-white font-normal">That's lost money, lost momentum, lost growth.</span>
+              </p>
             </div>
             
-            <p className="text-center text-2xl font-normal" style={{ color: BOTTLNEKK_GREEN }}>
-              Bottlnekk was built to expose that — before it kills their growth.
-            </p>
+            <div className="pt-8 text-center">
+              <p className="text-xl">
+                Across <span className="font-normal text-white">1.3 million</span> home-service businesses in America,
+              </p>
+              <p className="text-3xl sm:text-4xl font-thin pt-2">
+                over <span className="font-bold text-4xl sm:text-5xl" style={{ color: BOTTLNEKK_GREEN }}>$30 billion</span> disappears every year.
+              </p>
+              <p className="text-2xl font-normal pt-6 text-white">
+                Bottlnekk brings that loss to light before it kills the business.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* The Solution - The Diagnostic Engine */}
+      {/* 2. The Solution */}
       <section className="py-20 px-4 border-t border-white/10">
-        <div className="max-w-4xl mx-auto space-y-10">
-          <div className="flex items-center gap-4 mb-8">
-            <Zap className="w-10 h-10" style={{ color: BOTTLNEKK_GREEN }} />
-            <h2 className="text-3xl sm:text-4xl font-thin tracking-tight" data-testid="text-solution-heading">
-              The Diagnostic Engine
-            </h2>
-          </div>
-          
+        <div className="max-w-4xl mx-auto space-y-8">
+          <h2 className="sr-only">The Solution</h2>
           <div className="space-y-6 text-lg sm:text-xl font-light text-white/80 leading-relaxed">
             <p className="text-2xl font-normal text-white">
-              Bottlnekk is the first AI-powered diagnostic platform that detects and quantifies where small businesses are losing money — starting with their phones.
+              Bottlnekk is an AI system that finds and measures where money leaks out of a business.
+              <br />
+              <span className="font-light">It starts with phone systems like RingCentral and Zoom.</span>
             </p>
             
-            <p>
-              It connects directly to systems like <span className="text-white">RingCentral</span> and <span className="text-white">Zoom Phone</span>, analyzes 30 days of real call data, and instantly shows how much revenue was lost to missed or delayed calls.
-            </p>
+            <div className="pt-4 space-y-4">
+              <p>
+                We scan 30 days of call data and show the exact value of missed or delayed calls.
+              </p>
+              <p>
+                Then our partner, <span className="text-white font-normal">Hexona Systems</span>, deploys automation that recovers that revenue.
+              </p>
+            </div>
             
-            <p>
-              Then — using automation infrastructure built by our fulfillment partner, <span className="text-white font-normal">Hexona Systems</span> — we deploy AI-powered fixes that recover that lost revenue automatically.
-            </p>
-            
-            <div className="pt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              <div className="p-6 border border-white/10 rounded-xl">
-                <p className="text-2xl font-light mb-2" style={{ color: BOTTLNEKK_GREEN }}>Diagnose the leak.</p>
-              </div>
-              <div className="p-6 border border-white/10 rounded-xl">
-                <p className="text-2xl font-light mb-2" style={{ color: BOTTLNEKK_GREEN }}>Automate the fix.</p>
-              </div>
-              <div className="p-6 border border-white/10 rounded-xl">
-                <p className="text-2xl font-light mb-2" style={{ color: BOTTLNEKK_GREEN }}>Protect the flow.</p>
-              </div>
+            <div className="pt-8 text-center space-y-2">
+              <p className="text-2xl font-normal text-white">
+                See the leak.
+              </p>
+              <p className="text-2xl font-normal text-white">
+                Fix the leak.
+              </p>
+              <p className="text-2xl font-normal" style={{ color: BOTTLNEKK_GREEN }}>
+                Protect the flow.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Traction - Proof That It Works */}
-      <section className="py-20 px-4 border-t border-white/10">
-        <div className="max-w-6xl mx-auto space-y-10">
-          <div className="flex items-center gap-4 mb-8">
-            <TrendingUp className="w-10 h-10" style={{ color: BOTTLNEKK_GREEN }} />
-            <h2 className="text-3xl sm:text-4xl font-thin tracking-tight" data-testid="text-traction-heading">
-              Proof That It Works
-            </h2>
-          </div>
-          
-          <p className="text-xl font-light text-white/80 mb-12">
-            Bottlnekk isn't theory — it's built on a battle-tested backend.
-          </p>
-          
-          <p className="text-lg font-light text-white/70 mb-8">
-            Our fulfillment engine, powered by <span className="text-white">Hexona Systems</span>, has already recovered millions in lost revenue for small businesses using the same automation architecture behind Bottlnekk.
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Tire Boss Case Study */}
-            <div 
-              className="border-2 rounded-2xl p-8 space-y-6"
-              style={{ borderColor: BOTTLNEKK_GREEN, background: 'linear-gradient(135deg, rgba(0, 201, 123, 0.05) 0%, rgba(0, 0, 0, 0) 100%)' }}
-              data-testid="case-study-tire-boss"
-            >
-              <div>
-                <h3 className="text-2xl font-light mb-1">🧰 Tire Boss</h3>
-                <p className="text-sm text-white/50">Automotive</p>
-              </div>
-              
-              <div className="space-y-3">
-                <p className="text-white/80">
-                  Missed calls dropped <span className="text-white font-normal">35% → 2%</span>
-                </p>
-                <p className="text-white/80">
-                  Response time cut from <span className="text-white font-normal">6 hours → 42 seconds</span>
-                </p>
-                <div className="pt-2">
-                  <p className="text-2xl font-light" style={{ color: BOTTLNEKK_GREEN }}>
-                    $50K → $65K monthly (+30%)
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* WealthIO Case Study */}
-            <div 
-              className="border-2 rounded-2xl p-8 space-y-6"
-              style={{ borderColor: BOTTLNEKK_GREEN, background: 'linear-gradient(135deg, rgba(0, 201, 123, 0.05) 0%, rgba(0, 0, 0, 0) 100%)' }}
-              data-testid="case-study-wealthio"
-            >
-              <div>
-                <h3 className="text-2xl font-light mb-1">🎓 WealthIO Daycare</h3>
-                <p className="text-sm text-white/50">Education</p>
-              </div>
-              
-              <div className="space-y-3">
-                <p className="text-white/80">
-                  "Zara," an AI appointment setter, cut time-to-first contact by <span className="text-white font-normal">81%</span>
-                </p>
-                <p className="text-white/80">
-                  Boosted registrations by <span className="text-white font-normal">15%</span>
-                </p>
-                <div className="pt-2">
-                  <p className="text-2xl font-light" style={{ color: BOTTLNEKK_GREEN }}>
-                    Doubled return on ad spend
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <p className="text-xl font-light text-white/90 text-center pt-8">
-            Now we're taking that proven fulfillment system — and putting it behind a front-end diagnostic experience that every small business can access in minutes.
-          </p>
-        </div>
-      </section>
-
-      {/* Market Opportunity */}
+      {/* 3. Proof */}
       <section className="py-20 px-4 border-t border-white/10">
         <div className="max-w-4xl mx-auto space-y-10">
-          <div className="flex items-center gap-4 mb-8">
-            <Users className="w-10 h-10" style={{ color: BOTTLNEKK_GREEN }} />
-            <h2 className="text-3xl sm:text-4xl font-thin tracking-tight" data-testid="text-market-heading">
-              The Unseen $30 Billion
-            </h2>
+          <h2 className="sr-only">Proof</h2>
+          <p className="text-2xl sm:text-3xl font-thin text-white text-center">
+            The technology behind Bottlnekk has already recovered millions.
+          </p>
+          
+          <div className="grid md:grid-cols-2 gap-6 pt-4">
+            {/* Tire Boss */}
+            <div className="p-8 border border-white/20 rounded-2xl space-y-4">
+              <h3 className="text-xl font-normal text-white">Tire Boss</h3>
+              <p className="text-white/80 font-light">
+                Cut missed calls from <span className="text-white font-normal">35% to 2%</span> and grew sales from <span style={{ color: BOTTLNEKK_GREEN }} className="font-normal">$50K to $65K</span>.
+              </p>
+            </div>
+            
+            {/* WealthIO Daycare */}
+            <div className="p-8 border border-white/20 rounded-2xl space-y-4">
+              <h3 className="text-xl font-normal text-white">WealthIO Daycare</h3>
+              <p className="text-white/80 font-light">
+                Reduced response time by <span className="text-white font-normal">81%</span> and <span style={{ color: BOTTLNEKK_GREEN }} className="font-normal">doubled ad performance</span>.
+              </p>
+            </div>
           </div>
           
-          <div className="space-y-6 text-lg sm:text-xl font-light text-white/80 leading-relaxed">
+          <p className="text-xl text-center pt-6 font-light text-white/80">
+            What once required full automation teams now happens in minutes through Bottlnekk.
+          </p>
+        </div>
+      </section>
+
+      {/* 4. The Opportunity */}
+      <section className="py-20 px-4 border-t border-white/10">
+        <div className="max-w-4xl mx-auto space-y-8">
+          <h2 className="sr-only">The Opportunity</h2>
+          <div className="space-y-6 text-lg sm:text-xl font-light text-white/80 leading-relaxed text-center">
             <p>
-              There are over <span className="text-white font-normal">1.3 million home-service businesses</span> in the U.S. alone — plumbers, roofers, HVAC, dental offices, and more.
+              There are <span className="text-white font-normal">1.3 million</span> home-service businesses in the United States.
+            </p>
+            <p>
+              Each loses between <span className="font-normal" style={{ color: BOTTLNEKK_GREEN }}>$25,000 and $100,000</span> every year to inefficiency.
             </p>
             
-            <p>
-              Each one loses <span className="font-normal" style={{ color: BOTTLNEKK_GREEN }}>$25K–$100K</span> a year in missed opportunities they can't see.
-            </p>
-            
-            <div className="text-center py-8">
+            <div className="pt-8">
               <p className="text-3xl sm:text-4xl font-thin">
-                That's a <span className="font-bold text-5xl sm:text-6xl" style={{ color: BOTTLNEKK_GREEN }}>$30B+</span> leak
+                That's a <span className="font-bold text-4xl sm:text-5xl" style={{ color: BOTTLNEKK_GREEN }}>$30 billion opportunity</span>
               </p>
-              <p className="text-2xl font-thin mt-2">hiding in plain sight.</p>
+              <p className="text-2xl font-thin pt-2">waiting to be reclaimed.</p>
             </div>
             
-            <div className="pt-6 space-y-4 text-xl">
-              <p className="font-normal text-white">Bottlnekk's mission is simple:</p>
-              <ul className="space-y-2 pl-6">
-                <li>Make every dollar traceable.</li>
-                <li>Make every leak visible.</li>
-                <li>And make every small business unbreakable.</li>
-              </ul>
-            </div>
+            <p className="text-2xl font-normal text-white pt-8">
+              Bottlnekk makes every dollar traceable and every leak visible.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* The Build */}
+      {/* 5. What We're Building */}
       <section className="py-20 px-4 border-t border-white/10">
-        <div className="max-w-4xl mx-auto space-y-10">
-          <div className="flex items-center gap-4 mb-8">
-            <Rocket className="w-10 h-10" style={{ color: BOTTLNEKK_GREEN }} />
-            <h2 className="text-3xl sm:text-4xl font-thin tracking-tight" data-testid="text-build-heading">
-              The Build — What's Next for Bottlnekk
-            </h2>
-          </div>
-          
+        <div className="max-w-4xl mx-auto space-y-8">
+          <h2 className="sr-only">What We're Building</h2>
           <div className="space-y-6 text-lg sm:text-xl font-light text-white/80 leading-relaxed">
             <p>
-              Right now, Bottlnekk is partnering with agencies, automation firms, and early adopters to deploy our diagnostic and recovery system across the home-service industry.
+              We're partnering with agencies, automation firms, and early adopters to bring this system to every home-service business.
             </p>
             
-            <div className="space-y-4">
-              <p className="font-normal text-white">We're expanding the platform to:</p>
-              
-              <ul className="space-y-3 pl-6">
-                <li className="flex items-start gap-3">
-                  <span style={{ color: BOTTLNEKK_GREEN }}>→</span>
-                  <span>Scale our AI diagnostic engine beyond phone systems</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span style={{ color: BOTTLNEKK_GREEN }}>→</span>
-                  <span>Integrate CRM and workflow analytics for full visibility</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span style={{ color: BOTTLNEKK_GREEN }}>→</span>
-                  <span>Build the fulfillment infrastructure that powers autonomous revenue recovery</span>
-                </li>
-              </ul>
-            </div>
+            <p className="pt-4">
+              Next, we're expanding Bottlnekk to analyze <span className="text-white font-normal">CRM and workflow data</span>, giving business owners full visibility across their operations.
+            </p>
             
-            <div className="pt-6 space-y-4 text-xl font-normal text-white text-center">
-              <p>
-                Bottlnekk is the <span style={{ color: BOTTLNEKK_GREEN }}>diagnostic layer</span> of the modern business.
+            <div className="pt-8 text-center space-y-4">
+              <p className="text-2xl font-normal text-white">
+                Bottlnekk is the <span style={{ color: BOTTLNEKK_GREEN }}>diagnostic layer</span> of modern business.
               </p>
-              <p>
-                The system that detects what's broken, reveals what's hidden, and protects what drives growth.
-              </p>
-              <p className="text-2xl pt-4" style={{ color: BOTTLNEKK_GREEN }}>
-                This is the foundation of self-healing companies.
+              <p className="text-xl">
+                It exposes what's hidden, repairs what's broken, and restores what's possible.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* The Vision */}
+      {/* 6. The Vision */}
       <section className="py-20 px-4 border-t border-white/10">
         <div className="max-w-4xl mx-auto space-y-10">
-          <h2 className="text-3xl sm:text-4xl font-thin tracking-tight text-center" data-testid="text-vision-heading">
-            What Comes After
-          </h2>
-          
+          <h2 className="sr-only">The Vision</h2>
           <div className="space-y-6 text-lg sm:text-xl font-light text-white/80 leading-relaxed text-center">
             <p className="text-2xl font-normal text-white">
-              First, we diagnose revenue leaks.
+              We start with revenue leaks.
             </p>
             <p className="text-2xl font-normal text-white">
-              Next, we diagnose workflow leaks.
+              Then we move to workflow leaks.
             </p>
             <p className="text-2xl font-normal text-white">
-              Eventually — Bottlnekk becomes the central nervous system for small business optimization.
+              Soon, Bottlnekk becomes the operating system for business performance.
             </p>
             
-            <div className="pt-8 pb-6">
-              <p className="text-xl text-white/90">
-                A platform where every minute, every call, and every dollar is accounted for — automatically.
-              </p>
-            </div>
-            
-            <div className="pt-4 space-y-2">
-              <p className="text-2xl font-thin">That's not just automation.</p>
-              <p className="text-3xl font-normal" style={{ color: BOTTLNEKK_GREEN }}>
-                That's autonomy.
+            <div className="pt-8">
+              <p className="text-xl">
+                A single platform that tracks every call, task, and dollar and helps teams move faster, cleaner, and smarter.
               </p>
             </div>
           </div>
@@ -360,7 +265,7 @@ export function LandingPage() {
           </h2>
           
           <p className="text-xl text-white/70 font-light">
-            Help us rebuild how small businesses see themselves.
+            Help rebuild how small businesses see themselves.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -386,8 +291,10 @@ export function LandingPage() {
 
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-white/10">
-        <div className="max-w-7xl mx-auto text-center text-sm text-white/40">
-          <p>© 2025 Bottlnekk. All rights reserved.</p>
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-sm text-white/40 font-light">
+            © 2025 Bottlnekk. Building the diagnostic layer for modern business.
+          </p>
         </div>
       </footer>
     </div>
