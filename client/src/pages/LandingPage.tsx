@@ -34,34 +34,8 @@ export function LandingPage() {
     <div className="min-h-screen bg-black text-white">
       <Branding accentColor={BOTTLNEKK_GREEN} />
       
-      {/* Tagline Section - Top of page */}
-      <section className="pt-32 pb-8 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <div 
-            className="text-lg sm:text-xl font-semibold tracking-wide inline-flex items-center justify-center gap-2"
-            data-testid="text-tagline"
-          >
-            <span className="text-white">Behind Every</span>
-            <div className="relative inline-block">
-              <div 
-                className="absolute inset-0 rounded-full blur-md opacity-30"
-                style={{ backgroundColor: BOTTLNEKK_GREEN }}
-              />
-              <img 
-                src={logoIcon}
-                alt="Bottlnekk Icon" 
-                className="h-8 w-8 sm:h-9 sm:w-9 relative z-10 inline-block"
-                style={{ filter: 'brightness(0) invert(1)' }}
-              />
-            </div>
-            <span className="font-bold" style={{ color: BOTTLNEKK_GREEN }}>Bottlnekk</span>
-            <span className="text-white">Lives Freedom</span>
-          </div>
-        </div>
-      </section>
-      
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-4 pb-20">
+      <section className="pt-32 pb-20 px-4">
         <div className="max-w-5xl w-full text-center space-y-16">
           {/* Main Headline */}
           <h1 
