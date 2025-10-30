@@ -325,9 +325,9 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
                     The Math:
                   </p>
                   <ul className="space-y-2 font-light" style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
-                    <li>You invest <span className="font-bold text-white">$5,000 once</span>.</li>
-                    <li>You recover <span className="font-bold text-white">${formatCurrency(result.totalLoss * 12 * 0.7).replace('$', '')}–${formatCurrency(result.totalLoss * 12 * 0.85).replace('$', '')}+ a year</span>.</li>
-                    <li>That's at least a <span className="font-bold" style={{ color: BOTTLNEKK_GREEN }}>20x return</span> — every single year the system runs.</li>
+                    <li>Your investment: <span className="font-bold text-white">$5,000</span></li>
+                    <li>You recover: <span className="font-bold text-white">${formatCurrency(result.totalLoss * 12 * 0.7).replace('$', '')}–${formatCurrency(result.totalLoss * 12 * 0.85).replace('$', '')}+ a year</span></li>
+                    <li>ROI: <span className="font-bold" style={{ color: BOTTLNEKK_GREEN }}>20x return</span> — every single year the system runs</li>
                   </ul>
                 </div>
               </div>
@@ -370,7 +370,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
               </div>
               <div className="mt-8 pt-6 border-t border-white/20">
                 <p className="text-white/60 font-light italic" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }}>
-                  Setup: $5,000 one-time | Monthly service: $500–$1,500 (based on call volume)
+                  Investment: $5,000 one-time setup | Monthly maintenance starts after 60 days ($500–$1,500 based on call volume)
                 </p>
               </div>
             </div>
