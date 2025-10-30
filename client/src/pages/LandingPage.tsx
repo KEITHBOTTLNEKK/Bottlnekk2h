@@ -269,13 +269,13 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* The Ask */}
+      {/* The Build */}
       <section className="py-20 px-4 border-t border-white/10">
         <div className="max-w-4xl mx-auto space-y-10">
           <div className="flex items-center gap-4 mb-8">
             <Rocket className="w-10 h-10" style={{ color: BOTTLNEKK_GREEN }} />
-            <h2 className="text-3xl sm:text-4xl font-thin tracking-tight" data-testid="text-ask-heading">
-              What We're Building Next
+            <h2 className="text-3xl sm:text-4xl font-thin tracking-tight" data-testid="text-build-heading">
+              The Build — What's Next for Bottlnekk
             </h2>
           </div>
           
@@ -284,31 +284,34 @@ export function LandingPage() {
               Right now, Bottlnekk is partnering with agencies, automation firms, and early adopters to deploy our diagnostic and recovery system across the home-service industry.
             </p>
             
-            <div className="p-8 border-2 rounded-2xl space-y-6" style={{ borderColor: BOTTLNEKK_GREEN }}>
-              <p className="text-2xl font-normal text-white">
-                We're preparing to raise a <span style={{ color: BOTTLNEKK_GREEN }}>$500K pre-seed round</span> to:
-              </p>
+            <div className="space-y-4">
+              <p className="font-normal text-white">We're expanding the platform to:</p>
               
-              <ul className="space-y-3 text-lg">
+              <ul className="space-y-3 pl-6">
                 <li className="flex items-start gap-3">
                   <span style={{ color: BOTTLNEKK_GREEN }}>→</span>
-                  <span>Expand our AI diagnostic engine</span>
+                  <span>Scale our AI diagnostic engine beyond phone systems</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span style={{ color: BOTTLNEKK_GREEN }}>→</span>
-                  <span>Integrate call + CRM analysis layers</span>
+                  <span>Integrate CRM and workflow analytics for full visibility</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span style={{ color: BOTTLNEKK_GREEN }}>→</span>
-                  <span>Grow our fulfillment capacity and partner network</span>
+                  <span>Build the fulfillment infrastructure that powers autonomous revenue recovery</span>
                 </li>
               </ul>
             </div>
             
             <div className="pt-6 space-y-4 text-xl font-normal text-white text-center">
-              <p>We're not another automation company.</p>
-              <p className="text-2xl" style={{ color: BOTTLNEKK_GREEN }}>
-                We're the diagnostic layer before automation — the system that shows you what's broken, before it costs you your business.
+              <p>
+                Bottlnekk is the <span style={{ color: BOTTLNEKK_GREEN }}>diagnostic layer</span> of the modern business.
+              </p>
+              <p>
+                The system that detects what's broken, reveals what's hidden, and protects what drives growth.
+              </p>
+              <p className="text-2xl pt-4" style={{ color: BOTTLNEKK_GREEN }}>
+                This is the foundation of self-healing companies.
               </p>
             </div>
           </div>
