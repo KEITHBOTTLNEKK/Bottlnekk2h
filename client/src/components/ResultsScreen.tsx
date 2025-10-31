@@ -385,8 +385,8 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
                 🧠 THE GUARANTEE
               </h3>
               <p className="text-white font-bold leading-relaxed mb-4" style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)' }}>
-                "If you don't recover at least $10K in 60 days,
-                you don't pay another dime until you do."
+                If you don't recover at least $10K in 60 days,
+                you don't pay another dime until you do.
               </p>
               <p className="text-white/90 font-light" style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
                 No risk. No fluff. Just recovered money.
