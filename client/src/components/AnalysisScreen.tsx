@@ -156,26 +156,26 @@ export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: Anal
           </div>
         ) : showQuestion ? (
           // Phase 1: Ask the question (Steve Jobs verbiage)
-          <div className="animate-in fade-in duration-700 space-y-8" data-testid="panel-deal-size">
-            <p className="font-bold text-[#9CA3AF] tracking-wide mb-4" style={{ fontSize: '1.75rem' }}>
+          <div className="animate-in fade-in duration-700 space-y-6 sm:space-y-8" data-testid="panel-deal-size">
+            <p className="font-bold text-[#9CA3AF] tracking-wide mb-2 sm:mb-4" style={{ fontSize: 'clamp(1.125rem, 3vw, 1.75rem)' }}>
               One more thing...
             </p>
             <h1 
-              className="font-bold text-white tracking-tight"
-              style={{ fontSize: '4.5rem' }}
+              className="font-bold text-white tracking-tight leading-tight px-4"
+              style={{ fontSize: 'clamp(2.25rem, 7vw, 4.5rem)' }}
               data-testid="text-question"
             >
               What's a customer worth to you?
             </h1>
 
-            <div className="flex items-center justify-center space-x-2">
-              <span className="font-light text-white/60" style={{ fontSize: '3rem' }}>$</span>
+            <div className="flex items-center justify-center space-x-2 px-4">
+              <span className="font-light text-white/60" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>$</span>
               <input
                 type="text"
                 value={dealSize}
                 onChange={handleDealSizeChange}
-                className="w-48 px-4 py-3 bg-transparent border-b-2 border-white/30 font-light text-white text-center focus:outline-none transition-colors duration-300 placeholder:font-normal placeholder:text-white/30"
-                style={{ fontSize: '3rem' }}
+                className="w-32 sm:w-40 md:w-48 px-3 sm:px-4 py-2 sm:py-3 bg-transparent border-b-2 border-white/30 font-light text-white text-center focus:outline-none transition-colors duration-300 placeholder:font-normal placeholder:text-white/30"
+                style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}
                 placeholder="1000"
                 data-testid="input-deal-size"
                 autoFocus
@@ -191,9 +191,9 @@ export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: Anal
             <button
               onClick={handleLooksGood}
               disabled={!dealSize}
-              className="inline-flex items-center justify-center px-16 py-5 font-bold text-white border-2 rounded-xl transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-white"
+              className="inline-flex items-center justify-center px-8 sm:px-12 md:px-16 py-4 sm:py-5 font-bold text-white border-2 rounded-xl transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-white"
               style={{ 
-                fontSize: '1.125rem',
+                fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
                 borderColor: BOTTLNEKK_GREEN,
               }}
               onMouseEnter={(e) => {
