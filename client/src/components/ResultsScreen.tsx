@@ -47,13 +47,15 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
   const handleShowOffer = () => {
     setShowOffer(true);
-    // Smooth scroll to offer section
+    // Smooth scroll to offer section with proper offset
     setTimeout(() => {
       const offerSection = document.getElementById('offer-section');
       if (offerSection) {
-        offerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const yOffset = -80; // Offset to account for spacing
+        const y = offerSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
       }
-    }, 100);
+    }, 150);
   };
 
   const handleBookCall = () => {
@@ -292,6 +294,13 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
               >
                 THE PHONE LEAK ELIMINATION SYSTEM
               </h2>
+              <p 
+                className="font-light text-white/80 tracking-wide leading-relaxed max-w-3xl mx-auto"
+                style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)' }}
+                data-testid="text-offer-intro"
+              >
+                You're losing about <span className="font-bold text-white">{formatCurrency(result.totalLoss)}</span> a month — that's over <span className="font-bold text-white">${Math.round(result.totalLoss / 30)}</span> a day disappearing every time the phone rings and no one answers.
+              </p>
               <p 
                 className="font-light text-white/80 tracking-wide leading-relaxed max-w-3xl mx-auto"
                 style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)' }}
