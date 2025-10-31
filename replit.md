@@ -31,19 +31,25 @@ The design is a dramatic, high-contrast black minimalist aesthetic inspired by A
 - **Sales Intelligence**: Generates internal "Potential Budget" metrics for sales, with formulas protected from external view.
 - **Professional Reports**: Generates single-page PDF reports and HTML emails for sales intelligence, with a branded design and key recovery metrics. Sales intelligence emails have tightened spacing for single-screen viewing.
 - **Customer Pain Emails**: Sends automated pain-focused emails to customers after booking, emphasizing revenue leaks with dramatic messaging, red-highlighted stats, and urgent tone to drive action. Features black background with Bottlnekk branding.
-- **Diagnostic Matching**: Each analysis generates a unique `diagnosticId` for efficient tracking and lookup, passed via URL parameters to external booking systems.
+- **Diagnostic Matching**: Each analysis generates a unique `diagnosticId` for efficient tracking and lookup, passed to voice agent as context.
 - **OAuth Integration**: Connects to phone systems (RingCentral, Zoom Phone) via OAuth for data ingestion.
 - **Clickable Logo**: Logo in the top-left corner restarts the diagnostic flow.
+- **Voice AI Agent**: Integrated Vapi.ai web-based voice assistant that allows users to speak with a specialist directly from the results page. The agent receives diagnostic data (total loss, missed calls, after-hours calls) as context via variable values.
 
 ## External Dependencies
 
 -   **Phone System Integrations**: RingCentral OAuth, Zoom Phone OAuth. (Vonage, Nextiva, 8x8 use mock data).
 -   **Email Service**: Resend (via Replit connector) for transactional and sales intelligence emails, using `onboarding@resend.dev` as default sender.
--   **CRM/Booking System**: GoHighLevel for booking appointments, integrating via webhook (`POST /api/webhooks/gohighlevel`) and custom calendar URLs (`fix-your-phone-leak`).
+-   **CRM/Booking System**: GoHighLevel for booking appointments, integrating via webhook (`POST /api/webhooks/gohighlevel`).
+-   **Voice AI**: Vapi.ai (@vapi-ai/web SDK) for web-based voice agent interactions, enabling direct customer conversations from the results page.
 -   **Database**: PostgreSQL for admin dashboard user sessions (via Replit Auth).
--   **UI Libraries**: Radix UI, Lucide React, React Hook Form, TanStack Query.
+-   **UI Libraries**: Radix UI, Lucide React, TanStack Query.
 -   **Styling**: Tailwind CSS, PostCSS.
 -   **Fonts**: Google Fonts CDN (Inter).
 -   **Development Tools**: TypeScript, Vite, ESBuild.
 -   **PDF Generation**: PDFKit (JavaScript-based).
--   **Environment Variables**: `SALES_EMAIL`, `GOHIGHLEVEL_WEBHOOK_SECRET` (managed via Replit Secrets).
+-   **Environment Variables**: 
+    - `SALES_EMAIL`: Sales team email address
+    - `GOHIGHLEVEL_WEBHOOK_SECRET`: Webhook verification secret
+    - `VITE_VAPI_PUBLIC_KEY`: Vapi.ai public API key (frontend)
+    - `VITE_VAPI_ASSISTANT_ID`: Vapi.ai assistant ID for voice agent (frontend)

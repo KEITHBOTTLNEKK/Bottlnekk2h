@@ -1,15 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useCounter } from "@/hooks/useCounter";
 import type { DiagnosticResult } from "@shared/schema";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { bookingSchema, type BookingRequest } from "@shared/schema";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { Branding } from "./Branding";
+import Vapi from "@vapi-ai/web";
 
 const BOTTLNEKK_GREEN = "#00C97B";
 
@@ -19,11 +12,31 @@ interface ResultsScreenProps {
 }
 
 export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
-  const [showBookingForm, setShowBookingForm] = useState(false);
   const [showOffer, setShowOffer] = useState(false);
   const [countComplete, setCountComplete] = useState(false);
-  const [bookingSuccess, setBookingSuccess] = useState(false);
-  const { toast } = useToast();
+  const [isCallActive, setIsCallActive] = useState(false);
+  const vapiRef = useRef<Vapi | null>(null);
+
+  // Initialize Vapi
+  useEffect(() => {
+    // You'll need to add your VAPI_PUBLIC_KEY to environment variables
+    const vapiPublicKey = import.meta.env.VITE_VAPI_PUBLIC_KEY;
+    if (vapiPublicKey) {
+      const vapi = new Vapi(vapiPublicKey);
+      vapiRef.current = vapi;
+      
+      // Listen for call status changes
+      vapi.on("call-start", () => setIsCallActive(true));
+      vapi.on("call-end", () => setIsCallActive(false));
+    }
+
+    return () => {
+      // Cleanup on unmount
+      if (vapiRef.current) {
+        vapiRef.current.stop();
+      }
+    };
+  }, []);
 
   const handleCountComplete = useCallback(() => {
     setCountComplete(true);
@@ -58,117 +71,34 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
     }, 150);
   };
 
-  const handleBookCall = () => {
-    setShowBookingForm(true);
-  };
+  const handleStartVoiceCall = async () => {
+    if (!vapiRef.current) {
+      console.error("Vapi not initialized");
+      return;
+    }
 
-  const form = useForm<BookingRequest>({
-    resolver: zodResolver(bookingSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      diagnosticData: result,
-    },
-  });
+    // You'll need to add your VAPI_ASSISTANT_ID to environment variables
+    const assistantId = import.meta.env.VITE_VAPI_ASSISTANT_ID;
+    
+    if (!assistantId) {
+      console.error("Vapi assistant ID not configured");
+      return;
+    }
 
-  const bookingMutation = useMutation({
-    mutationFn: async (data: BookingRequest) => {
-      return apiRequest("POST", "/api/bookings", data);
-    },
-    onSuccess: () => {
-      setBookingSuccess(true);
-      toast({
-        title: "Call scheduled!",
-        description: "We'll be in touch soon to help you fix this revenue leak.",
+    try {
+      await vapiRef.current.start(assistantId, {
+        // Pass diagnostic data to the voice agent as variable values
+        variableValues: {
+          diagnosticId: result.diagnosticId || '',
+          totalLoss: result.totalLoss.toString(),
+          missedCalls: result.missedCalls.toString(),
+          afterHoursCalls: result.afterHoursCalls.toString(),
+        }
       });
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Something went wrong",
-        description: error.message || "Please try again or contact us directly.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const onSubmit = (data: BookingRequest) => {
-    bookingMutation.mutate(data);
+    } catch (error) {
+      console.error("Failed to start voice call:", error);
+    }
   };
-
-  if (bookingSuccess) {
-    return (
-      <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-2xl w-full text-center space-y-12 animate-in fade-in duration-1000">
-          <div className="space-y-6">
-            <div className="text-8xl">✓</div>
-            <h2 
-              className="font-bold text-white tracking-tight"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}
-              data-testid="heading-success"
-            >
-              We'll be in touch
-            </h2>
-            <p className="font-light text-white/60 tracking-wide" style={{ fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)' }}>
-              Our team will contact you shortly to help you reclaim {formatCurrency(result.totalLoss)} every month
-            </p>
-          </div>
-
-          <div className="text-center pt-8">
-            <button
-              onClick={onRestart}
-              className="inline-flex items-center justify-center px-8 sm:px-10 md:px-12 py-5 sm:py-6 font-bold text-white border-2 rounded-xl transition-all duration-300"
-              style={{ 
-                fontSize: 'clamp(1.125rem, 2.5vw, 1.25rem)',
-                borderColor: BOTTLNEKK_GREEN,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
-                e.currentTarget.style.color = '#000000';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#FFFFFF';
-              }}
-              data-testid="button-restart"
-            >
-              Run Another Analysis
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (showBookingForm) {
-    return (
-      <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4">
-        <div className="max-w-6xl w-full space-y-4">
-          <div className="w-full bg-white rounded-lg overflow-hidden" style={{ height: 'calc(100vh - 120px)', minHeight: '500px' }}>
-            <iframe 
-              src={`https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak${result.diagnosticId ? `?diagnosticId=${result.diagnosticId}` : ''}`}
-              className="w-full h-full border-0"
-              id="ghl-booking-widget"
-              data-testid="booking-calendar"
-              title="Schedule Appointment"
-            />
-          </div>
-
-          <div className="text-center pt-2">
-            <button
-              onClick={() => setShowBookingForm(false)}
-              className="font-light text-white/40 hover:text-white tracking-wide transition-colors duration-300"
-              style={{ fontSize: 'clamp(0.75rem, 2vw, 0.875rem)' }}
-              data-testid="button-cancel"
-            >
-              ← Back to results
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-black dark:bg-black flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
@@ -411,93 +341,33 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
               </p>
             </div>
 
-            {/* The Proof */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 sm:p-12 mb-12">
-              <h3 
-                className="font-bold tracking-tight mb-8"
-                style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: BOTTLNEKK_GREEN }}
-                data-testid="heading-proof"
-              >
-                📊 THE PROOF
-              </h3>
-              
-              {/* Stat Blocks */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-                <div className="text-center">
-                  <div className="font-bold mb-2" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: BOTTLNEKK_GREEN }} data-testid="stat-response-time">
-                    97%
-                  </div>
-                  <p className="text-white/80 font-light" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }}>
-                    Faster Response Time
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="font-bold mb-2" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: BOTTLNEKK_GREEN }} data-testid="stat-sales-increase">
-                    30%
-                  </div>
-                  <p className="text-white/80 font-light" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }}>
-                    Sales Increase
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="font-bold mb-2" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: BOTTLNEKK_GREEN }} data-testid="stat-recovered-monthly">
-                    $15K
-                  </div>
-                  <p className="text-white/80 font-light" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }}>
-                    Recovered Monthly
-                  </p>
-                </div>
-              </div>
-
-              {/* Direct Quote - Hermozi Style */}
-              <div className="pt-6 border-t border-white/20">
-                <p className="text-white font-bold leading-relaxed mb-3" style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)' }} data-testid="text-testimonial">
-                  Cut missed calls from 35% to 2%. Added $15K a month straight to the bottom line. Response time went from 6 hours to 42 seconds. We went from bleeding money to having a system that never sleeps.
-                </p>
-                <p className="text-white/60 font-light" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }} data-testid="text-testimonial-attribution">
-                  — Tire Boss Team
-                </p>
-              </div>
-
-              {/* Additional Stats */}
-              <div className="mt-6 pt-6 border-t border-white/20">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-white/80 font-light" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }}>
-                  <div data-testid="stat-before-missed">
-                    <span className="text-white font-bold">Before:</span> 35% of calls unanswered
-                  </div>
-                  <div data-testid="stat-after-missed">
-                    <span className="text-white font-bold">After:</span> Less than 2% missed
-                  </div>
-                  <div data-testid="stat-before-response">
-                    <span className="text-white font-bold">Before:</span> 6-hour response time
-                  </div>
-                  <div data-testid="stat-after-response">
-                    <span className="text-white font-bold">After:</span> 42-second response time
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* CTA Button */}
             <div className="text-center pb-16">
               <button
-                onClick={handleBookCall}
-                className="inline-flex items-center justify-center px-8 sm:px-12 md:px-16 py-5 sm:py-6 md:py-8 font-bold text-white border-2 rounded-xl transition-all duration-300"
+                onClick={handleStartVoiceCall}
+                disabled={isCallActive}
+                className="inline-flex items-center justify-center px-8 sm:px-12 md:px-16 py-5 sm:py-6 md:py-8 font-bold text-white border-2 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ 
                   fontSize: 'clamp(1.25rem, 3.5vw, 1.75rem)',
                   borderColor: BOTTLNEKK_GREEN,
+                  backgroundColor: isCallActive ? BOTTLNEKK_GREEN : 'transparent',
+                  color: isCallActive ? '#000000' : '#FFFFFF',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
-                  e.currentTarget.style.color = '#000000';
+                  if (!isCallActive) {
+                    e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
+                    e.currentTarget.style.color = '#000000';
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#FFFFFF';
+                  if (!isCallActive) {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = '#FFFFFF';
+                  }
                 }}
-                data-testid="button-fix-system"
+                data-testid="button-talk-to-specialist"
               >
-                Fix My System →
+                {isCallActive ? '🎙️ Call In Progress...' : 'Talk to a Specialist →'}
               </button>
             </div>
           </div>
