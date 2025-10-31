@@ -37,7 +37,9 @@ export async function generateDiagnosticPDF(
       // Add exactly ONE page
       doc.addPage();
 
-      const potentialRecovery = Math.round(diagnostic.missedCalls * diagnostic.avgRevenuePerCall * 0.60);
+      const monthlyLoss = diagnostic.totalLoss;
+      const annualLoss = monthlyLoss * 12;
+      const dailyLoss = Math.round(monthlyLoss / 30);
       const totalInbound = diagnostic.totalInboundCalls ?? 0;
       const accepted = diagnostic.acceptedCalls ?? 0;
       const potentialBudget = Math.round(accepted * diagnostic.avgRevenuePerCall * 0.30);
@@ -81,39 +83,48 @@ export async function generateDiagnosticPDF(
       doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica-Bold');
       doc.text(`${companyName} • ${industry}`, 310, 161, { width: 252 });
 
-      // HERO RECOVERY (Bottlnekk Green)
+      // HERO - ANNUAL REVENUE LEAK (Bottlnekk Green)
       doc.rect(40, 185, 532, 85).lineWidth(2).fillAndStroke('#e6f9f2', '#00C97B');
       doc.fontSize(11).fillColor('#00A565').font('Helvetica-Bold');
-      doc.text('POTENTIAL REVENUE RECOVERY', 50, 195, { width: 512, align: 'center' });
+      doc.text('ANNUAL REVENUE LEAK', 50, 195, { width: 512, align: 'center' });
       doc.fontSize(40).fillColor('#008558').font('Helvetica-Bold');
-      doc.text(`$${potentialRecovery.toLocaleString()}`, 50, 215, { width: 512, align: 'center' });
+      doc.text(`$${annualLoss.toLocaleString()}`, 50, 215, { width: 512, align: 'center' });
       doc.fontSize(11).fillColor('#00A565').font('Helvetica');
-      doc.text('Estimated from missed inbound opportunities', 50, 253, { width: 512, align: 'center' });
+      doc.text(`${diagnostic.missedCalls} missed calls/month bleeding revenue`, 50, 253, { width: 512, align: 'center' });
+
+      // MONTHLY LOSS DETAILS
+      doc.rect(40, 285, 532, 52).fillAndStroke('#f8f9fa', '#dee2e6');
+      doc.fontSize(9).fillColor('#666666').font('Helvetica-Bold');
+      doc.text('MONTHLY LOSS DETAILS', 50, 294, { width: 512, align: 'center' });
+      doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica-Bold');
+      doc.text(`$${monthlyLoss.toLocaleString()}/month bleeding`, 50, 310, { width: 512, align: 'center' });
+      doc.fontSize(10).fillColor('#666666').font('Helvetica');
+      doc.text(`≈ $${dailyLoss.toLocaleString()}/day disappearing`, 50, 325, { width: 512, align: 'center' });
 
       // POTENTIAL BUDGET (Internal Use Only)
-      doc.rect(40, 285, 532, 60).fillAndStroke('#fff3e0', '#ff9800');
+      doc.rect(40, 352, 532, 60).fillAndStroke('#fff3e0', '#ff9800');
       doc.fontSize(11).fillColor('#e65100').font('Helvetica-Bold');
-      doc.text('POTENTIAL BUDGET', 50, 295, { width: 512, align: 'center' });
+      doc.text('POTENTIAL BUDGET', 50, 362, { width: 512, align: 'center' });
       doc.fontSize(9).fillColor('#bf360c').font('Helvetica-Bold');
-      doc.text('(Internal Use Only - Never Mention to Client)', 50, 310, { width: 512, align: 'center' });
+      doc.text('(Internal Use Only - Never Mention to Client)', 50, 377, { width: 512, align: 'center' });
       doc.fontSize(32).fillColor('#e65100').font('Helvetica-Bold');
-      doc.text(`$${potentialBudget.toLocaleString()}`, 50, 325, { width: 512, align: 'center' });
+      doc.text(`$${potentialBudget.toLocaleString()}`, 50, 392, { width: 512, align: 'center' });
 
       // AFTER-HOURS OPPORTUNITY (if applicable)
       let afterHoursBoxHeight = 0;
       if (diagnostic.afterHoursCalls > 0) {
         afterHoursBoxHeight = 62;
-        doc.rect(40, 360, 532, afterHoursBoxHeight).fillAndStroke('#fff9e6', '#ffa726');
+        doc.rect(40, 427, 532, afterHoursBoxHeight).fillAndStroke('#fff9e6', '#ffa726');
         doc.fontSize(11).fillColor('#e65100').font('Helvetica-Bold');
-        doc.text('AFTER-HOURS OPPORTUNITY', 50, 369, { width: 512 });
+        doc.text('AFTER-HOURS OPPORTUNITY', 50, 436, { width: 512 });
         doc.fontSize(9).fillColor('#3e2723').font('Helvetica');
-        doc.text(`${diagnostic.afterHoursCalls} of the ${diagnostic.missedCalls} missed calls came after business hours (nights/weekends) = $${afterHoursRevenue.toLocaleString()} in lost revenue.`, 50, 385, { width: 512, lineGap: 1 });
+        doc.text(`${diagnostic.afterHoursCalls} of the ${diagnostic.missedCalls} missed calls came after business hours (nights/weekends) = $${afterHoursRevenue.toLocaleString()} in lost revenue.`, 50, 452, { width: 512, lineGap: 1 });
         doc.fontSize(9).fillColor('#e65100').font('Helvetica-Bold');
-        doc.text(`AI answering service works 24/7 and books appointments regardless of time or day.`, 50, 402, { width: 512, lineGap: 1 });
+        doc.text(`AI answering service works 24/7 and books appointments regardless of time or day.`, 50, 469, { width: 512, lineGap: 1 });
       }
 
       // ANALYTICS HEADER
-      const analyticsY = 360 + afterHoursBoxHeight + 15;
+      const analyticsY = 427 + afterHoursBoxHeight + 15;
       doc.fontSize(14).fillColor('#1a1a1a').font('Helvetica-Bold');
       doc.text('30-Day Call Analytics', 50, analyticsY, { width: 512 });
       doc.moveTo(50, analyticsY + 18).lineTo(562, analyticsY + 18).lineWidth(1).stroke('#e0e0e0');
