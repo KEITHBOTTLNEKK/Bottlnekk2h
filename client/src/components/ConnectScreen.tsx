@@ -73,7 +73,7 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
   return (
     <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <Branding onRestart={onRestart} accentColor={BOTTLNEKK_GREEN} />
-      <div className="max-w-5xl w-full space-y-16">
+      <div className="max-w-5xl w-full space-y-6 sm:space-y-12 lg:space-y-16">
         {/* Error Banner */}
         {errorMessage && (
           <div 
@@ -103,17 +103,17 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
         )}
 
         {/* Header */}
-        <div className="text-center space-y-6">
+        <div className="text-center space-y-3 sm:space-y-4 lg:space-y-6">
           <h1 
-            className="font-bold text-white tracking-tight"
-            style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}
+            className="font-bold text-white tracking-tight leading-tight"
+            style={{ fontSize: 'clamp(1.5rem, 5vw, 4.5rem)' }}
             data-testid="heading-connect"
           >
             Which phone system do you use?
           </h1>
           <p 
             className="font-light text-[#9CA3AF] tracking-wide max-w-2xl mx-auto px-4"
-            style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}
+            style={{ fontSize: 'clamp(0.875rem, 2.5vw, 1.25rem)' }}
             data-testid="text-connect-subheading"
           >
             Connect securely to analyze your call data
@@ -121,11 +121,11 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
         </div>
 
         {/* Provider Cards - Only the two that work */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto">
           {/* RingCentral */}
           <button
             onClick={() => handleConnect("RingCentral")}
-            className="group relative px-10 py-16 border-2 rounded-2xl transition-all duration-300"
+            className="group relative px-6 py-8 sm:px-8 sm:py-12 lg:px-10 lg:py-16 border-2 rounded-2xl transition-all duration-300"
             style={{
               borderColor: isRingCentralConnected ? BOTTLNEKK_GREEN : '#FFFFFF',
             }}
@@ -139,9 +139,9 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
             }}
             data-testid="button-provider-ringcentral"
           >
-            <div className="flex flex-col items-center justify-center space-y-6">
+            <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-5 lg:space-y-6">
               {/* RingCentral Logo */}
-              <div className="w-20 h-20 rounded-full border-2 border-white flex items-center justify-center p-3 bg-white">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full border-2 border-white flex items-center justify-center p-2 sm:p-2.5 lg:p-3 bg-white">
                 <img 
                   src={ringCentralLogo} 
                   alt="RingCentral" 
@@ -175,7 +175,7 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
           {/* Zoom Phone */}
           <button
             onClick={() => handleConnect("Zoom Phone")}
-            className="group relative px-10 py-16 border-2 rounded-2xl transition-all duration-300"
+            className="group relative px-6 py-8 sm:px-8 sm:py-12 lg:px-10 lg:py-16 border-2 rounded-2xl transition-all duration-300"
             style={{
               borderColor: isZoomConnected ? BOTTLNEKK_GREEN : '#FFFFFF',
             }}
@@ -189,9 +189,9 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
             }}
             data-testid="button-provider-zoom phone"
           >
-            <div className="flex flex-col items-center justify-center space-y-6">
+            <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-5 lg:space-y-6">
               {/* Zoom Logo */}
-              <div className="w-20 h-20 rounded-full border-2 border-white flex items-center justify-center p-3 bg-white">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full border-2 border-white flex items-center justify-center p-2 sm:p-2.5 lg:p-3 bg-white">
                 <img 
                   src={zoomLogo} 
                   alt="Zoom Phone" 
