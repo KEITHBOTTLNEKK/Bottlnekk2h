@@ -143,19 +143,9 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
 
   if (showBookingForm) {
     return (
-      <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
-        <div className="max-w-5xl w-full space-y-6">
-          <div className="text-center space-y-4">
-            <h2 
-              className="font-bold text-white tracking-tight"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
-              data-testid="heading-book-call"
-            >
-              Let's fix this
-            </h2>
-          </div>
-
-          <div className="w-full bg-white rounded-lg overflow-hidden" style={{ height: 'calc(100vh - 200px)', minHeight: '600px' }}>
+      <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-6xl w-full space-y-4">
+          <div className="w-full bg-white rounded-lg overflow-hidden" style={{ height: 'calc(100vh - 120px)', minHeight: '700px' }}>
             <iframe 
               src={`https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak${result.diagnosticId ? `?diagnosticId=${result.diagnosticId}` : ''}`}
               className="w-full h-full border-0"
@@ -165,7 +155,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             />
           </div>
 
-          <div className="text-center pt-4">
+          <div className="text-center pt-2">
             <button
               onClick={() => setShowBookingForm(false)}
               className="font-light text-white/40 hover:text-white tracking-wide transition-colors duration-300"
