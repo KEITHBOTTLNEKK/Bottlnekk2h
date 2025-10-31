@@ -384,7 +384,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             </div>
 
             {/* The Outcome */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 sm:p-12 mb-12">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 sm:p-12 mb-8">
               <h3 
                 className="font-bold tracking-tight mb-6"
                 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: BOTTLNEKK_GREEN }}
@@ -409,6 +409,73 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
               <p className="text-white font-light leading-relaxed" style={{ fontSize: 'clamp(1.125rem, 2vw, 1.375rem)' }}>
                 Your phone stops being an expense — and becomes your most profitable employee.
               </p>
+            </div>
+
+            {/* The Proof */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 sm:p-12 mb-12">
+              <h3 
+                className="font-bold tracking-tight mb-8"
+                style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: BOTTLNEKK_GREEN }}
+                data-testid="heading-proof"
+              >
+                📊 THE PROOF
+              </h3>
+              
+              {/* Stat Blocks */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                <div className="text-center">
+                  <div className="font-bold mb-2" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: BOTTLNEKK_GREEN }} data-testid="stat-response-time">
+                    97%
+                  </div>
+                  <p className="text-white/80 font-light" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }}>
+                    Faster Response Time
+                  </p>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold mb-2" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: BOTTLNEKK_GREEN }} data-testid="stat-sales-increase">
+                    30%
+                  </div>
+                  <p className="text-white/80 font-light" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }}>
+                    Sales Increase
+                  </p>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold mb-2" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: BOTTLNEKK_GREEN }} data-testid="stat-recovered-monthly">
+                    $15K
+                  </div>
+                  <p className="text-white/80 font-light" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }}>
+                    Recovered Monthly
+                  </p>
+                </div>
+              </div>
+
+              {/* Direct Quote - Hermozi Style */}
+              <div className="pt-6 border-t border-white/20">
+                <p className="text-white font-bold leading-relaxed mb-3" style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)' }} data-testid="text-testimonial">
+                  Cut missed calls from 35% to 2%. Added $15K a month straight to the bottom line. Response time went from 6 hours to 42 seconds. We went from bleeding money to having a system that never sleeps.
+                </p>
+                <p className="text-white/60 font-light" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }} data-testid="text-testimonial-attribution">
+                  — Tire Boss Team
+                </p>
+              </div>
+
+              {/* Additional Stats */}
+              <div className="mt-6 pt-6 border-t border-white/20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-white/80 font-light" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)' }}>
+                  <div data-testid="stat-before-missed">
+                    <span className="text-white font-bold">Before:</span> 35% of calls unanswered
+                  </div>
+                  <div data-testid="stat-after-missed">
+                    <span className="text-white font-bold">After:</span> Less than 2% missed
+                  </div>
+                  <div data-testid="stat-before-response">
+                    <span className="text-white font-bold">Before:</span> 6-hour response time
+                  </div>
+                  <div data-testid="stat-after-response">
+                    <span className="text-white font-bold">After:</span> 42-second response time
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* CTA Button */}
