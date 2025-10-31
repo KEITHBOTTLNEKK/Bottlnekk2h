@@ -297,13 +297,6 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
               <p 
                 className="font-light text-white/80 tracking-wide leading-relaxed max-w-3xl mx-auto"
                 style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)' }}
-                data-testid="text-offer-intro"
-              >
-                You're losing about <span className="font-bold text-white">{formatCurrency(result.totalLoss)}</span> a month — that's over <span className="font-bold text-white">${Math.round(result.totalLoss / 30)}</span> a day disappearing every time the phone rings and no one answers.
-              </p>
-              <p 
-                className="font-light text-white/80 tracking-wide leading-relaxed max-w-3xl mx-auto"
-                style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)' }}
                 data-testid="text-offer-subtitle"
               >
                 In 7 days, we turn your phone system into a 24/7 job-booking machine — 
@@ -321,10 +314,13 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
                 💰 YOUR NUMBERS
               </h3>
               <div className="space-y-4 text-white/90">
-                <p className="font-light leading-relaxed mb-6" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
+                <p className="font-light leading-relaxed" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
+                  You're losing about <span className="font-bold text-white">{formatCurrency(result.totalLoss)}</span> a month — that's over <span className="font-bold text-white">${Math.round(result.totalLoss / 30)}</span> a day disappearing every time the phone rings and no one answers.
+                </p>
+                <p className="font-light leading-relaxed" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
                   We stop that bleed and turn it into booked jobs on autopilot.
                 </p>
-                <div className="pt-2 border-t border-white/20">
+                <div className="pt-6 border-t border-white/20 mt-6">
                   <p className="font-bold text-white mb-3" style={{ fontSize: 'clamp(1.125rem, 2vw, 1.375rem)' }}>
                     The Math:
                   </p>
