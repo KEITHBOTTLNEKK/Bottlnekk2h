@@ -33,9 +33,9 @@ export function WelcomeScreen({ onStart, onRestart }: WelcomeScreenProps) {
         <div className="pt-16">
           <button
             onClick={onStart}
-            className="inline-flex items-center justify-center px-16 py-6 font-bold text-white border-2 rounded-xl transition-all duration-300"
+            className="inline-flex items-center justify-center px-8 sm:px-12 md:px-16 py-5 sm:py-6 font-bold text-white border-2 rounded-xl transition-all duration-300"
             style={{ 
-              fontSize: '1.5rem',
+              fontSize: 'clamp(1.125rem, 3vw, 1.5rem)',
               borderColor: BOTTLNEKK_GREEN,
               backgroundColor: 'transparent',
             }}

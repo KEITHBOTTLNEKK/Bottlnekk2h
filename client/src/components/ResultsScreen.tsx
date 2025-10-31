@@ -118,9 +118,9 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           <div className="text-center pt-8">
             <button
               onClick={onRestart}
-              className="inline-flex items-center justify-center px-12 py-6 font-bold text-white border-2 rounded-xl transition-all duration-300"
+              className="inline-flex items-center justify-center px-8 sm:px-10 md:px-12 py-5 sm:py-6 font-bold text-white border-2 rounded-xl transition-all duration-300"
               style={{ 
-                fontSize: '1.25rem',
+                fontSize: 'clamp(1.125rem, 2.5vw, 1.25rem)',
                 borderColor: BOTTLNEKK_GREEN,
               }}
               onMouseEnter={(e) => {
@@ -145,7 +145,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
     return (
       <div className="min-h-screen bg-black dark:bg-black flex items-center justify-center px-4 sm:px-6 lg:px-8 py-4">
         <div className="max-w-6xl w-full space-y-4">
-          <div className="w-full bg-white rounded-lg overflow-hidden" style={{ height: 'calc(100vh - 120px)', minHeight: '700px' }}>
+          <div className="w-full bg-white rounded-lg overflow-hidden" style={{ height: 'calc(100vh - 120px)', minHeight: '500px' }}>
             <iframe 
               src={`https://api.leadconnectorhq.com/widget/bookings/fix-your-phone-leak${result.diagnosticId ? `?diagnosticId=${result.diagnosticId}` : ''}`}
               className="w-full h-full border-0"
@@ -159,7 +159,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             <button
               onClick={() => setShowBookingForm(false)}
               className="font-light text-white/40 hover:text-white tracking-wide transition-colors duration-300"
-              style={{ fontSize: '0.875rem' }}
+              style={{ fontSize: 'clamp(0.75rem, 2vw, 0.875rem)' }}
               data-testid="button-cancel"
             >
               ← Back to results
@@ -249,9 +249,9 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           <div className="text-center pt-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <button
               onClick={handleShowOffer}
-              className="inline-flex items-center justify-center px-16 py-8 font-bold text-white border-2 rounded-xl transition-all duration-300"
+              className="inline-flex items-center justify-center px-8 sm:px-12 md:px-16 py-5 sm:py-6 md:py-8 font-bold text-white border-2 rounded-xl transition-all duration-300"
               style={{ 
-                fontSize: '1.75rem',
+                fontSize: 'clamp(1.25rem, 3.5vw, 1.75rem)',
                 borderColor: BOTTLNEKK_GREEN,
               }}
               onMouseEnter={(e) => {
@@ -482,9 +482,9 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
             <div className="text-center pb-16">
               <button
                 onClick={handleBookCall}
-                className="inline-flex items-center justify-center px-16 py-8 font-bold text-white border-2 rounded-xl transition-all duration-300"
+                className="inline-flex items-center justify-center px-8 sm:px-12 md:px-16 py-5 sm:py-6 md:py-8 font-bold text-white border-2 rounded-xl transition-all duration-300"
                 style={{ 
-                  fontSize: '1.75rem',
+                  fontSize: 'clamp(1.25rem, 3.5vw, 1.75rem)',
                   borderColor: BOTTLNEKK_GREEN,
                 }}
                 onMouseEnter={(e) => {

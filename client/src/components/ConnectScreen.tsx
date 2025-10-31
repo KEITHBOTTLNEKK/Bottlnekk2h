@@ -105,15 +105,15 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
         {/* Header */}
         <div className="text-center space-y-6">
           <h1 
-            className="font-bold text-white tracking-tight whitespace-nowrap"
-            style={{ fontSize: '4.5rem' }}
+            className="font-bold text-white tracking-tight"
+            style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}
             data-testid="heading-connect"
           >
             Which phone system do you use?
           </h1>
           <p 
-            className="font-light text-[#9CA3AF] tracking-wide max-w-2xl mx-auto"
-            style={{ fontSize: '1.25rem' }}
+            className="font-light text-[#9CA3AF] tracking-wide max-w-2xl mx-auto px-4"
+            style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}
             data-testid="text-connect-subheading"
           >
             Connect securely to analyze your call data
