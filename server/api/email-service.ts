@@ -82,9 +82,7 @@ function formatCallbackTime(minutes: number | null): string {
 
 function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticData): string {
   const monthlyLoss = diagnostic.totalLoss;
-  const annualRecoveryLow = Math.round(monthlyLoss * 12 * 0.7);
-  const annualRecoveryHigh = Math.round(monthlyLoss * 12 * 0.85);
-  const potentialRecovery = Math.round((annualRecoveryLow + annualRecoveryHigh) / 2);
+  const annualLoss = monthlyLoss * 12;
   const totalInbound = diagnostic.totalInboundCalls ?? 0;
   const accepted = diagnostic.acceptedCalls ?? 0;
   const potentialBudget = Math.round(accepted * diagnostic.avgRevenuePerCall * 0.30);
@@ -258,9 +256,9 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticD
       </table>
 
       <div class="hero-metric">
-        <div class="hero-label">Annual Recovery Opportunity</div>
-        <div class="hero-value">$${potentialRecovery.toLocaleString()}</div>
-        <div class="hero-subtext">Estimated annual recovery from ${diagnostic.missedCalls} missed calls/month</div>
+        <div class="hero-label">Annual Revenue Leak</div>
+        <div class="hero-value">$${annualLoss.toLocaleString()}</div>
+        <div class="hero-subtext">${diagnostic.missedCalls} missed calls/month bleeding revenue</div>
       </div>
       
       <div style="background: #f8f9fa; padding: 16px; margin: 16px 0; text-align: center; border-radius: 8px; border: 1px solid #dee2e6;">
@@ -295,9 +293,7 @@ function createSalesEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticD
 
 function createSalesEmailText(booking: BookingData, diagnostic: EmailDiagnosticData): string {
   const monthlyLoss = diagnostic.totalLoss;
-  const annualRecoveryLow = Math.round(monthlyLoss * 12 * 0.7);
-  const annualRecoveryHigh = Math.round(monthlyLoss * 12 * 0.85);
-  const potentialRecovery = Math.round((annualRecoveryLow + annualRecoveryHigh) / 2);
+  const annualLoss = monthlyLoss * 12;
   const totalInbound = diagnostic.totalInboundCalls ?? 0;
   const accepted = diagnostic.acceptedCalls ?? 0;
   const potentialBudget = Math.round(accepted * diagnostic.avgRevenuePerCall * 0.30);
@@ -312,10 +308,10 @@ Email: ${booking.email}
 Phone: ${booking.phone}
 ${booking.company ? `Company: ${booking.company}` : ''}
 
-ANNUAL RECOVERY OPPORTUNITY
----------------------------
-$${potentialRecovery.toLocaleString()}
-Estimated annual recovery from ${diagnostic.missedCalls} missed calls/month
+ANNUAL REVENUE LEAK
+-------------------
+$${annualLoss.toLocaleString()}
+${diagnostic.missedCalls} missed calls/month bleeding revenue
 
 MONTHLY LOSS DETAILS
 --------------------
@@ -342,8 +338,7 @@ Automated Lead Intelligence System
 
 function createCustomerEmailHTML(booking: BookingData, diagnostic: EmailDiagnosticData): string {
   const dailyLoss = Math.round(diagnostic.totalLoss / 30);
-  const annualRecoveryLow = Math.round(diagnostic.totalLoss * 12 * 0.7);
-  const annualRecoveryHigh = Math.round(diagnostic.totalLoss * 12 * 0.85);
+  const annualLoss = diagnostic.totalLoss * 12;
   
   return `
 <!DOCTYPE html>
@@ -361,7 +356,7 @@ function createCustomerEmailHTML(booking: BookingData, diagnostic: EmailDiagnost
 
     <p>We stop that bleed and turn it into booked jobs on autopilot.</p>
 
-    <p>During our call, we'll show you how to recover $${annualRecoveryLow.toLocaleString()}–$${annualRecoveryHigh.toLocaleString()}+ this year.</p>
+    <p>During our call, we'll walk through how to fix this.</p>
 
     <p>Looking forward to speaking with you.</p>
 
@@ -380,8 +375,6 @@ function createCustomerEmailHTML(booking: BookingData, diagnostic: EmailDiagnost
 
 function createCustomerEmailText(booking: BookingData, diagnostic: EmailDiagnosticData): string {
   const dailyLoss = Math.round(diagnostic.totalLoss / 30);
-  const annualRecoveryLow = Math.round(diagnostic.totalLoss * 12 * 0.7);
-  const annualRecoveryHigh = Math.round(diagnostic.totalLoss * 12 * 0.85);
   
   return `
 Hi ${booking.name.split(' ')[0]},
@@ -392,7 +385,7 @@ You're losing about $${diagnostic.totalLoss.toLocaleString()} a month — that's
 
 We stop that bleed and turn it into booked jobs on autopilot.
 
-During our call, we'll show you how to recover $${annualRecoveryLow.toLocaleString()}–$${annualRecoveryHigh.toLocaleString()}+ this year.
+During our call, we'll walk through how to fix this.
 
 Looking forward to speaking with you.
 
@@ -426,15 +419,13 @@ export async function sendSalesIntelligenceEmail(
     
     console.log('📧 Sending sales intelligence email to:', salesEmail);
     
-    const annualRecoveryLow = Math.round(diagnostic.totalLoss * 12 * 0.7);
-    const annualRecoveryHigh = Math.round(diagnostic.totalLoss * 12 * 0.85);
-    const potentialRecovery = Math.round((annualRecoveryLow + annualRecoveryHigh) / 2);
+    const annualLoss = diagnostic.totalLoss * 12;
     const fileName = `Revenue-Recovery-Report-${booking.name.replace(/\s+/g, '-')}.pdf`;
     
     const { data, error } = await client.emails.send({
       from: fromEmail || 'onboarding@resend.dev',
       to: salesEmail,
-      subject: `🔔 New Lead: ${booking.name} - $${potentialRecovery.toLocaleString()}/yr Recovery Opportunity`,
+      subject: `🔔 New Lead: ${booking.name} - $${annualLoss.toLocaleString()}/yr Revenue Leak`,
       html: createSalesEmailHTML(booking, diagnostic),
       text: createSalesEmailText(booking, diagnostic),
       attachments: [
