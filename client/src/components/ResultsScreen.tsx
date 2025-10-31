@@ -326,8 +326,8 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
                   </p>
                   <ul className="space-y-2 font-light" style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
                     <li>Your investment: <span className="font-bold text-white">$5,000</span></li>
-                    <li>You recover: <span className="font-bold text-white">${formatCurrency(Math.round(result.totalLoss * 12 * 0.62)).replace('$', '')}–${formatCurrency(Math.round(result.totalLoss * 12 * 0.75)).replace('$', '')}+ a year</span></li>
-                    <li>ROI: <span className="font-bold" style={{ color: BOTTLNEKK_GREEN }}>{Math.round((result.totalLoss * 12 * 0.62) / 5000)}x return</span> — every single year the system runs</li>
+                    <li>You recover: <span className="font-bold text-white">${formatCurrency(Math.round(result.totalLoss * 12 * 0.40)).replace('$', '')}–${formatCurrency(Math.round(result.totalLoss * 12 * 0.50)).replace('$', '')}+ a year</span></li>
+                    <li>ROI: <span className="font-bold" style={{ color: BOTTLNEKK_GREEN }}>{Math.round((result.totalLoss * 12 * 0.40) / 5000)}x return</span> — every single year the system runs</li>
                   </ul>
                 </div>
               </div>
