@@ -59,7 +59,7 @@ export function WelcomeScreen({ onStart, onRestart }: WelcomeScreenProps) {
       </div>
 
       {/* Trust Block */}
-      <div className="px-8 sm:px-12 lg:px-16 pb-16" data-testid="section-trust">
+      <div className="px-8 sm:px-12 lg:px-16 pb-24" data-testid="section-trust">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <p 
             className="font-extralight text-[#9CA3AF] leading-relaxed"
@@ -81,75 +81,6 @@ export function WelcomeScreen({ onStart, onRestart }: WelcomeScreenProps) {
               <span className="text-xl">→</span>
             </button>
           </Link>
-        </div>
-      </div>
-
-      {/* Testimonials Section - Placeholder */}
-      <div className="px-8 sm:px-12 lg:px-16 pb-24" data-testid="section-testimonials">
-        <div className="max-w-6xl mx-auto">
-          <h2 
-            className="text-center font-thin text-white mb-16"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '0.02em', fontWeight: '200' }}
-            data-testid="heading-testimonials"
-          >
-            What Our Clients Say
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Testimonial 1 - Placeholder */}
-            <div 
-              className="p-8 rounded-2xl border space-y-4"
-              style={{ borderColor: '#1F2937', backgroundColor: '#0A0A0A' }}
-              data-testid="testimonial-1"
-            >
-              <p 
-                className="font-extralight text-[#D1D5DB] leading-relaxed italic"
-                style={{ fontSize: 'clamp(0.938rem, 2vw, 1.063rem)' }}
-              >
-                "Placeholder testimonial text. Replace with real customer feedback about revenue recovery and business impact."
-              </p>
-              <div className="pt-2 border-t" style={{ borderColor: '#1F2937' }}>
-                <p className="font-light text-white text-sm">Customer Name</p>
-                <p className="font-extralight text-[#6B7280] text-xs">Company Name</p>
-              </div>
-            </div>
-
-            {/* Testimonial 2 - Placeholder */}
-            <div 
-              className="p-8 rounded-2xl border space-y-4"
-              style={{ borderColor: '#1F2937', backgroundColor: '#0A0A0A' }}
-              data-testid="testimonial-2"
-            >
-              <p 
-                className="font-extralight text-[#D1D5DB] leading-relaxed italic"
-                style={{ fontSize: 'clamp(0.938rem, 2vw, 1.063rem)' }}
-              >
-                "Placeholder testimonial text. Replace with real customer feedback about revenue recovery and business impact."
-              </p>
-              <div className="pt-2 border-t" style={{ borderColor: '#1F2937' }}>
-                <p className="font-light text-white text-sm">Customer Name</p>
-                <p className="font-extralight text-[#6B7280] text-xs">Company Name</p>
-              </div>
-            </div>
-
-            {/* Testimonial 3 - Placeholder */}
-            <div 
-              className="p-8 rounded-2xl border space-y-4"
-              style={{ borderColor: '#1F2937', backgroundColor: '#0A0A0A' }}
-              data-testid="testimonial-3"
-            >
-              <p 
-                className="font-extralight text-[#D1D5DB] leading-relaxed italic"
-                style={{ fontSize: 'clamp(0.938rem, 2vw, 1.063rem)' }}
-              >
-                "Placeholder testimonial text. Replace with real customer feedback about revenue recovery and business impact."
-              </p>
-              <div className="pt-2 border-t" style={{ borderColor: '#1F2937' }}>
-                <p className="font-light text-white text-sm">Customer Name</p>
-                <p className="font-extralight text-[#6B7280] text-xs">Company Name</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
