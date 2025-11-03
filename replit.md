@@ -12,7 +12,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend
 
-The frontend uses React 18+ with TypeScript, Vite, and Wouter for routing. UI components are built with shadcn/ui (Radix UI) and styled with Tailwind CSS, featuring a pure black background, white text (Inter font), and Bottlnekk green accents. State management leverages TanStack Query for server state and local React state for the multi-step diagnostic wizard. The application is component-based, with distinct screens for Welcome, Connect, Analysis, and Results, incorporating responsive design, smooth animations, and generous whitespace. A custom `useCounter` hook provides dramatic number animations with `easeOutExpo` easing. The diagnostic tool is the main application at the root (`/`).
+The frontend uses React 18+ with TypeScript, Vite, and Wouter for routing. UI components are built with shadcn/ui (Radix UI) and styled with Tailwind CSS, featuring a pure black background, white text (Inter font), and Bottlnekk green accents. State management leverages TanStack Query for server state and local React state for the multi-step diagnostic wizard. The application is component-based, with distinct screens for Welcome, Connect, Analysis, and Results, incorporating responsive design, smooth animations, and generous whitespace. A custom `useCounter` hook provides dramatic number animations with `easeOutExpo` easing. The diagnostic tool is the main application at the root (`/`). The WelcomeScreen includes an "About Us" section featuring founder Keith Booker and CTO Hamza Baig bios in a responsive two-column layout.
 
 ### Backend
 
