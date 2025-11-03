@@ -20,7 +20,11 @@ The backend is an Express.js application built with Node.js and TypeScript (ESM 
 
 ### UI/UX Decisions
 
-The design is a dramatic, high-contrast black minimalist aesthetic inspired by Apple, using ultra-thin Inter typography and Bottlnekk green (#00C97B) as the signature accent. Key elements include large, animated counters, green-accented CTA buttons with hover effects, and a focus on radical simplification, presenting only essential metrics. The user flow is seamless, with a clear success moment after OAuth and an interactive deal size question. The Bottlnekk logo (hourglass icon + wordmark) appears top-left with a subtle green glow, and clicking it restarts the diagnostic flow.
+The design is a dramatic, high-contrast black minimalist aesthetic inspired by Apple, using ultra-thin Inter typography and Bottlnekk green (#00C97B) as the signature accent. Key elements include large, animated counters, green-accented CTA buttons with hover effects, and a focus on radical simplification, presenting only essential metrics. The user flow is seamless, with a clear success moment after OAuth and an interactive deal size question.
+
+**Navigation:** A minimal fixed navigation bar appears at the top of all pages with a semi-transparent black backdrop blur. Features the Bottlnekk logo (hourglass icon + wordmark) on the left that navigates to the homepage, and an "About" link on the right with green hover effect. The navigation maintains the minimalist aesthetic while providing easy access to key pages.
+
+**Social Proof:** Homepage features a single marquee testimonial from Tire Boss (97% faster response, +30% sales) below the trust block, with full case studies for both Tire Boss and a daycare client displayed on the /about page. Partner logos (OpenAI, Snowflake, Vapi.ai) appear at the bottom of the homepage in a minimal text-only format.
 
 **User Acquisition Strategy:** The diagnostic tool serves as the primary entry point and customer acquisition vehicle. There is no separate marketing landing page - users go directly to the diagnostic flow at `/`. Browser tab displays just "Bottlnekk" with green hourglass favicon.
 
