@@ -93,6 +93,7 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
           totalLoss: result.totalLoss.toString(),
           missedCalls: result.missedCalls.toString(),
           afterHoursCalls: result.afterHoursCalls.toString(),
+          averageDealSize: result.avgRevenuePerCall.toString(),
         }
       });
     } catch (error) {
