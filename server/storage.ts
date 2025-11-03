@@ -1,5 +1,5 @@
 // Referenced integration: blueprint:javascript_database, blueprint:javascript_log_in_with_replit
-import { diagnosticResults, users, type SelectDiagnosticResult, type InsertDiagnosticResult, type User, type UpsertUser } from "@shared/schema";
+import { diagnosticResults, users, vapiBookings, type SelectDiagnosticResult, type InsertDiagnosticResult, type User, type UpsertUser, type InsertVapiBooking, type SelectVapiBooking } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
 
@@ -9,6 +9,9 @@ export interface IStorage {
   getDiagnostic(id: string): Promise<SelectDiagnosticResult | undefined>;
   getAllDiagnostics(): Promise<SelectDiagnosticResult[]>;
   getDiagnosticsByEmail(email: string): Promise<SelectDiagnosticResult[]>;
+  // Vapi booking operations
+  saveVapiBooking(booking: InsertVapiBooking): Promise<SelectVapiBooking>;
+  getAllVapiBookings(): Promise<SelectVapiBooking[]>;
   // User operations - required for Replit Auth
   getUser(id: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
@@ -44,6 +47,22 @@ export class DatabaseStorage implements IStorage {
       .from(diagnosticResults)
       .where(eq(diagnosticResults.businessEmail, email))
       .orderBy(desc(diagnosticResults.createdAt));
+  }
+
+  // Vapi booking operations
+  async saveVapiBooking(booking: InsertVapiBooking): Promise<SelectVapiBooking> {
+    const [saved] = await db
+      .insert(vapiBookings)
+      .values(booking)
+      .returning();
+    return saved;
+  }
+
+  async getAllVapiBookings(): Promise<SelectVapiBooking[]> {
+    return await db
+      .select()
+      .from(vapiBookings)
+      .orderBy(desc(vapiBookings.createdAt));
   }
 
   // User operations - required for Replit Auth
