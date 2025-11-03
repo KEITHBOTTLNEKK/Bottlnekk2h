@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { analyzeDiagnosticRequestSchema, bookingSchema, type DiagnosticResult, type PhoneProvider } from "@shared/schema";
+import { analyzeDiagnosticRequestSchema, bookingSchema, vapiBookingSchema, type DiagnosticResult, type PhoneProvider } from "@shared/schema";
 import { sendSalesIntelligenceEmail, sendCustomerPainEmail } from "./api/email-service";
 import { registerRingCentralOAuth } from "./oauth/ringcentral";
 import { fetchRingCentralAnalytics } from "./api/ringcentral-client";
@@ -180,6 +180,116 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(400).json({ 
         error: error instanceof Error ? error.message : "Invalid booking request" 
       });
+    }
+  });
+
+  // POST /api/vapi/book-appointment - Handle Vapi function calling for calendar bookings
+  app.post("/api/vapi/book-appointment", async (req, res) => {
+    console.log("\n📞 ============ VAPI BOOKING RECEIVED ============");
+    console.log("📥 Body:", JSON.stringify(req.body, null, 2));
+    console.log("===============================================\n");
+
+    try {
+      // Extract tool call from Vapi's function calling format
+      const toolCall = req.body.message?.toolCalls?.[0];
+      
+      if (!toolCall) {
+        console.error("⚠️ No tool call found in Vapi request");
+        return res.status(400).json({ error: "Invalid Vapi request format" });
+      }
+
+      const args = toolCall.function.arguments;
+      
+      // Validate booking data
+      const validatedData = vapiBookingSchema.parse(args);
+      
+      console.log("✅ Vapi booking validated:", {
+        name: validatedData.customerName,
+        email: validatedData.customerEmail,
+        phone: validatedData.customerPhone,
+        date: validatedData.appointmentDate,
+        diagnosticId: validatedData.diagnosticId,
+      });
+
+      // Save booking to database
+      const savedBooking = await storage.saveVapiBooking({
+        diagnosticId: validatedData.diagnosticId || null,
+        customerName: validatedData.customerName,
+        customerEmail: validatedData.customerEmail,
+        customerPhone: validatedData.customerPhone,
+        appointmentDate: validatedData.appointmentDate,
+        monthlyLoss: validatedData.monthlyLoss || null,
+        missedCalls: validatedData.missedCalls || null,
+        afterHoursCalls: validatedData.afterHoursCalls || null,
+      });
+
+      console.log("💾 Booking saved to database:", savedBooking.id);
+
+      // Get diagnostic data for sales email if available
+      let diagnostic;
+      if (validatedData.diagnosticId) {
+        diagnostic = await storage.getDiagnostic(validatedData.diagnosticId);
+      }
+
+      // Send sales notification email
+      try {
+        if (diagnostic) {
+          const fullDiagnosticResult: DiagnosticResult = {
+            provider: diagnostic.provider as PhoneProvider,
+            totalLoss: diagnostic.totalLoss,
+            missedCalls: diagnostic.missedCalls,
+            afterHoursCalls: diagnostic.afterHoursCalls,
+            avgRevenuePerCall: diagnostic.avgRevenuePerCall,
+            totalMissedOpportunities: diagnostic.totalMissedOpportunities,
+            month: diagnostic.month,
+            totalInboundCalls: diagnostic.totalInboundCalls || 0,
+            acceptedCalls: diagnostic.acceptedCalls || 0,
+            avgCallbackTimeMinutes: diagnostic.avgCallbackTimeMinutes || null,
+            companyName: diagnostic.companyName || undefined,
+            industry: diagnostic.industry || undefined,
+          };
+
+          await sendSalesIntelligenceEmail(
+            {
+              name: validatedData.customerName,
+              email: validatedData.customerEmail,
+              phone: validatedData.customerPhone,
+              company: diagnostic.companyName || undefined,
+            },
+            fullDiagnosticResult
+          );
+          console.log("✅ Sales intelligence email sent for Vapi booking");
+        } else {
+          console.warn("⚠️ No diagnostic found - sales email sent with basic info only");
+        }
+      } catch (emailError) {
+        console.error("❌ Failed to send sales email (booking still saved):", emailError);
+      }
+
+      // Return success to Vapi in the expected format
+      res.json({
+        results: [{
+          toolCallId: toolCall.id,
+          result: `Appointment confirmed for ${validatedData.customerName} on ${validatedData.appointmentDate}. You'll receive a confirmation email and text shortly.`
+        }]
+      });
+    } catch (error) {
+      console.error("❌ Error processing Vapi booking:", error);
+      
+      // Return error to Vapi so agent can inform the user
+      const toolCall = req.body.message?.toolCalls?.[0];
+      if (toolCall) {
+        res.json({
+          results: [{
+            toolCallId: toolCall.id,
+            result: "I apologize, but there was an error booking your appointment. Please try again or contact us directly."
+          }]
+        });
+      } else {
+        res.status(400).json({ 
+          error: error instanceof Error ? error.message : "Booking failed" 
+        });
+      }
     }
   });
 
