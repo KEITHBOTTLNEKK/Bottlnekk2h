@@ -42,6 +42,19 @@ export const oauthConnections = pgTable("oauth_connections", {
   providerAccountUnique: uniqueIndex("provider_account_unique").on(table.provider, table.accountId),
 }));
 
+export const vapiBookings = pgTable("vapi_bookings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  diagnosticId: varchar("diagnostic_id").references(() => diagnosticResults.id),
+  customerName: text("customer_name").notNull(),
+  customerEmail: text("customer_email").notNull(),
+  customerPhone: text("customer_phone").notNull(),
+  appointmentDate: text("appointment_date").notNull(),
+  monthlyLoss: integer("monthly_loss"),
+  missedCalls: integer("missed_calls"),
+  afterHoursCalls: integer("after_hours_calls"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Zod Schemas
 export const diagnosticResultSchema = z.object({
   totalLoss: z.number(),
@@ -88,6 +101,27 @@ export const bookingSchema = z.object({
 });
 
 export type BookingRequest = z.infer<typeof bookingSchema>;
+
+// Vapi booking schema
+export const vapiBookingSchema = z.object({
+  diagnosticId: z.string().optional(),
+  customerName: z.string().min(1, "Name is required"),
+  customerEmail: z.string().email("Valid email required"),
+  customerPhone: z.string().min(1, "Phone is required"),
+  appointmentDate: z.string().min(1, "Appointment date is required"),
+  monthlyLoss: z.number().optional(),
+  missedCalls: z.number().optional(),
+  afterHoursCalls: z.number().optional(),
+});
+
+export const insertVapiBookingSchema = createInsertSchema(vapiBookings).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type VapiBooking = z.infer<typeof vapiBookingSchema>;
+export type InsertVapiBooking = z.infer<typeof insertVapiBookingSchema>;
+export type SelectVapiBooking = typeof vapiBookings.$inferSelect;
 
 // OAuth Connection schemas
 export const insertOAuthConnectionSchema = createInsertSchema(oauthConnections).omit({
