@@ -8,7 +8,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-black dark:bg-black">
       <Navigation />
 
-      <div className="px-8 sm:px-12 lg:px-16 py-24">
+      <div className="px-8 sm:px-12 lg:px-16 pt-32 pb-24">
         <div className="max-w-6xl mx-auto">
           {/* Page Header */}
           <div className="text-center mb-20">

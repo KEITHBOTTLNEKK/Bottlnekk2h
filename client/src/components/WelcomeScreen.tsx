@@ -14,7 +14,7 @@ export function WelcomeScreen({ onStart, onRestart }: WelcomeScreenProps) {
       <Navigation />
 
       {/* Hero Section */}
-      <div className="min-h-screen flex items-center justify-center px-8 sm:px-12 lg:px-16">
+      <div className="min-h-screen flex items-center justify-center px-8 sm:px-12 lg:px-16 pt-24">
         <div className="w-full text-center space-y-12">
           <div className="space-y-6">
             <h1 
