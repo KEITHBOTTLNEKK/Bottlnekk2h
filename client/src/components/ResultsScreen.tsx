@@ -152,24 +152,53 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
                   </p>
                 </div>
                 
-                <div className="hidden sm:block text-white/20" style={{ fontSize: '2rem' }}>•</div>
+                {/* Only show after-hours for non-manual diagnostics */}
+                {result.provider !== "Manual" && (
+                  <>
+                    <div className="hidden sm:block text-white/20" style={{ fontSize: '2rem' }}>•</div>
+                    
+                    <div className="text-center">
+                      <p 
+                        className="font-bold text-white tracking-tight"
+                        style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+                        data-testid="text-afterhours-calls-count"
+                      >
+                        {result.afterHoursCalls}
+                      </p>
+                      <p 
+                        className="font-light text-white/40 tracking-wide"
+                        style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1.125rem)' }}
+                        data-testid="text-afterhours-calls-label"
+                      >
+                        after-hours calls
+                      </p>
+                    </div>
+                  </>
+                )}
                 
-                <div className="text-center">
-                  <p 
-                    className="font-bold text-white tracking-tight"
-                    style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
-                    data-testid="text-afterhours-calls-count"
-                  >
-                    {result.afterHoursCalls}
-                  </p>
-                  <p 
-                    className="font-light text-white/40 tracking-wide"
-                    style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1.125rem)' }}
-                    data-testid="text-afterhours-calls-label"
-                  >
-                    after-hours calls
-                  </p>
-                </div>
+                {/* Show additional metrics for manual diagnostics */}
+                {result.provider === "Manual" && (
+                  <>
+                    <div className="hidden sm:block text-white/20" style={{ fontSize: '2rem' }}>•</div>
+                    
+                    <div className="text-center">
+                      <p 
+                        className="font-bold text-white tracking-tight"
+                        style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+                        data-testid="text-actual-lost-count"
+                      >
+                        {formatCurrency(Math.round(result.totalLoss * 0.35))}
+                      </p>
+                      <p 
+                        className="font-light text-white/40 tracking-wide"
+                        style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1.125rem)' }}
+                        data-testid="text-actual-lost-label"
+                      >
+                        actual lost (35% close rate)
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
             </>
           )}

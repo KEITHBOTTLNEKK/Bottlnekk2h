@@ -57,7 +57,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Handle manual input estimation
       if (isManualInput) {
         const missedCalls = manualMissedCalls;
-        const afterHoursCalls = Math.round(missedCalls * 0.35); // Estimate 35% after-hours
         const totalLoss = missedCalls * avgDealSize;
         const totalMissedOpportunities = missedCalls;
         
@@ -65,7 +64,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           provider: "Manual",
           totalLoss,
           missedCalls,
-          afterHoursCalls,
+          afterHoursCalls: 0, // No after-hours calculation for manual input
           avgRevenuePerCall: avgDealSize,
           totalMissedOpportunities,
           month: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
