@@ -125,6 +125,8 @@ export function WelcomeScreen({ onStart, onRestart }: WelcomeScreenProps) {
             <div className="font-light text-white text-2xl tracking-tight">OpenAI</div>
             <div className="font-light text-white text-2xl tracking-tight">Snowflake</div>
             <div className="font-light text-white text-xl tracking-tight">Vapi.ai</div>
+            <div className="font-light text-white text-xl tracking-tight">Younite Solutions</div>
+            <div className="font-light text-white text-xl tracking-tight">Moody Analytics</div>
           </div>
         </div>
       </div>
