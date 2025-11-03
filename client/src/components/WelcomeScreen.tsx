@@ -70,6 +70,7 @@ export function WelcomeScreen({ onStart, onRestart }: WelcomeScreenProps) {
           </p>
           <Link href="/about">
             <button
+              onClick={() => setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100)}
               className="inline-flex items-center gap-2 font-light text-white transition-all duration-300 hover:gap-3"
               style={{ 
                 fontSize: 'clamp(1rem, 2vw, 1.125rem)',
