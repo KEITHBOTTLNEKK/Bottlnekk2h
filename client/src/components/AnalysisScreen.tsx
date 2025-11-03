@@ -7,12 +7,13 @@ import { Branding } from "./Branding";
 const BOTTLNEKK_GREEN = "#00C97B";
 
 interface AnalysisScreenProps {
-  provider: PhoneProvider;
+  provider: PhoneProvider | null;
+  manualData?: { missedCalls: number; avgDealSize: number } | null;
   onAnalysisComplete: (result: DiagnosticResult) => void;
   onRestart?: () => void;
 }
 
-export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: AnalysisScreenProps) {
+export function AnalysisScreen({ provider, manualData, onAnalysisComplete, onRestart }: AnalysisScreenProps) {
   const [dots, setDots] = useState("");
   const [dealSize, setDealSize] = useState("");
   const [showConnected, setShowConnected] = useState(false);
@@ -44,6 +45,17 @@ export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: Anal
       setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
     }, 400);
 
+    // If manual data is provided, analyze immediately
+    if (manualData) {
+      analyzeMutation.mutate({ 
+        provider: "RingCentral", // Dummy provider for manual input
+        avgDealSize: manualData.avgDealSize,
+        missedCalls: manualData.missedCalls,
+        isManualInput: true,
+      } as any);
+      return () => clearInterval(dotInterval);
+    }
+
     // Check if this is an OAuth callback
     const params = new URLSearchParams(window.location.search);
     const isOAuthCallback = params.get("connected") === "ringcentral" || params.get("connected") === "zoom";
@@ -63,12 +75,14 @@ export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: Anal
     }
 
     return () => clearInterval(dotInterval);
-  }, []);
+  }, [manualData]);
 
   const handleLooksGood = () => {
     const avgDealSize = parseInt(dealSize) || 1000;
     setShowQuestion(false); // Hide question to prevent flash
-    analyzeMutation.mutate({ provider, avgDealSize });
+    if (provider) {
+      analyzeMutation.mutate({ provider, avgDealSize });
+    }
   };
 
   const handleDealSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +92,9 @@ export function AnalysisScreen({ provider, onAnalysisComplete, onRestart }: Anal
 
   const handleRetry = () => {
     analyzeMutation.reset();
-    analyzeMutation.mutate({ provider });
+    if (provider) {
+      analyzeMutation.mutate({ provider });
+    }
   };
 
   if (analyzeMutation.isError) {

@@ -8,6 +8,7 @@ const BOTTLNEKK_GREEN = "#00C97B";
 
 interface ConnectScreenProps {
   onProviderSelect: (provider: "RingCentral" | "Zoom Phone") => void;
+  onManualInput?: () => void;
   onRestart?: () => void;
 }
 
@@ -17,7 +18,7 @@ interface ConnectionStatus {
   accountId?: string;
 }
 
-export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProps) {
+export function ConnectScreen({ onProviderSelect, onManualInput, onRestart }: ConnectScreenProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Check connection status for both providers
@@ -222,6 +223,26 @@ export function ConnectScreen({ onProviderSelect, onRestart }: ConnectScreenProp
             </div>
           </button>
         </div>
+
+        {/* Manual Input Fallback */}
+        {onManualInput && (
+          <div className="text-center space-y-4">
+            <div className="flex items-center justify-center space-x-4">
+              <div className="h-px bg-white/20 flex-1 max-w-xs"></div>
+              <span className="text-white/40 text-sm font-light tracking-wide">OR</span>
+              <div className="h-px bg-white/20 flex-1 max-w-xs"></div>
+            </div>
+            
+            <button
+              onClick={onManualInput}
+              className="font-light text-white/60 hover:text-white transition-colors duration-300 tracking-wide underline decoration-white/30 hover:decoration-white"
+              style={{ fontSize: '0.9375rem' }}
+              data-testid="button-manual-input"
+            >
+              Don't have a phone system? Enter manually
+            </button>
+          </div>
+        )}
 
         {/* Footer */}
         <div className="text-center">

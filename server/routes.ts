@@ -49,11 +49,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = analyzeDiagnosticRequestSchema.parse(req.body);
       const avgDealSize = req.body.avgDealSize || 350; // Use custom deal size or default
+      const isManualInput = req.body.isManualInput || false;
+      const manualMissedCalls = req.body.missedCalls || 0;
       
       let diagnosticResult: DiagnosticResult;
 
-      // Fetch real data from connected providers only
-      if (validatedData.provider === "RingCentral") {
+      // Handle manual input estimation
+      if (isManualInput) {
+        const missedCalls = manualMissedCalls;
+        const afterHoursCalls = Math.round(missedCalls * 0.35); // Estimate 35% after-hours
+        const totalLoss = missedCalls * avgDealSize;
+        const totalMissedOpportunities = missedCalls;
+        
+        diagnosticResult = {
+          provider: "RingCentral", // Placeholder
+          totalLoss,
+          missedCalls,
+          afterHoursCalls,
+          avgRevenuePerCall: avgDealSize,
+          totalMissedOpportunities,
+          month: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+          totalInboundCalls: Math.round(missedCalls * 3), // Estimate total inbound
+          acceptedCalls: Math.round(missedCalls * 2), // Estimate accepted calls
+          avgCallbackTimeMinutes: null,
+        };
+      }
+      // Fetch real data from connected providers
+      else if (validatedData.provider === "RingCentral") {
         const realData = await fetchRingCentralAnalytics(avgDealSize);
         if (!realData) {
           return res.status(400).json({ 
