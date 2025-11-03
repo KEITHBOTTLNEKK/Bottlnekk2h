@@ -11,7 +11,7 @@ const BOTTLNEKK_GREEN = "#00C97B";
 export function WelcomeScreen({ onStart, onRestart }: WelcomeScreenProps) {
   return (
     <div className="min-h-screen bg-black dark:bg-black">
-      <Navigation onLogoClick={onRestart} />
+      <Navigation />
 
       {/* Hero Section */}
       <div className="min-h-screen flex items-center justify-center px-8 sm:px-12 lg:px-16">

@@ -3,11 +3,7 @@ import { Hourglass } from "lucide-react";
 
 const BOTTLNEKK_GREEN = "#00C97B";
 
-interface NavigationProps {
-  onLogoClick?: () => void;
-}
-
-export function Navigation({ onLogoClick }: NavigationProps) {
+export function Navigation() {
   return (
     <nav 
       className="fixed top-0 left-0 right-0 z-50 px-8 sm:px-12 lg:px-16 py-6"
@@ -16,11 +12,11 @@ export function Navigation({ onLogoClick }: NavigationProps) {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <button
-          onClick={onLogoClick}
-          className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
-          data-testid="nav-logo"
-        >
+        <Link href="/">
+          <button
+            className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
+            data-testid="nav-logo"
+          >
           <div 
             className="flex items-center justify-center w-10 h-10 rounded-lg"
             style={{ 
@@ -39,7 +35,8 @@ export function Navigation({ onLogoClick }: NavigationProps) {
           >
             Bottlnekk
           </span>
-        </button>
+          </button>
+        </Link>
 
         {/* About Link */}
         <Link href="/about">
