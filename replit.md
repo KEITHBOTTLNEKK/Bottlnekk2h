@@ -16,7 +16,7 @@ The frontend uses React 18+ with TypeScript, Vite, and Wouter for routing. UI co
 
 ### Backend
 
-The backend is an Express.js application built with Node.js and TypeScript (ESM modules). It provides APIs for diagnostic analysis (`POST /api/diagnostic/analyze`) and booking submissions (`POST /api/bookings`), using Zod for schema validation. Data is stored in-memory via a `MemStorage` class. The core analytics logic calculates unique missed calls and after-hours calls within a 30-day window, converting all timestamps to Eastern Time. It includes request logging, CORS support, and comprehensive error handling. An admin dashboard at `/admin/diagnostics` is protected by Replit Auth, utilizing PostgreSQL for session management.
+The backend is an Express.js application built with Node.js and TypeScript (ESM modules). It provides APIs for diagnostic analysis (`POST /api/diagnostic/analyze`), booking submissions (`POST /api/bookings`), and Vapi voice agent bookings (`POST /api/vapi/book-appointment`), using Zod for schema validation. Diagnostic results and Vapi bookings are stored in PostgreSQL. The core analytics logic calculates unique missed calls and after-hours calls within a 30-day window, converting all timestamps to Eastern Time. It includes request logging, CORS support, and comprehensive error handling. An admin dashboard at `/admin/diagnostics` is protected by Replit Auth, utilizing PostgreSQL for session management.
 
 ### UI/UX Decisions
 
@@ -34,7 +34,7 @@ The design is a dramatic, high-contrast black minimalist aesthetic inspired by A
 - **Diagnostic Matching**: Each analysis generates a unique `diagnosticId` for efficient tracking and lookup, passed to voice agent as context.
 - **OAuth Integration**: Connects to phone systems (RingCentral, Zoom Phone) via OAuth for data ingestion.
 - **Clickable Logo**: Logo in the top-left corner restarts the diagnostic flow.
-- **Voice AI Agent**: Integrated Vapi.ai web-based voice assistant that allows users to speak with a specialist directly from the results page. The agent receives diagnostic data (total loss, missed calls, after-hours calls) as context via variable values.
+- **Voice AI Agent**: Integrated Vapi.ai web-based voice assistant that allows users to speak with a specialist directly from the results page. The agent receives diagnostic data (diagnosticId, total loss, missed calls, after-hours calls, average deal size) as context via variable values. When the agent qualifies a lead and collects booking information (name, email, phone, appointment date), it calls the `bookAppointment` custom function which triggers a webhook to `/api/vapi/book-appointment`. The booking is saved to the database and a sales intelligence email is automatically sent to the sales team.
 
 ## External Dependencies
 
@@ -42,7 +42,7 @@ The design is a dramatic, high-contrast black minimalist aesthetic inspired by A
 -   **Email Service**: Resend (via Replit connector) for transactional and sales intelligence emails, using `onboarding@resend.dev` as default sender.
 -   **CRM/Booking System**: GoHighLevel for booking appointments, integrating via webhook (`POST /api/webhooks/gohighlevel`).
 -   **Voice AI**: Vapi.ai (@vapi-ai/web SDK) for web-based voice agent interactions, enabling direct customer conversations from the results page.
--   **Database**: PostgreSQL for admin dashboard user sessions (via Replit Auth).
+-   **Database**: PostgreSQL for diagnostic results, Vapi bookings, admin dashboard user sessions (via Replit Auth).
 -   **UI Libraries**: Radix UI, Lucide React, TanStack Query.
 -   **Styling**: Tailwind CSS, PostCSS.
 -   **Fonts**: Google Fonts CDN (Inter).
