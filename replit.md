@@ -28,6 +28,7 @@ The design is a dramatic, high-contrast black minimalist aesthetic inspired by A
 
 - **Revenue Leak Diagnostic**: Analyzes phone system data to identify and quantify revenue loss.
 - **Caller Deduplication**: Counts unique callers over a 30-day period to prevent inflated loss numbers.
+- **Manual Input Fallback**: Users who cannot or prefer not to connect their phone system via OAuth can click "Don't use any of these" on the ConnectScreen to enter estimated data manually (missed calls/month, average deal size). The system generates estimated results using industry benchmarks: 35% after-hours calls, 3x total inbound, 2x accepted calls. Manual diagnostics are saved with provider="Manual" and intentionally skip OAuth metadata queries to prevent cross-tenant data leakage.
 - **Sales Intelligence**: Generates internal "Potential Budget" metrics for sales, with formulas protected from external view.
 - **Professional Reports**: Generates single-page PDF reports and HTML emails for sales intelligence, with a branded design and key recovery metrics. Sales intelligence emails have tightened spacing for single-screen viewing.
 - **Customer Pain Emails**: Sends automated pain-focused emails to customers after booking, emphasizing revenue leaks with dramatic messaging, red-highlighted stats, and urgent tone to drive action. Features black background with Bottlnekk branding.
