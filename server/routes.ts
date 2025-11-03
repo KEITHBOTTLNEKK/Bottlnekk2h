@@ -62,7 +62,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const totalMissedOpportunities = missedCalls;
         
         diagnosticResult = {
-          provider: "RingCentral", // Placeholder
+          provider: "Manual",
           totalLoss,
           missedCalls,
           afterHoursCalls,
@@ -98,15 +98,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      // Get company name from OAuth connection
-      const connection = await db.query.oauthConnections.findFirst({
-        where: eq(oauthConnections.provider, validatedData.provider),
-      });
+      // Get company name from OAuth connection (skip for manual input)
+      let companyName: string | null = null;
+      let industry: string | null = null;
       
-      const companyName = connection?.companyName || null;
-      const industry = companyName ? detectIndustry(companyName) : null;
-      
-      console.log("Company info:", { companyName, industry });
+      if (!isManualInput && diagnosticResult.provider !== "Manual") {
+        const connection = await db.query.oauthConnections.findFirst({
+          where: eq(oauthConnections.provider, validatedData.provider),
+        });
+        
+        companyName = connection?.companyName || null;
+        industry = companyName ? detectIndustry(companyName) : null;
+        
+        console.log("Company info:", { companyName, industry });
+      }
       
       // Save to database
       const saved = await storage.saveDiagnostic({

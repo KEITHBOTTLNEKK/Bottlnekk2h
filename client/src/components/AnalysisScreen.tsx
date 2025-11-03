@@ -48,7 +48,7 @@ export function AnalysisScreen({ provider, manualData, onAnalysisComplete, onRes
     // If manual data is provided, analyze immediately
     if (manualData) {
       analyzeMutation.mutate({ 
-        provider: "RingCentral", // Dummy provider for manual input
+        provider: "Manual",
         avgDealSize: manualData.avgDealSize,
         missedCalls: manualData.missedCalls,
         isManualInput: true,
