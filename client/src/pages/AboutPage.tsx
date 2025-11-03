@@ -1,4 +1,4 @@
-import { Branding } from "@/components/Branding";
+import { Navigation } from "@/components/Navigation";
 import { Link } from "wouter";
 
 const BOTTLNEKK_GREEN = "#00C97B";
@@ -6,7 +6,7 @@ const BOTTLNEKK_GREEN = "#00C97B";
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-black dark:bg-black">
-      <Branding accentColor={BOTTLNEKK_GREEN} />
+      <Navigation />
 
       <div className="px-8 sm:px-12 lg:px-16 py-24">
         <div className="max-w-6xl mx-auto">
@@ -95,8 +95,85 @@ export default function AboutPage() {
             </div>
           </div>
 
+          {/* Client Results Section */}
+          <div className="mt-24 pt-16 border-t" style={{ borderColor: '#1F2937' }}>
+            <h2 
+              className="text-center font-thin text-white mb-16"
+              style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', letterSpacing: '0.02em', fontWeight: '200' }}
+              data-testid="heading-results"
+            >
+              Real Results
+            </h2>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Tire Boss Case Study */}
+              <div 
+                className="p-8 rounded-2xl border space-y-6"
+                style={{ borderColor: '#1F2937', backgroundColor: '#0A0A0A' }}
+                data-testid="case-study-tire-boss"
+              >
+                <div>
+                  <h3 className="font-light text-white text-xl mb-2">Tire Boss</h3>
+                  <p className="font-extralight text-[#6B7280] text-sm">High-Volume Tire Shop</p>
+                </div>
+                <p 
+                  className="font-extralight text-[#D1D5DB] leading-relaxed italic"
+                  style={{ fontSize: '1rem' }}
+                >
+                  "The automated callback system has been a game-changer for us. Not only have we seen a significant increase in sales, but our customers also appreciate the quick response times. It's like having an extra team member that can handle everything!"
+                </p>
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t" style={{ borderColor: '#1F2937' }}>
+                  <div>
+                    <p className="font-light text-2xl" style={{ color: BOTTLNEKK_GREEN }}>+30%</p>
+                    <p className="font-extralight text-[#6B7280] text-xs">Sales Increase</p>
+                  </div>
+                  <div>
+                    <p className="font-light text-2xl" style={{ color: BOTTLNEKK_GREEN }}>97%</p>
+                    <p className="font-extralight text-[#6B7280] text-xs">Faster Response</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Daycare AI Agent Case Study */}
+              <div 
+                className="p-8 rounded-2xl border space-y-6"
+                style={{ borderColor: '#1F2937', backgroundColor: '#0A0A0A' }}
+                data-testid="case-study-daycare"
+              >
+                <div>
+                  <h3 className="font-light text-white text-xl mb-2">Daycare Center</h3>
+                  <p className="font-extralight text-[#6B7280] text-sm">Lead Management & Booking Automation</p>
+                </div>
+                <p 
+                  className="font-extralight text-[#D1D5DB] leading-relaxed"
+                  style={{ fontSize: '1rem' }}
+                >
+                  AI appointment agent "Zara" streamlined lead management, securing more bookings with instant engagement and automated scheduling.
+                </p>
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t" style={{ borderColor: '#1F2937' }}>
+                  <div>
+                    <p className="font-light text-2xl" style={{ color: BOTTLNEKK_GREEN }}>+25%</p>
+                    <p className="font-extralight text-[#6B7280] text-xs">Tour Schedules</p>
+                  </div>
+                  <div>
+                    <p className="font-light text-2xl" style={{ color: BOTTLNEKK_GREEN }}>2X</p>
+                    <p className="font-extralight text-[#6B7280] text-xs">ROAS</p>
+                  </div>
+                  <div>
+                    <p className="font-light text-2xl" style={{ color: BOTTLNEKK_GREEN }}>81%</p>
+                    <p className="font-extralight text-[#6B7280] text-xs">Faster Contact</p>
+                  </div>
+                  <div>
+                    <p className="font-light text-2xl" style={{ color: BOTTLNEKK_GREEN }}>+15%</p>
+                    <p className="font-extralight text-[#6B7280] text-xs">Registrations</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* CTA Back to Diagnostic */}
-          <div className="text-center pt-12">
+          <div className="text-center pt-16">
             <Link href="/">
               <button
                 className="inline-flex items-center justify-center px-12 py-5 font-bold text-white border-2 rounded-xl transition-all duration-300"
