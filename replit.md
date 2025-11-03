@@ -39,7 +39,14 @@ The design is a dramatic, high-contrast black minimalist aesthetic inspired by A
 - **Diagnostic Matching**: Each analysis generates a unique `diagnosticId` for efficient tracking and lookup, passed to voice agent as context.
 - **OAuth Integration**: Connects to phone systems (RingCentral, Zoom Phone) via OAuth for data ingestion.
 - **Clickable Logo**: Logo in the top-left corner restarts the diagnostic flow.
-- **Voice AI Agent**: Integrated Vapi.ai web-based voice assistant that allows users to speak with a specialist directly from the results page. The agent receives diagnostic data (diagnosticId, total loss, missed calls, after-hours calls, average deal size) as context via variable values. When the agent qualifies a lead and collects booking information (name, email, phone, appointment date), it calls the `bookAppointment` custom function which triggers a webhook to `/api/vapi/book-appointment`. The booking is saved to the database and a sales intelligence email is automatically sent to the sales team.
+- **Voice AI Agent**: Integrated Vapi.ai web-based voice assistant that allows users to speak with a specialist directly from the results page. The agent receives diagnostic data as context via variable values passed from the frontend:
+  - `diagnosticId` (String): Unique ID for tracking this diagnostic session
+  - `totalLoss` (String): Monthly revenue loss amount (e.g., "25000")
+  - `missedCalls` (String): Number of missed calls per month (e.g., "50")
+  - `afterHoursCalls` (String): Number of after-hours calls (e.g., "18", or "0" for manual diagnostics)
+  - `averageDealSize` (String): Average revenue per call/deal (e.g., "500")
+  
+  These variables must be configured in the Vapi assistant settings and can be referenced in the assistant prompt using mustache syntax: {{variableName}}. When the agent qualifies a lead and collects booking information (name, email, phone, appointment date), it calls the `bookAppointment` custom function which triggers a webhook to `/api/vapi/book-appointment`. The booking is saved to the database and a sales intelligence email is automatically sent to the sales team.
 
 ## External Dependencies
 
