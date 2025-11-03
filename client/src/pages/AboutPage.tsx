@@ -176,6 +176,7 @@ export default function AboutPage() {
           <div className="text-center pt-16">
             <Link href="/">
               <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="inline-flex items-center justify-center px-12 py-5 font-bold text-white border-2 rounded-xl transition-all duration-300"
                 style={{ 
                   fontSize: 'clamp(1.125rem, 2.5vw, 1.375rem)',
