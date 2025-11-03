@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import logoUrl from "@assets/bottlnekk-wordmark_1761766612312.png";
+import { Hourglass } from "lucide-react";
 
 const BOTTLNEKK_GREEN = "#00C97B";
 
@@ -14,15 +14,27 @@ export function Navigation() {
         {/* Logo */}
         <Link href="/">
           <button
-            className="transition-all duration-300 hover:scale-105"
+            className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
             data-testid="nav-logo"
           >
-            <img 
-              src={logoUrl} 
-              alt="Bottlnekk" 
-              className="h-8"
-              style={{ filter: 'brightness(1.2)' }}
-            />
+            <div 
+              className="flex items-center justify-center w-10 h-10 rounded-lg"
+              style={{ 
+                backgroundColor: 'rgba(0, 201, 123, 0.1)',
+                boxShadow: `0 0 20px rgba(0, 201, 123, 0.3)`
+              }}
+            >
+              <Hourglass 
+                className="w-6 h-6" 
+                style={{ color: BOTTLNEKK_GREEN }}
+              />
+            </div>
+            <span 
+              className="font-light text-white tracking-wider"
+              style={{ fontSize: '1.25rem' }}
+            >
+              Bottlnekk
+            </span>
           </button>
         </Link>
 
