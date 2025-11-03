@@ -1,4 +1,5 @@
 import { Branding } from "./Branding";
+import { Link } from "wouter";
 
 interface WelcomeScreenProps {
   onStart: () => void;
@@ -57,79 +58,95 @@ export function WelcomeScreen({ onStart, onRestart }: WelcomeScreenProps) {
         </div>
       </div>
 
-      {/* About Us Section */}
-      <div className="px-8 sm:px-12 lg:px-16 pb-24" data-testid="section-about">
+      {/* Trust Block */}
+      <div className="px-8 sm:px-12 lg:px-16 pb-16" data-testid="section-trust">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <p 
+            className="font-extralight text-[#9CA3AF] leading-relaxed"
+            style={{ fontSize: 'clamp(1.125rem, 2.5vw, 1.375rem)', letterSpacing: '0.03em' }}
+            data-testid="text-trust-block"
+          >
+            Built by founders who've lived the pain of revenue leaks firsthand. No boardroom theory—just real solutions from the trenches.
+          </p>
+          <Link href="/about">
+            <button
+              className="inline-flex items-center gap-2 font-light text-white transition-all duration-300 hover:gap-3"
+              style={{ 
+                fontSize: 'clamp(1rem, 2vw, 1.125rem)',
+                color: BOTTLNEKK_GREEN,
+              }}
+              data-testid="link-meet-team"
+            >
+              Meet the team
+              <span className="text-xl">→</span>
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      {/* Testimonials Section - Placeholder */}
+      <div className="px-8 sm:px-12 lg:px-16 pb-24" data-testid="section-testimonials">
         <div className="max-w-6xl mx-auto">
           <h2 
-            className="text-center font-thin text-white mb-20"
-            style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '0.02em', fontWeight: '200' }}
-            data-testid="heading-about"
+            className="text-center font-thin text-white mb-16"
+            style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '0.02em', fontWeight: '200' }}
+            data-testid="heading-testimonials"
           >
-            Built from the Ground Up
+            What Our Clients Say
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
-            {/* Keith Booker */}
-            <div className="space-y-6" data-testid="bio-keith">
-              <div className="space-y-2">
-                <h3 
-                  className="font-light text-white"
-                  style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', letterSpacing: '0.02em' }}
-                  data-testid="name-keith"
-                >
-                  Keith Booker
-                </h3>
-                <p 
-                  className="font-extralight uppercase tracking-widest"
-                  style={{ color: BOTTLNEKK_GREEN, fontSize: '0.875rem' }}
-                  data-testid="title-keith"
-                >
-                  Founder & CEO
-                </p>
-              </div>
-              <div 
-                className="font-extralight text-[#9CA3AF] leading-relaxed space-y-4"
-                style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', letterSpacing: '0.02em' }}
-                data-testid="text-keith-bio"
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Testimonial 1 - Placeholder */}
+            <div 
+              className="p-8 rounded-2xl border space-y-4"
+              style={{ borderColor: '#1F2937', backgroundColor: '#0A0A0A' }}
+              data-testid="testimonial-1"
+            >
+              <p 
+                className="font-extralight text-[#D1D5DB] leading-relaxed italic"
+                style={{ fontSize: 'clamp(0.938rem, 2vw, 1.063rem)' }}
               >
-                <p>I'm Keith Booker, founder of Bottlnekk, a company built from the ground up, not a boardroom.</p>
-                <p>Before Bottlnekk, I built multiple businesses from scratch. Some worked. Some didn't. But every failure taught me how companies really break, not from bad ideas but from hidden leaks no one measures.</p>
-                <p>That experience shaped everything I do.</p>
-                <p>Today, Bottlnekk helps businesses find those leaks, recover lost revenue, and build systems that actually scale.</p>
-                <p>I'm not a developer by trade or a tech bro with funding. I'm a builder who learned to turn pain into process.</p>
-                <p>And that's exactly what Bottlnekk was born to do — rebuild the way businesses run.</p>
+                "Placeholder testimonial text. Replace with real customer feedback about revenue recovery and business impact."
+              </p>
+              <div className="pt-2 border-t" style={{ borderColor: '#1F2937' }}>
+                <p className="font-light text-white text-sm">Customer Name</p>
+                <p className="font-extralight text-[#6B7280] text-xs">Company Name</p>
               </div>
             </div>
 
-            {/* Hamza Baig */}
-            <div className="space-y-6" data-testid="bio-hamza">
-              <div className="space-y-2">
-                <h3 
-                  className="font-light text-white"
-                  style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', letterSpacing: '0.02em' }}
-                  data-testid="name-hamza"
-                >
-                  Hamza Baig
-                </h3>
-                <p 
-                  className="font-extralight uppercase tracking-widest"
-                  style={{ color: BOTTLNEKK_GREEN, fontSize: '0.875rem' }}
-                  data-testid="title-hamza"
-                >
-                  Chief Technology Officer
-                </p>
-              </div>
-              <div 
-                className="font-extralight text-[#9CA3AF] leading-relaxed space-y-4"
-                style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', letterSpacing: '0.02em' }}
-                data-testid="text-hamza-bio"
+            {/* Testimonial 2 - Placeholder */}
+            <div 
+              className="p-8 rounded-2xl border space-y-4"
+              style={{ borderColor: '#1F2937', backgroundColor: '#0A0A0A' }}
+              data-testid="testimonial-2"
+            >
+              <p 
+                className="font-extralight text-[#D1D5DB] leading-relaxed italic"
+                style={{ fontSize: 'clamp(0.938rem, 2vw, 1.063rem)' }}
               >
-                <p>I'm Hamza Baig, and I build systems that don't break.</p>
-                <p>I don't write code for the sake of it. I engineer solutions that scale, automate, and eliminate friction so businesses can focus on what actually moves the needle.</p>
-                <p>At Bottlnekk, I designed every integration, every API, and every automation with one goal: make recovering lost revenue as simple as clicking a button.</p>
-                <p>Before this, I built tools for industries that couldn't afford downtime — finance, healthcare, logistics. Places where one broken pipeline costs millions.</p>
-                <p>That mindset is baked into everything we ship. Clean code. Smart architecture. Zero bloat.</p>
-                <p>Bottlnekk isn't just software. It's infrastructure for businesses ready to stop bleeding money.</p>
+                "Placeholder testimonial text. Replace with real customer feedback about revenue recovery and business impact."
+              </p>
+              <div className="pt-2 border-t" style={{ borderColor: '#1F2937' }}>
+                <p className="font-light text-white text-sm">Customer Name</p>
+                <p className="font-extralight text-[#6B7280] text-xs">Company Name</p>
+              </div>
+            </div>
+
+            {/* Testimonial 3 - Placeholder */}
+            <div 
+              className="p-8 rounded-2xl border space-y-4"
+              style={{ borderColor: '#1F2937', backgroundColor: '#0A0A0A' }}
+              data-testid="testimonial-3"
+            >
+              <p 
+                className="font-extralight text-[#D1D5DB] leading-relaxed italic"
+                style={{ fontSize: 'clamp(0.938rem, 2vw, 1.063rem)' }}
+              >
+                "Placeholder testimonial text. Replace with real customer feedback about revenue recovery and business impact."
+              </p>
+              <div className="pt-2 border-t" style={{ borderColor: '#1F2937' }}>
+                <p className="font-light text-white text-sm">Customer Name</p>
+                <p className="font-extralight text-[#6B7280] text-xs">Company Name</p>
               </div>
             </div>
           </div>

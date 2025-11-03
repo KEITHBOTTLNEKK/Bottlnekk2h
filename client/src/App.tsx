@@ -5,12 +5,14 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import DiagnosticTool from "@/pages/DiagnosticTool";
 import AdminDashboard from "@/pages/AdminDashboard";
+import AboutPage from "@/pages/AboutPage";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={DiagnosticTool} />
       <Route path="/diagnostic" component={DiagnosticTool} />
+      <Route path="/about" component={AboutPage} />
       <Route path="/admin/diagnostics" component={AdminDashboard} />
     </Switch>
   );
