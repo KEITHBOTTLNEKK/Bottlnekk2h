@@ -1,8 +1,7 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback } from "react";
 import { useCounter } from "@/hooks/useCounter";
 import type { DiagnosticResult } from "@shared/schema";
 import { Branding } from "./Branding";
-import Vapi from "@vapi-ai/web";
 
 const BOTTLNEKK_GREEN = "#00C97B";
 
@@ -14,29 +13,6 @@ interface ResultsScreenProps {
 export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
   const [showOffer, setShowOffer] = useState(false);
   const [countComplete, setCountComplete] = useState(false);
-  const [isCallActive, setIsCallActive] = useState(false);
-  const vapiRef = useRef<Vapi | null>(null);
-
-  // Initialize Vapi
-  useEffect(() => {
-    // You'll need to add your VAPI_PUBLIC_KEY to environment variables
-    const vapiPublicKey = import.meta.env.VITE_VAPI_PUBLIC_KEY;
-    if (vapiPublicKey) {
-      const vapi = new Vapi(vapiPublicKey);
-      vapiRef.current = vapi;
-      
-      // Listen for call status changes
-      vapi.on("call-start", () => setIsCallActive(true));
-      vapi.on("call-end", () => setIsCallActive(false));
-    }
-
-    return () => {
-      // Cleanup on unmount
-      if (vapiRef.current) {
-        vapiRef.current.stop();
-      }
-    };
-  }, []);
 
   const handleCountComplete = useCallback(() => {
     setCountComplete(true);
@@ -69,36 +45,6 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
     }, 150);
-  };
-
-  const handleStartVoiceCall = async () => {
-    if (!vapiRef.current) {
-      console.error("Vapi not initialized");
-      return;
-    }
-
-    // You'll need to add your VAPI_ASSISTANT_ID to environment variables
-    const assistantId = import.meta.env.VITE_VAPI_ASSISTANT_ID;
-    
-    if (!assistantId) {
-      console.error("Vapi assistant ID not configured");
-      return;
-    }
-
-    try {
-      await vapiRef.current.start(assistantId, {
-        // Pass diagnostic data to the voice agent as variable values
-        variableValues: {
-          diagnosticId: result.diagnosticId || '',
-          totalLoss: result.totalLoss.toString(),
-          missedCalls: result.missedCalls.toString(),
-          afterHoursCalls: result.afterHoursCalls.toString(),
-          averageDealSize: result.avgRevenuePerCall.toString(),
-        }
-      });
-    } catch (error) {
-      console.error("Failed to start voice call:", error);
-    }
   };
 
   return (
@@ -371,34 +317,11 @@ export function ResultsScreen({ result, onRestart }: ResultsScreenProps) {
               </p>
             </div>
 
-            {/* CTA Button */}
+            {/* CTA */}
             <div className="text-center pb-16">
-              <button
-                onClick={handleStartVoiceCall}
-                disabled={isCallActive}
-                className="inline-flex items-center justify-center px-8 sm:px-12 md:px-16 py-5 sm:py-6 md:py-8 font-bold text-white border-2 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ 
-                  fontSize: 'clamp(1.25rem, 3.5vw, 1.75rem)',
-                  borderColor: BOTTLNEKK_GREEN,
-                  backgroundColor: isCallActive ? BOTTLNEKK_GREEN : 'transparent',
-                  color: isCallActive ? '#000000' : '#FFFFFF',
-                }}
-                onMouseEnter={(e) => {
-                  if (!isCallActive) {
-                    e.currentTarget.style.backgroundColor = BOTTLNEKK_GREEN;
-                    e.currentTarget.style.color = '#000000';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isCallActive) {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#FFFFFF';
-                  }
-                }}
-                data-testid="button-talk-to-specialist"
-              >
-                {isCallActive ? '🎙️ Call In Progress...' : 'Talk to a Specialist →'}
-              </button>
+              <p className="text-white/60 font-light" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
+                Ready to stop the leak? Contact us to get started.
+              </p>
             </div>
           </div>
         )}
